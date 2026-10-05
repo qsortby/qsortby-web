@@ -155,11 +155,16 @@ export const PLANS: Plan[] = [
       'In-checkout upsell (Shopify Plus)',
       // ─── below here: /pricing only, not the home teaser ───
       'Per-shopper real-time reranking',
-      'Session heatmap, journey + AI summaries',
+      // The Intent tab: "When it peaks" (hour heatmap), "What shoppers came
+      // for" (per-intent results) and the AI summary. Its journey section was
+      // removed from the app — do not list it again.
+      'Intent heatmap, per-intent results + AI summaries',
       // Was "Highest AI limits" — Pro and Growth carry IDENTICAL monthlyCalls /
       // dailyCalls (both unset). The real difference is that the session read
       // is applied rather than only logged.
-      'Session read written to every ranked surface',
+      // NOT "every ranked surface": bought-together and the free-shipping bar
+      // never re-rank by intent.
+      'Intent reading applied, not only reported',
     ],
     badge: 'Most advanced',
     cta: 'install',
@@ -227,10 +232,10 @@ export const MATRIX: { label: string; cells: string[] }[] = [
   { label: 'Upsells per type', cells: ['1', '3', 'Unlimited', 'Unlimited'] },
   { label: 'Customer events & analytics', cells: ['—', '—', '✓', '✓'] },
   { label: 'AI authoring (taxonomy + logic)', cells: ['—', '—', '✓', '✓'] },
-  { label: 'Session insights — read-only', cells: ['—', '—', '✓', '✓'] },
+  { label: 'Intent mix — read-only', cells: ['—', '—', '✓', '✓'] },
   { label: 'Live per-shopper reranking', cells: ['—', '—', '—', '✓'] },
   { label: 'Personalized offers in cart / popup / checkout / thank-you', cells: ['—', '—', '—', '✓'] },
-  { label: 'Session insights — heatmap, journey, AI summaries', cells: ['—', '—', '—', '✓'] },
+  { label: 'Intent insights — heatmap, per-intent results, AI summaries', cells: ['—', '—', '—', '✓'] },
   { label: 'Orders / month', cells: ['200*', '2,000*', 'Unlimited', 'Unlimited'] },
   // Nothing in the app tiers support, and /support promises email + a one
   // business-day reply + free setup help to EVERY plan. This row used to say

@@ -39,7 +39,7 @@ const TABS: Tab[] = [
     label: 'Personalization',
     sub: 'Segment-based personalization from the first visit — no login, no purchase history required.',
     rows: [
-      { title: 'Segmentation, built from behavior', desc: 'Shoppers are grouped into segments based on what this visit is actually doing — pace, dwell time, revisits, hesitation before the cart — with no login or purchase history needed.' },
+      { title: 'Segmentation, built from behavior', desc: 'Shoppers are grouped into visitor types by what the store can see about them — visits, days since the last one, orders placed, what is in the cart — and Intent AI reads why this visit came. No login needed.' },
       { title: 'Recommendations, matched to each segment', desc: 'Product suggestions adjust to the segment a shopper falls into, wherever you place them — product page, collection, or cart.' },
       { title: 'Collection sorting, personalized per segment', desc: 'The same collection reorders itself per segment, blending the signals you weight against the segment this shopper belongs to.' },
     ],
@@ -128,7 +128,7 @@ const TABS: Tab[] = [
                 <div class="offer-card dark">
                   <span class="offer-ck">Segment signals</span>
                   <div class="offer-chips">
-                    <span>Pace</span><span>Dwell time</span><span>Revisits</span><span>Hesitation before cart</span>
+                    <span>Visits</span><span>Days since last visit</span><span>Orders placed</span><span>Cart size &amp; value</span><span>Why they came</span>
                   </div>
 
                   <div style="margin-top:20px"><VisitorFeeds /></div>
