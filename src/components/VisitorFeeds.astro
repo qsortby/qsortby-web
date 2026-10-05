@@ -16,13 +16,16 @@ const CATALOG = {
   headphones: 'Studio Headphones',
   watch:      'Field Watch',
 };
+// Labels are the app's default visitor types. The second visitor has the
+// Field Watch in their cart, and the Cart abandoner formula leads with
+// Cart history, which is why it moves to the front.
 const NEW_VISITOR = ['tee', 'sneaker', 'headphones', 'watch'];
 const VIP         = ['watch', 'headphones', 'tee', 'sneaker'];
 const HERO = 'watch';
 
 const feeds = [
-  { label: 'Segment: Browsing', order: NEW_VISITOR, accent: false },
-  { label: 'Segment: Ready to buy', order: VIP,     accent: true  },
+  { label: 'New visitor', order: NEW_VISITOR, accent: false },
+  { label: 'Cart abandoner', order: VIP,     accent: true  },
 ];
 const rankIn = (order: string[], slug: string) => order.indexOf(slug) + 1;
 ---
@@ -43,4 +46,4 @@ const rankIn = (order: string[], slug: string) => order.indexOf(slug) + 1;
     </div>
   ))}
 </div>
-<p class="pf-cap">Same catalog, same moment — two segments, two different front rows.</p>
+<p class="pf-cap">Same catalog, same moment — two visitor types, two different front rows.</p>

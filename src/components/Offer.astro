@@ -7,7 +7,10 @@
 // complete rather than an empty shell — the script only toggles which is shown.
 import VisitorFeeds from './VisitorFeeds.astro';
 
-interface Row { title: string; desc: string; }
+/** `scene` makes the row a button that switches the illustration to that
+ *  scene (the Personalization tab — one picture per claim, same idea as the
+ *  Upsell tab's touchpoint chips). Rows without it are plain text. */
+interface Row { title: string; desc: string; scene?: string; }
 interface Tab { key: string; label: string; sub: string; rows: Row[]; }
 
 // Ordered by where a shopper actually meets them, browse → cart → checkout →
@@ -21,6 +24,20 @@ const TOUCHPOINTS = [
   { key: 'shipbar', label: 'Free-shipping progress bar', path: '/cart' },
   { key: 'checkout', label: 'Checkout page', path: '/checkout' },
   { key: 'thankyou', label: 'Thank-you page', path: '/thank-you' },
+];
+
+// Personalization scenes — the app's own defaults, so a merchant opening the
+// app sees these exact names, conditions and weights.
+const PZ_FACTS: [string, string][] = [['Visits', '3'], ['Orders placed', '0'], ['Cart', '1 item'], ['Last visit', '2 days ago']];
+const PZ_TYPES = [
+  { name: 'Customer', cond: 'Orders placed ≥ 1', state: 'no' },
+  { name: 'Cart abandoner', cond: 'Cart ≥ 1 item', state: 'yes' },
+  { name: 'Returning visitor', cond: 'Visits ≥ 2', state: 'skip' },
+  { name: 'New visitor', cond: 'Everyone else', state: 'skip' },
+];
+const PZ_FORMULAS: { type: string; on?: boolean; signals: [string, number][] }[] = [
+  { type: 'New visitor', signals: [['Top sellers', 0.5], ['New arrivals', 0.3], ['Session intent', 0.2]] },
+  { type: 'Cart abandoner', on: true, signals: [['Cart history', 0.5], ['Session intent', 0.3], ['Favorite category', 0.2]] },
 ];
 
 const TABS: Tab[] = [
@@ -37,11 +54,11 @@ const TABS: Tab[] = [
   {
     key: 'personalize',
     label: 'Personalization',
-    sub: 'Segment-based personalization from the first visit — no login, no purchase history required.',
+    sub: 'Personalization from the first visit — no login, no purchase history required.',
     rows: [
-      { title: 'Segmentation, built from behavior', desc: 'Shoppers are grouped into visitor types by what the store can see about them — visits, days since the last one, orders placed, what is in the cart — and Intent AI reads why this visit came. No login needed.' },
-      { title: 'Recommendations, matched to each segment', desc: 'Product suggestions adjust to the segment a shopper falls into, wherever you place them — product page, collection, or cart.' },
-      { title: 'Collection sorting, personalized per segment', desc: 'The same collection reorders itself per segment, blending the signals you weight against the segment this shopper belongs to.' },
+      { scene: 'match', title: 'Visitor types, from what the store can see', desc: 'Each visitor is matched to the first type whose conditions they meet — visits, days since the last one, orders placed, what is in the cart.' },
+      { scene: 'formula', title: 'A ranking formula for each type', desc: 'Each type ranks by its own weighted signals — top sellers, new arrivals, cart history, what they came for. You set the weights.' },
+      { scene: 'feed', title: 'A For You block that ranks per visitor', desc: 'Add the For You block to any page in the theme editor. Each visitor sees the order their type’s formula gives.' },
     ],
   },
   {
@@ -85,8 +102,16 @@ const TABS: Tab[] = [
                 </div>
               )}
 
-              <div class="offer-list">
-                {t.rows.map((r) => (
+              <div class="offer-list" role={t.rows.some((r) => r.scene) ? 'tablist' : undefined} aria-label={t.rows.some((r) => r.scene) ? `${t.label}, step by step` : undefined}>
+                {t.rows.map((r, ri) => r.scene ? (
+                  <button type="button" class="offer-row pz-row" data-pz={r.scene} role="tab" aria-selected={ri === 0} aria-controls={`pz-${r.scene}`}>
+                    <span class="offer-arrow">{String(ri + 1).padStart(2, '0')}</span>
+                    <div>
+                      <b>{r.title}</b>
+                      <p>{r.desc}</p>
+                    </div>
+                  </button>
+                ) : (
                   <div class="offer-row">
                     <span class="offer-arrow">&rarr;</span>
                     <div>
@@ -125,17 +150,56 @@ const TABS: Tab[] = [
                 </div>
               )}
               {t.key === 'personalize' && (
-                <div class="offer-card dark">
-                  <span class="offer-ck">Segment signals</span>
-                  <div class="offer-chips">
-                    <span>Visits</span><span>Days since last visit</span><span>Orders placed</span><span>Cart size &amp; value</span><span>Why they came</span>
+                <div class="offer-card dark pz-stage">
+                  {/* 01 — matching. Types and conditions are the app's four
+                      defaults, in their order; the visitor also meets
+                      Returning visitor, which is the point: first match wins. */}
+                  <div class="pz-scene active" id="pz-match" data-pz-scene="match" role="tabpanel">
+                    <span class="offer-ck">This visitor</span>
+                    <div class="pz-facts">
+                      {PZ_FACTS.map(([k, v]) => <span><i>{k}</i>{v}</span>)}
+                    </div>
+                    <span class="offer-ck" style="margin-top:18px">Visitor types &middot; checked top to bottom</span>
+                    <div class="pz-types">
+                      {PZ_TYPES.map((ty) => (
+                        <div class={`pz-type pz-${ty.state}`}>
+                          <span class="pz-tn">{ty.name}</span>
+                          <span class="pz-tc">{ty.cond}</span>
+                          <span class="pz-ts">{ty.state === 'yes' ? 'Match' : ty.state === 'no' ? 'No' : 'Not reached'}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p class="pf-cap">First match wins &mdash; the four defaults, or types you write.</p>
                   </div>
 
-                  <div style="margin-top:20px"><VisitorFeeds /></div>
+                  {/* 02 — the default formulas of those two types, verbatim. */}
+                  <div class="pz-scene" id="pz-formula" data-pz-scene="formula" role="tabpanel" hidden>
+                    <span class="offer-ck">Each type, its own formula</span>
+                    <div class="pz-forms">
+                      {PZ_FORMULAS.map((f) => (
+                        <div class={f.on ? 'pz-form on' : 'pz-form'}>
+                          <span class="pz-fh">{f.type}</span>
+                          {f.signals.map(([sig, w]) => (
+                            <div class="pz-fs">
+                              <span>{sig}</span>
+                              <i><b style={`width:${w * 100}%`}></b></i>
+                              <em>{w.toFixed(1)}</em>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                    <p class="pf-cap">The app’s default formulas &mdash; every weight is yours to change.</p>
+                  </div>
 
-                  <span class="offer-ck" style="margin-top:20px">Shown on</span>
-                  <div class="offer-chips">
-                    <span>Product page</span><span>Collection</span><span>Cart</span>
+                  {/* 03 — what each visitor sees, through the For You block. */}
+                  <div class="pz-scene" id="pz-feed" data-pz-scene="feed" role="tabpanel" hidden>
+                    <span class="offer-ck">For You block &middot; same moment</span>
+                    <VisitorFeeds />
+                    <span class="offer-ck" style="margin-top:18px">Placed with</span>
+                    <div class="offer-chips">
+                      <span>For You block</span><span>Any page, in the theme editor</span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -408,6 +472,63 @@ const TABS: Tab[] = [
     .us-scene, .us-modal, .us-drawer, .us-fill { animation:none!important; transition:none!important; }
   }
 
+  /* Personalization: rows are the controls for the illustration's scenes. */
+  button.offer-row { width:100%; text-align:left; background:none; border:0; border-top:1px solid var(--line);
+    font:inherit; color:inherit; cursor:pointer; border-radius:0; position:relative; }
+  button.offer-row:first-child { border-top:0; }
+  button.offer-row .offer-arrow { font-family:var(--mono); font-size:12px; letter-spacing:.06em; padding-top:3px;
+    color:var(--faint); transition:color .18s var(--ease); }
+  button.offer-row p { transition:color .18s var(--ease); }
+  button.offer-row[aria-selected="false"] p { color:var(--muted); }
+  button.offer-row[aria-selected="true"] .offer-arrow,
+  button.offer-row[aria-selected="true"] b { color:var(--green-ink); }
+  button.offer-row:hover b { color:var(--green-ink); }
+  button.offer-row:focus-visible { outline:2px solid var(--green); outline-offset:4px; border-radius:6px; }
+
+  .pz-stage { min-height:360px; }
+  .pz-scene { display:none; }
+  .pz-scene.active { display:block; animation:pzIn .28s var(--ease); }
+  @keyframes pzIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+  @media (prefers-reduced-motion:reduce){ .pz-scene.active { animation:none; } }
+  .pz-facts { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  .pz-facts span { display:flex; flex-direction:column; gap:3px; padding:10px 11px; border-radius:11px;
+    background:rgba(255,255,255,.06); border:1px solid rgba(120,220,170,.16); font-size:.95rem; font-weight:650; color:#fff; }
+  .pz-facts i { font-style:normal; font-family:var(--mono); font-size:9.5px; font-weight:700; letter-spacing:.08em;
+    text-transform:uppercase; color:rgba(255,255,255,.45); }
+  .pz-types { display:flex; flex-direction:column; gap:7px; }
+  .pz-type { display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:12px; padding:10px 12px;
+    border-radius:11px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); }
+  .pz-tn { font-size:.9rem; font-weight:650; color:#fff; }
+  .pz-tc { font-family:var(--mono); font-size:11px; color:rgba(255,255,255,.55); }
+  .pz-ts { font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    padding:3px 8px; border-radius:999px; min-width:86px; text-align:center; }
+  .pz-no .pz-ts { color:rgba(255,255,255,.5); background:rgba(255,255,255,.06); }
+  .pz-yes { background:rgba(0,163,107,.16); border-color:rgba(120,220,170,.5); }
+  .pz-yes .pz-ts { color:#06140E; background:var(--green-bright); }
+  .pz-skip { opacity:.45; }
+  .pz-skip .pz-ts { color:rgba(255,255,255,.6); border:1px dashed rgba(255,255,255,.25); }
+  .pz-forms { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .pz-form { padding:14px; border-radius:13px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); }
+  .pz-form.on { background:rgba(0,163,107,.12); border-color:rgba(120,220,170,.4); }
+  .pz-fh { display:block; font-size:.92rem; font-weight:650; color:#fff; margin-bottom:12px; }
+  .pz-fs { display:grid; grid-template-columns:1fr auto; align-items:baseline; gap:5px 10px; margin-top:10px; }
+  .pz-fs span { grid-row:1; grid-column:1; }
+  .pz-fs em { grid-row:1; grid-column:2; }
+  .pz-fs i { grid-row:2; grid-column:1 / -1; }
+  .pz-fs span { font-size:.8rem; color:rgba(255,255,255,.72); }
+  .pz-fs i { display:block; height:7px; border-radius:4px; background:rgba(255,255,255,.08); overflow:hidden; }
+  .pz-fs i b { display:block; height:100%; border-radius:4px; background:rgba(255,255,255,.35); }
+  .pz-form.on .pz-fs i b { background:linear-gradient(90deg,var(--green),var(--green-bright)); }
+  .pz-fs em { font-style:normal; font-family:var(--mono); font-size:10.5px; color:rgba(255,255,255,.5); }
+  .pz-form.on .pz-fs em { color:var(--green-bright); }
+  @media (max-width:560px){
+    .pz-facts { grid-template-columns:1fr 1fr; }
+    .pz-forms { grid-template-columns:1fr; }
+    .pz-type { grid-template-columns:1fr auto; }
+    .pz-tc { grid-column:1; grid-row:2; }
+    .pz-ts { grid-row:1 / span 2; grid-column:2; }
+  }
+
   @media (max-width:640px){
     .offer-tabs { width:100%; }
     .offer-tabs button { flex:1; padding:9px 8px; }
@@ -426,6 +547,28 @@ const TABS: Tab[] = [
       });
     });
   }
+
+  // Personalization: each claim row shows its own scene.
+  const pzRows = Array.from(document.querySelectorAll('.pz-row'));
+  const pzScenes = Array.from(document.querySelectorAll('.pz-scene')) as HTMLElement[];
+  pzRows.forEach((row) => {
+    row.addEventListener('click', () => {
+      const key = row.getAttribute('data-pz');
+      pzRows.forEach((r) => r.setAttribute('aria-selected', String(r === row)));
+      pzScenes.forEach((s) => {
+        const on = s.dataset.pzScene === key;
+        s.classList.toggle('active', on);
+        s.hidden = !on;
+      });
+      // Below 900px the picture sits under the rows; bring it into view so
+      // the click visibly does something.
+      const stage = document.querySelector('.pz-stage');
+      if (stage && window.matchMedia('(max-width: 899px)').matches) {
+        const r = stage.getBoundingClientRect();
+        if (r.top > window.innerHeight * 0.6 || r.bottom < 0) stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  });
 
   const tpChips = Array.from(document.querySelectorAll('.us-chip'));
   const scenes = Array.from(document.querySelectorAll('.us-scene')) as HTMLElement[];
