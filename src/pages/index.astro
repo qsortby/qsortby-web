@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import HeroFlow from '../components/HeroFlow.astro';
 import IntroVideo from '../components/IntroVideo.astro';
 import Offer from '../components/Offer.astro';
+import IntentTeaser from '../components/IntentTeaser.astro';
 import { APP_STORE_URL } from '../consts';
 import BookDemo from '../components/BookDemo.astro';
 
@@ -107,6 +108,13 @@ const description =
 
     </div>
   </section>
+
+  <!-- ===================== INTENT AI =====================
+       One band, linking to /features/intent-ai. After "in the right place"
+       because that section's third card ("Every visitor sees the exact same
+       order") is the problem Intent AI answers. Growth-only, and says so —
+       see src/components/IntentTeaser.astro. -->
+  <IntentTeaser />
 
   <!-- ===================== FINAL CTA ===================== -->
   <section class="sec" style="padding-top:0">

@@ -47,10 +47,13 @@ export const NAV = [
 // you get" tabs on the homepage (components/Offer.astro) already describe.
 // Order matches the buying journey those tabs use: merchandise the
 // collection, personalize it per shopper, then upsell around the purchase.
+// Intent AI comes last: it is not a fourth job but the reading the last two
+// act on, explained end to end on its own page.
 export const FEATURES_NAV = [
   ["/features/merchandising", "Merchandising"],
   ["/features/personalization", "Personalization"],
   ["/features/upsell-blocks", "Upsell blocks"],
+  ["/features/intent-ai", "Intent AI"],
 ] as const;
 
 // Cloudflare Web Analytics — cookieless, free page-view analytics.

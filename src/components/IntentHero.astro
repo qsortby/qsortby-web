@@ -1,0 +1,86 @@
+---
+/**
+ * INTENT AI HERO ILLUSTRATION — /features/intent-ai.
+ *
+ * Same two-panel composition as PersonalizationHero / MerchandisingHero (the
+ * shared `.fx-*` classes in global.css): behind, what THIS visit did and the
+ * reading Intent AI settled on; in front, the For You list on the storefront,
+ * re-ranked for that reading. The pills on the front card mark which products
+ * carry the matching intent TAG — an annotation for the reader, not storefront
+ * UI: shoppers are never shown a reading, and the note line under the list
+ * says so.
+ *
+ * Self-contained `ih-` classes (astro style scoping).
+ */
+const { steps, reading, tagLabel, products } = Astro.props as {
+  steps: string[]
+  reading: string
+  /** Pill text on a product carrying the matching intent tag. */
+  tagLabel: string
+  products: { name: string; price: string; img: string; tag?: boolean }[]
+}
+---
+<div class="fx-stage" aria-hidden="true">
+  <div class="fx-row">
+    <div class="fx-back">
+      <span class="ih-kicker">This visit</span>
+      <ol class="ih-steps">
+        {steps.map((s) => <li><i></i><span>{s}</span></li>)}
+      </ol>
+      <div class="ih-reading">
+        <span class="ih-reading-k">Intent AI reads</span>
+        <span class="ih-reading-v"><i class="ih-live"></i>{reading}</span>
+      </div>
+    </div>
+
+    <div class="fx-front">
+      <div class="ih-chrome"><i></i><i></i><i></i><span>your-store.com · For You</span></div>
+      <div class="ih-plist">
+        {products.map((p, i) => (
+          <div class="ih-prow">
+            <span class="ih-rank">{i + 1}</span>
+            <span class="gthumb"><img src={p.img} alt="" loading={i === 0 ? 'eager' : 'lazy'} decoding="async" /></span>
+            <span class="ih-pname">{p.name}</span>
+            {p.tag ? <span class="ih-ptag">{tagLabel}</span> : <span class="ih-pprice">{p.price}</span>}
+          </div>
+        ))}
+      </div>
+      <div class="ih-note">Your formula ranks · intent is one weighted signal · shoppers never see it</div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .ih-kicker { display:block; font-family:var(--mono); font-size:10px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+  .ih-steps { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .ih-steps li { display:flex; align-items:flex-start; gap:9px; font-size:.82rem; line-height:1.35; color:var(--ink-2); }
+  .ih-steps li i { flex:none; width:7px; height:7px; margin-top:5px; border-radius:50%;
+    background:var(--line-2); }
+  .ih-reading { margin-top:14px; padding-top:12px; border-top:1px solid var(--line);
+    display:flex; flex-direction:column; gap:5px; }
+  .ih-reading-k { font-family:var(--mono); font-size:9.5px; font-weight:700; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--muted); }
+  .ih-reading-v { display:inline-flex; align-items:center; gap:7px; font-size:1rem; font-weight:650;
+    color:var(--green-ink); letter-spacing:-.01em; }
+  .ih-live { width:7px; height:7px; border-radius:50%; background:var(--green); flex:none;
+    animation:qpulse 1.9s var(--ease) infinite; }
+
+  .ih-chrome { display:flex; align-items:center; gap:6px; padding-bottom:12px; margin-bottom:12px;
+    border-bottom:1px solid var(--line); }
+  .ih-chrome i { width:7px; height:7px; border-radius:50%; background:var(--line); }
+  .ih-chrome span { margin-left:6px; font-family:var(--mono); font-size:10px; color:var(--muted);
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
+  .ih-prow { display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:11px;
+    background:var(--bg-2); border:1px solid var(--line); margin-bottom:7px; }
+  .ih-prow:last-child { margin-bottom:0; }
+  .ih-rank { flex:none; width:16px; font-family:var(--mono); font-size:10.5px; font-weight:700; color:var(--faint); }
+  .ih-pname { flex:1; min-width:0; font-size:.85rem; font-weight:600; color:var(--ink);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ih-pprice { flex:none; font-family:var(--mono); font-size:.76rem; color:var(--muted); }
+  .ih-ptag { flex:none; font-family:var(--mono); font-size:9px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; padding:3px 6px; border-radius:6px; color:var(--green-ink);
+    background:var(--green-soft); border:1px solid var(--green-line); }
+  .ih-note { margin-top:10px; text-align:center; font-family:var(--mono); font-size:9.5px; font-weight:600;
+    letter-spacing:.06em; text-transform:uppercase; color:var(--faint); }
+</style>

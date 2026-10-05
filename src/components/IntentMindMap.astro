@@ -1,0 +1,182 @@
+---
+/**
+ * INTENT AI — MIND MAP (/features/intent-ai).
+ *
+ * The whole feature on one screen: a centre node and five branches — how a
+ * visit is READ, where the reading ACTS, how the system LEARNS, how it is
+ * PROVED, and the GUARDRAILS around all of it. Every leaf carries its status,
+ * because the point of the page is that nothing here is overstated:
+ *   live    — shipped and running for stores on the plan that has it
+ *   testing — computed and shown to the merchant, but NOT used to rank a
+ *             storefront (learned picks in shadow, the trained model)
+ *
+ * Content is data (BRANCHES below), so a wording change never touches layout.
+ * Every leaf must be something a merchant can find in the app — the same rule
+ * the home page's "shows its work" section is held to.
+ *
+ * Layout: a 3-column grid on desktop (two branches left, two right, the fifth
+ * across the bottom), wired to the centre by an SVG layer drawn from the real
+ * element positions (the inline script at the bottom). On a phone it is a
+ * vertical tree with a CSS spine and no SVG. With no JavaScript the cards are
+ * complete and only the curves are missing. Each branch is a <section> with
+ * its own heading and a list of leaves, so a screen reader reads the same
+ * structure the eye does; the wires are decorative (aria-hidden).
+ *
+ * Self-contained `mm-` classes (astro style scoping: no other page's
+ * component classes exist here).
+ */
+export interface Leaf {
+  text: string
+  status: 'live' | 'testing'
+}
+export interface Branch {
+  key: string
+  n: string
+  title: string
+  sub: string
+  slot: 'tl' | 'bl' | 'tr' | 'br' | 'bottom'
+  leaves: Leaf[]
+}
+
+const { branches } = Astro.props as { branches: Branch[] }
+const bySlot = (s: Branch['slot']) => branches.filter((b) => b.slot === s)
+const STATUS = { live: 'Live', testing: 'Testing' } as const
+---
+<div class="mm" data-mm>
+  <svg class="mm-wires" aria-hidden="true" focusable="false"></svg>
+
+  <div class="mm-grid">
+    <div class="mm-core" data-mm-core>
+      <span class="mm-core-k">QSortby</span>
+      <span class="mm-core-t">Intent AI</span>
+      <span class="mm-core-s">One reading per visit,<br />five reasons people shop</span>
+    </div>
+
+    {(['tl', 'bl', 'tr', 'br', 'bottom'] as const).flatMap((slot) =>
+      bySlot(slot).map((b) => (
+        <section class={`mm-branch mm-${slot}`} aria-labelledby={`mm-${b.key}`} data-mm-branch>
+          <h3 class="mm-head" id={`mm-${b.key}`} data-mm-head>
+            <span class="mm-n">{b.n}</span>
+            <span class="mm-title">{b.title}</span>
+          </h3>
+          <p class="mm-sub">{b.sub}</p>
+          <ul class="mm-leaves">
+            {b.leaves.map((l) => (
+              <li class="mm-leaf">
+                <span class="mm-leaf-t" set:html={l.text} />
+                <span class={`mm-st mm-st-${l.status}`}>{STATUS[l.status]}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    )}
+  </div>
+
+  <p class="mm-legend">
+    <span><i class="mm-st mm-st-live">Live</i> in the app today, on the plans that include it</span>
+    <span><i class="mm-st mm-st-testing">Testing</i> measured and shown to you, not used to rank your storefront</span>
+  </p>
+</div>
+
+<script is:inline>
+  // Wires: one curve from the centre node to each branch head, drawn from the
+  // real boxes so the map stays exact at any desktop width. Below the grid
+  // breakpoint the map is a vertical tree and the SVG is hidden by CSS, so
+  // nothing is drawn. No library: a resize observer and four lines of maths.
+  (function () {
+    document.querySelectorAll('[data-mm]').forEach(function (root) {
+      var svg = root.querySelector('.mm-wires');
+      var core = root.querySelector('[data-mm-core]');
+      if (!svg || !core) return;
+      function draw() {
+        var r = root.getBoundingClientRect();
+        if (getComputedStyle(svg).display === 'none') { svg.innerHTML = ''; return; }
+        svg.setAttribute('viewBox', '0 0 ' + r.width + ' ' + r.height);
+        var c = core.getBoundingClientRect();
+        var cx = c.left + c.width / 2 - r.left, cy = c.top + c.height / 2 - r.top;
+        var paths = '';
+        root.querySelectorAll('[data-mm-branch]').forEach(function (b) {
+          var box = b.getBoundingClientRect();
+          var h = b.querySelector('[data-mm-head]').getBoundingClientRect();
+          var bottom = b.classList.contains('mm-bottom');
+          var left = box.left + box.width / 2 < cx + r.left;
+          // Start on the centre node's edge that faces the branch; end on the
+          // branch CARD's facing edge, level with its heading — the card sits
+          // above the wires, so an end point inside it would be hidden.
+          var sx = bottom ? cx : left ? c.left - r.left : c.right - r.left;
+          var sy = bottom ? c.bottom - r.top : cy;
+          var ex = bottom ? cx : left ? box.right - r.left : box.left - r.left;
+          var ey = bottom ? box.top - r.top : h.top + h.height / 2 - r.top;
+          var d = bottom
+            ? 'M' + sx + ',' + sy + ' C' + sx + ',' + (sy + ey) / 2 + ' ' + ex + ',' + (sy + ey) / 2 + ' ' + ex + ',' + ey
+            : 'M' + sx + ',' + sy + ' C' + (sx + ex) / 2 + ',' + sy + ' ' + (sx + ex) / 2 + ',' + ey + ' ' + ex + ',' + ey;
+          paths += '<path d="' + d + '"/><circle cx="' + ex + '" cy="' + ey + '" r="3.5"/>';
+        });
+        svg.innerHTML = paths;
+      }
+      draw();
+      if ('ResizeObserver' in window) new ResizeObserver(draw).observe(root);
+      else window.addEventListener('resize', draw);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+    });
+  })();
+</script>
+
+<style is:global>
+  .mm { position:relative; }
+  .mm-wires { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:2;
+    display:none; overflow:visible; }
+  .mm-wires path { fill:none; stroke:var(--green); stroke-width:1.6; opacity:.55; }
+  .mm-wires circle { fill:var(--surface); stroke:var(--green); stroke-width:1.6; }
+  .mm ul { list-style:none; margin:0; padding:0; }
+
+  /* ── phone / tablet: a vertical tree with a spine ── */
+  .mm-grid { position:relative; z-index:1; display:flex; flex-direction:column; gap:14px; padding-left:22px; }
+  .mm-grid::before { content:""; position:absolute; left:6px; top:40px; bottom:24px; width:2px;
+    border-radius:2px; background:var(--green-line); }
+  .mm-core { position:relative; margin-left:-22px; margin-bottom:8px; display:flex; flex-direction:column;
+    align-items:center; text-align:center; gap:4px; padding:22px 24px; border-radius:20px;
+    background:var(--ink); color:#fff; box-shadow:0 24px 48px -24px rgba(16,24,40,.5); }
+  .mm-core-k { font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--green-bright); }
+  .mm-core-t { font-size:1.6rem; font-weight:700; letter-spacing:-.03em; }
+  .mm-core-s { font-size:.82rem; line-height:1.4; color:rgba(255,255,255,.62); }
+  .mm-branch { position:relative; background:var(--surface); border:1px solid var(--line);
+    border-radius:16px; padding:18px 18px 14px; }
+  .mm-branch::before { content:""; position:absolute; left:-16px; top:28px; width:14px; height:2px;
+    background:var(--green-line); }
+  .mm-head { display:flex; align-items:baseline; gap:10px; margin:0; }
+  .mm-n { font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.08em; color:var(--green-ink); }
+  .mm-title { font-size:1.12rem; font-weight:650; letter-spacing:-.015em; color:var(--ink); }
+  .mm-sub { margin:4px 0 10px; font-size:var(--fs-caption); color:var(--muted); line-height:1.45; }
+  .mm-leaves { display:flex; flex-direction:column; }
+  .mm-leaf { display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+    padding:9px 0; border-top:1px solid var(--line); }
+  .mm-leaf-t { font-size:var(--fs-caption); line-height:1.45; color:var(--ink-2); }
+  .mm-leaf-t b { font-weight:650; color:var(--ink); }
+  .mm-st { flex:none; font-style:normal; font-family:var(--mono); font-size:9.5px; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase; padding:3px 7px; border-radius:6px; margin-top:1px;
+    border:1px solid; }
+  .mm-st-live { color:var(--green-ink); background:var(--green-soft); border-color:var(--green-line); }
+  .mm-st-testing { color:var(--muted); background:var(--bg-2); border-color:var(--line-2); }
+  .mm-legend { display:flex; flex-wrap:wrap; justify-content:center; gap:10px 22px; margin-top:22px;
+    font-size:var(--fs-caption); color:var(--muted); }
+  .mm-legend span { display:inline-flex; align-items:center; gap:8px; }
+
+  /* ── desktop: the map ── */
+  @media (min-width:1024px) {
+    .mm-wires { display:block; }
+    .mm-grid { display:grid; padding-left:0; grid-template-columns:1fr minmax(220px,.62fr) 1fr;
+      grid-template-areas:"tl core tr" "bl core br" "bottom bottom bottom"; column-gap:64px; row-gap:26px;
+      align-items:center; }
+    .mm-grid::before, .mm-branch::before { display:none; }
+    .mm-core { grid-area:core; margin:0; align-self:center; justify-self:center; width:100%; max-width:260px;
+      padding:30px 24px; }
+    .mm-core-t { font-size:2rem; }
+    .mm-tl { grid-area:tl; } .mm-bl { grid-area:bl; } .mm-tr { grid-area:tr; } .mm-br { grid-area:br; }
+    .mm-bottom { grid-area:bottom; justify-self:center; width:min(100%, 760px); margin-top:30px; }
+    .mm-bottom .mm-leaves { display:grid; grid-template-columns:1fr 1fr; column-gap:28px; }
+    .mm-branch { box-shadow:0 1px 2px rgba(16,24,40,.04), 0 24px 48px -32px rgba(16,24,40,.22); }
+  }
+</style>
