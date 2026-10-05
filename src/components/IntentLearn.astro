@@ -1,0 +1,111 @@
+---
+/**
+ * INTENT AI — how it learns, as a gate (/features/intent-ai).
+ *
+ * Left: what is learned. Middle: the bar it must clear. Right: where it ends
+ * up — "Ready" in the Intent tab, still in testing. Nothing here may say a
+ * learned model goes live: a person decides that, and the approved plan keeps
+ * it off the storefront (qsortby CLAUDE.md, 2026-10-05).
+ *
+ * The four checks are the case gate's own (packages/shared/src/intent-fit.ts):
+ * 30+ buying visits, a hold-out that counts only after 28 days, the fit's top
+ * ten beating the top ten best sellers with the whole 90% interval above
+ * zero, on three nights in a row.
+ *
+ * Self-contained `il-` classes.
+ */
+const CHECKS = ['30+ buying visits', '4 weeks of data', 'Beats your best sellers, clearly', '3 nights in a row'];
+---
+<div class="il">
+  <div class="il-row">
+    <div class="il-box">
+      <span class="il-k">Learned picks</span>
+      <b>Per intent, what those shoppers buy</b>
+      <div class="il-mini" aria-hidden="true">
+        <span class="gthumb"><img src="/products/perfume-rose.svg" alt="" loading="lazy" decoding="async" /></span>
+        <span class="gthumb"><img src="/products/candle-amber.svg" alt="" loading="lazy" decoding="async" /></span>
+        <span class="gthumb"><img src="/products/perfume-noir.svg" alt="" loading="lazy" decoding="async" /></span>
+      </div>
+    </div>
+    <span class="il-arrow" aria-hidden="true"></span>
+    <div class="il-gate">
+      <span class="il-k">The bar · on visits it did not learn from</span>
+      <ul>
+        {CHECKS.map((c) => <li><i aria-hidden="true">✓</i>{c}</li>)}
+      </ul>
+    </div>
+    <span class="il-arrow" aria-hidden="true"></span>
+    <div class="il-box il-end">
+      <span class="il-st">Testing</span>
+      <b>“Ready” in your Intent tab</b>
+      <span class="il-s">Shown to you, not used to rank</span>
+    </div>
+  </div>
+
+  <div class="il-pair">
+    <div class="il-chip">
+      <span class="il-st">Testing</span>
+      <div><b>A trained model</b><span>Checked against the tag match on visits it never saw</span></div>
+    </div>
+    <div class="il-chip">
+      <span class="il-st live">Live</span>
+      <div>
+        <b>Mix up the first ten</b>
+        <span>1 in 20 For You views, so clicks say what shoppers wanted</span>
+      </div>
+      <div class="il-shuffle" aria-hidden="true">
+        {[3, 1, 7, 2, 9, 5, 10, 4, 6, 8].map((n) => <i>{n}</i>)}
+      </div>
+    </div>
+    <div class="il-chip">
+      <span class="il-st live">Live</span>
+      <div><b>No marking its own homework</b><span>Visits intent already ranked are left out</span></div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .il { display:flex; flex-direction:column; gap:14px; }
+  .il-row { display:grid; grid-template-columns:1fr; gap:8px; }
+  @media (min-width:1024px){ .il-row { grid-template-columns:1fr 36px 1.25fr 36px 1fr; gap:0; align-items:stretch; } }
+  .il-box, .il-gate { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px;
+    display:flex; flex-direction:column; justify-content:center; gap:8px; }
+  .il-k { font-family:var(--mono); font-size:9.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--muted); }
+  .il-box b { font-size:1rem; font-weight:650; color:var(--ink); letter-spacing:-.01em; line-height:1.3; }
+  .il-mini { display:flex; gap:6px; margin-top:4px; }
+  .il-gate { background:var(--ink); border-color:var(--ink); }
+  .il-gate .il-k { color:rgba(255,255,255,.5); }
+  .il-gate ul { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .il-gate li { display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:10px; font-size:.82rem;
+    font-weight:600; color:#fff; background:rgba(255,255,255,.06); border:1px solid rgba(120,220,170,.2); }
+  .il-gate li i { flex:none; display:grid; place-items:center; width:18px; height:18px; border-radius:50%;
+    font-style:normal; font-size:10px; color:#06140E; background:var(--green-bright); }
+  .il-end { align-items:flex-start; }
+  .il-s { font-size:var(--fs-caption); color:var(--muted); }
+  .il-st { display:inline-block; font-family:var(--mono); font-size:9.5px; font-weight:700; letter-spacing:.08em;
+    text-transform:uppercase; padding:3px 7px; border-radius:6px; color:var(--muted); background:var(--bg-2);
+    border:1px solid var(--line-2); align-self:flex-start; }
+  .il-st.live { color:var(--green-ink); background:var(--green-soft); border-color:var(--green-line); }
+  .il-arrow { display:block; position:relative; height:20px; }
+  .il-arrow::before { content:""; position:absolute; left:50%; top:2px; bottom:6px; width:2px; margin-left:-1px;
+    background:var(--green-line); }
+  .il-arrow::after { content:""; position:absolute; left:50%; bottom:2px; width:8px; height:8px; margin-left:-4px;
+    border-right:2px solid var(--green); border-bottom:2px solid var(--green); transform:rotate(45deg); }
+  @media (min-width:1024px){
+    .il-arrow { height:auto; }
+    .il-arrow::before { left:6px; right:9px; top:50%; bottom:auto; width:auto; height:2px; margin:-1px 0 0; }
+    .il-arrow::after { left:auto; right:6px; top:50%; bottom:auto; margin:-4px 0 0; transform:rotate(-45deg); }
+  }
+  .il-pair { display:grid; grid-template-columns:1fr; gap:10px; }
+  @media (min-width:900px){ .il-pair { grid-template-columns:repeat(3, 1fr); } }
+  .il-chip { display:flex; flex-direction:column; gap:8px; background:var(--surface); border:1px solid var(--line);
+    border-radius:14px; padding:14px 16px; }
+  .il-chip b { display:block; font-size:.95rem; font-weight:650; color:var(--ink); }
+  .il-chip span:not(.il-st) { display:block; margin-top:2px; font-size:var(--fs-caption); line-height:1.45; color:var(--ink-2); }
+  .il-shuffle { display:grid; grid-template-columns:repeat(10, 1fr); gap:3px; margin-top:2px; }
+  .il-shuffle i { display:grid; place-items:center; aspect-ratio:1; border-radius:5px; font-style:normal;
+    font-family:var(--mono); font-size:9px; font-weight:700; color:var(--green-ink); background:var(--green-soft);
+    border:1px solid var(--green-line); }
+  @media (max-width:420px){ .il-gate ul { grid-template-columns:1fr; } }
+</style>

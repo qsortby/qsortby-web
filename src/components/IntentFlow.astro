@@ -1,0 +1,154 @@
+---
+/**
+ * INTENT AI — "from a visit to a ranking", as one picture (/features/intent-ai).
+ *
+ * Four panels left to right (stacked on a phone): what this visit did, the
+ * five scores it produced, the reading Intent AI commits to, and the For You
+ * list that reading moves. It replaces four paragraphs; each panel carries a
+ * two-to-four word caption and nothing more.
+ *
+ * Accurate to the app, not decorative: the reading is rule-based scores, it
+ * commits only on a clear lead (session-intent.ts: a behaviour rule plus a
+ * 10-point lead, 15 to switch later), and only products carrying the matching
+ * intent TAG move — nothing is pushed down. The numbers on the bars are an
+ * illustration and are not shown.
+ *
+ * Self-contained `if-` classes.
+ */
+const EVENTS = [
+  { ic: 'search', t: '“birthday gift for her”' },
+  { ic: 'grid', t: '4 unrelated categories' },
+  { ic: 'tag', t: 'Prices $18 – $140' },
+];
+const SCORES = [
+  { l: 'Buying a gift', w: 86, on: true },
+  { l: 'Browsing', w: 52 },
+  { l: 'Treating themselves', w: 30 },
+  { l: 'Replacing something', w: 14 },
+  { l: 'Close to buying', w: 8 },
+];
+const LIST = [
+  { n: 'Rose Gift Set', img: '/products/perfume-rose.svg', tag: true, up: 3 },
+  { n: 'Amber Candle Duo', img: '/products/candle-amber.svg', tag: true, up: 1 },
+  { n: 'Reed Diffuser', img: '/products/diffuser-reed.svg' },
+  { n: 'Wax Melts', img: '/products/wax-melts.svg' },
+];
+const ICON: Record<string, string> = {
+  search: '<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/>',
+  grid: '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>',
+  tag: '<path d="M3.5 12.5V5a1.5 1.5 0 0 1 1.5-1.5h7.5L21 12l-8.5 8.5z"/><circle cx="8" cy="8" r="1.4"/>',
+};
+---
+<div class="if" role="img" aria-label="A visit's searches, categories and prices give five scores; Intent AI commits to Buying a gift on a clear lead, and the gift-tagged products move to the front of the For You list.">
+  <div class="if-step">
+    <span class="if-k"><b>1</b> This visit</span>
+    <div class="if-card">
+      {EVENTS.map((e) => (
+        <div class="if-ev"><svg viewBox="0 0 24 24" set:html={ICON[e.ic]} /><span>{e.t}</span></div>
+      ))}
+    </div>
+    <span class="if-cap">Behaviour only · no login</span>
+  </div>
+
+  <span class="if-arrow" aria-hidden="true"></span>
+
+  <div class="if-step">
+    <span class="if-k"><b>2</b> Five scores</span>
+    <div class="if-card">
+      {SCORES.map((s) => (
+        <div class={s.on ? 'if-sc on' : 'if-sc'}>
+          <span>{s.l}</span>
+          <i><b style={`width:${s.w}%`}></b></i>
+        </div>
+      ))}
+      <span class="if-lead">clear lead</span>
+    </div>
+    <span class="if-cap">Fixed rules, not a guess</span>
+  </div>
+
+  <span class="if-arrow" aria-hidden="true"></span>
+
+  <div class="if-step if-step-narrow">
+    <span class="if-k"><b>3</b> Reading</span>
+    <div class="if-card if-read">
+      <svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12.5h18"/><path d="M12 8c-1.5-3.2-5.5-3.2-5.5-.6C6.5 8 8 8 12 8zm0 0c1.5-3.2 5.5-3.2 5.5-.6C17.5 8 16 8 12 8z"/></svg>
+      <b>Buying a gift</b>
+      <span>committed</span>
+    </div>
+    <span class="if-cap">No clear lead → normal order</span>
+  </div>
+
+  <span class="if-arrow" aria-hidden="true"></span>
+
+  <div class="if-step">
+    <span class="if-k"><b>4</b> For You list</span>
+    <div class="if-card">
+      {LIST.map((p, i) => (
+        <div class={p.tag ? 'if-p on' : 'if-p'}>
+          <span class="if-pr">{i + 1}</span>
+          <span class="gthumb"><img src={p.img} alt="" loading="lazy" decoding="async" /></span>
+          <span class="if-pn">{p.n}</span>
+          {p.up && <span class="if-up">▲{p.up}</span>}
+        </div>
+      ))}
+    </div>
+    <span class="if-cap">Gift-tagged products move ahead</span>
+  </div>
+</div>
+
+<style is:global>
+  .if { display:grid; grid-template-columns:1fr; gap:10px; }
+  @media (min-width:1024px){
+    .if { grid-template-columns:1fr 28px 1fr 28px .72fr 28px 1fr; gap:0; align-items:stretch; }
+  }
+  .if-step { display:flex; flex-direction:column; gap:10px; min-width:0; }
+  .if-k { display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10.5px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .if-k b { display:grid; place-items:center; width:20px; height:20px; border-radius:50%; font-size:10.5px;
+    background:var(--ink); color:#fff; letter-spacing:0; }
+  .if-card { position:relative; flex:1; display:flex; flex-direction:column; justify-content:center; gap:8px;
+    background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:16px;
+    box-shadow:0 1px 2px rgba(16,24,40,.04), 0 18px 40px -30px rgba(16,24,40,.25); }
+  .if-cap { font-size:var(--fs-caption); color:var(--muted); text-align:center; }
+
+  .if-ev { display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:10px; background:var(--bg-2);
+    border:1px solid var(--line); font-size:.84rem; color:var(--ink); font-weight:550; }
+  .if-ev svg { flex:none; width:17px; height:17px; fill:none; stroke:var(--green-ink); stroke-width:1.9;
+    stroke-linecap:round; stroke-linejoin:round; }
+
+  .if-sc { display:grid; grid-template-columns:1fr; gap:4px; }
+  .if-sc span { font-size:.78rem; color:var(--muted); }
+  .if-sc i { display:block; height:8px; border-radius:5px; background:var(--bg-2); overflow:hidden; }
+  .if-sc i b { display:block; height:100%; border-radius:5px; background:var(--line-2); }
+  .if-sc.on span { color:var(--green-ink); font-weight:650; }
+  .if-sc.on i b { background:linear-gradient(90deg,var(--green),var(--green-bright)); }
+  .if-lead { position:absolute; top:12px; right:12px; font-family:var(--mono); font-size:9px; font-weight:700;
+    letter-spacing:.06em; text-transform:uppercase; color:var(--green-ink); background:var(--green-soft);
+    border:1px solid var(--green-line); border-radius:999px; padding:2px 7px; }
+
+  .if-read { align-items:center; text-align:center; gap:6px; background:var(--ink); border-color:var(--ink); }
+  .if-read svg { width:34px; height:34px; fill:none; stroke:var(--green-bright); stroke-width:1.7;
+    stroke-linecap:round; stroke-linejoin:round; }
+  .if-read b { font-size:1.05rem; color:#fff; letter-spacing:-.01em; }
+  .if-read span { font-family:var(--mono); font-size:9.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--green-bright); }
+
+  .if-p { display:flex; align-items:center; gap:9px; padding:7px 9px; border-radius:10px; background:var(--bg-2);
+    border:1px solid var(--line); }
+  .if-p.on { background:var(--green-soft); border-color:var(--green-line); }
+  .if-pr { flex:none; width:12px; font-family:var(--mono); font-size:10px; font-weight:700; color:var(--faint); }
+  .if-pn { flex:1; min-width:0; font-size:.82rem; font-weight:600; color:var(--ink); white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis; }
+  .if-up { flex:none; font-family:var(--mono); font-size:9.5px; font-weight:700; color:var(--green-ink); }
+
+  .if-arrow { display:block; position:relative; height:22px; }
+  .if-arrow::before { content:""; position:absolute; left:50%; top:2px; bottom:6px; width:2px; margin-left:-1px;
+    background:var(--green-line); }
+  .if-arrow::after { content:""; position:absolute; left:50%; bottom:2px; width:8px; height:8px; margin-left:-4px;
+    border-right:2px solid var(--green); border-bottom:2px solid var(--green); transform:rotate(45deg); }
+  @media (min-width:1024px){
+    .if-arrow { height:auto; margin-top:28px; }
+    .if-arrow::before { left:4px; right:8px; top:50%; bottom:auto; width:auto; height:2px; margin:-1px 0 0; }
+    .if-arrow::after { left:auto; right:5px; top:50%; bottom:auto; margin:-4px 0 0; transform:rotate(-45deg); }
+  }
+</style>

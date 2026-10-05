@@ -8,6 +8,10 @@
  * page's job is the opposite — say exactly what it reads, where it acts, what
  * is still in testing, and how a merchant proves it for themselves.
  *
+ * Pictures first, words second: every section is a diagram with a heading and
+ * at most a line or two under it. The detail a merchant needs to check a claim
+ * is in the app; the page only has to make the shape of the system obvious.
+ *
  * Two words carry status everywhere on the page (the mind map's legend):
  *   Live    — runs on stores whose plan has it, where the merchant switched it on
  *   Testing — computed and shown to the merchant, NOT used to rank a storefront
@@ -28,98 +32,82 @@ import { REVERSE_TRIAL_DAYS } from '../../plans';
 import BookDemo from '../../components/BookDemo.astro';
 import IntentHero from '../../components/IntentHero.astro';
 import IntentMindMap from '../../components/IntentMindMap.astro';
+import IntentFlow from '../../components/IntentFlow.astro';
+import IntentProof from '../../components/IntentProof.astro';
+import IntentLearn from '../../components/IntentLearn.astro';
 import type { Branch } from '../../components/IntentMindMap.astro';
 
 const title = 'Intent AI — QSortby';
 const description =
   'Intent AI reads why each visitor came — from this visit alone — and lets your For You feed and upsells rank by it, as one signal in a formula you can read. Then it shows you what it read, and a split test tells you whether it paid.';
 
-/* The five intents, in the app's own words (INTENT_META). `sells` is the
-   app's hint for each, trimmed. */
+/* The five intents, in the app's own words (INTENT_META), cut to a cue.
+   "Close to buying" deliberately omits the app blurb's "has been before": the
+   pixel never sends the repeat-visitor input, so that rule never fires. */
 const MODES = [
-  {
-    key: 'treat',
-    label: 'Treating themselves',
-    reads: 'Browsing unhurried and lingering on the dearer items — no deadline, nothing particular in mind.',
-    sells: 'Premium bundles and the nicer size.',
-  },
-  {
-    key: 'need',
-    label: 'Replacing something',
-    reads: 'Arrived knowing what they want and moving fast — an urgent search, quick scrolling, the cheaper end.',
-    sells: 'The obvious choice, easy to find.',
-  },
-  {
-    key: 'gift',
-    label: 'Buying a gift',
-    reads: 'Shopping for someone else — gift words in the search, or ranging across unrelated categories and prices.',
-    sells: 'Gift sets, wrapping and delivery dates.',
-  },
-  {
-    key: 'browse',
-    label: 'Browsing',
-    reads: 'Looking around with nothing picked out — many pages across many categories, nothing in the cart.',
-    sells: 'Range and new arrivals.',
-  },
-  {
-    key: 'close',
-    label: 'Close to buying',
-    reads: 'Came straight here and acts decisively — few pages, something already in the cart, nothing taken back out.',
-    sells: 'Stock, shipping and returns.',
-  },
+  { key: 'treat', label: 'Treating themselves', cue: 'Unhurried, on the dearer items', works: 'Premium bundles',
+    icon: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M18.5 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/>' },
+  { key: 'need', label: 'Replacing something', cue: 'Knows what they want, moves fast', works: 'The obvious choice',
+    icon: '<path d="M19.5 11A7.5 7.5 0 0 0 5.7 7"/><path d="M5 3.5V7.5h4"/><path d="M4.5 13a7.5 7.5 0 0 0 13.8 4"/><path d="M19 20.5v-4h-4"/>' },
+  { key: 'gift', label: 'Buying a gift', cue: 'Gift words, many categories', works: 'Gift sets, delivery dates',
+    icon: '<rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12.5h18"/><path d="M12 8c-1.5-3.2-5.5-3.2-5.5-.6C6.5 8 8 8 12 8zm0 0c1.5-3.2 5.5-3.2 5.5-.6C17.5 8 16 8 12 8z"/>' },
+  { key: 'browse', label: 'Browsing', cue: 'Many pages, empty cart', works: 'Range, new arrivals',
+    icon: '<circle cx="12" cy="12" r="8.5"/><path d="M15.5 8.5l-2.1 4.9-4.9 2.1 2.1-4.9z"/>' },
+  { key: 'close', label: 'Close to buying', cue: 'Few pages, something in the cart', works: 'Stock, shipping, returns',
+    icon: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.3"/>' },
 ];
 
 const BRANCHES: Branch[] = [
   {
     key: 'read', n: '01', title: 'Read', slot: 'tl',
-    sub: 'From this visit’s own behaviour. No login, no purchase history, no quiz.',
+    sub: 'This visit only — no login, no history.',
     leaves: [
-      { text: '<b>Five reasons</b> people shop — treating themselves, replacing something, buying a gift, browsing, close to buying', status: 'live' },
-      { text: '<b>One visit at a time</b> — 30 minutes with nothing happening ends a visit', status: 'live' },
-      { text: '<b>Commits only on clear evidence</b> — until then the visit sees your normal order', status: 'live' },
-      { text: '<b>Every product tagged</b> with one or two of the five, by AI — and you can change any tag', status: 'live' },
+      { text: '<b>Five reasons</b> people shop', status: 'live' },
+      { text: '<b>A visit</b> ends after 30 quiet minutes', status: 'live' },
+      { text: '<b>Commits</b> only on a clear lead', status: 'live' },
+      { text: '<b>Product tags</b> by AI — you can edit them', status: 'live' },
     ],
   },
   {
     key: 'act', n: '02', title: 'Act', slot: 'bl',
-    sub: 'Only where you switch Intent suggest on.',
+    sub: 'Only where Intent suggest is on.',
     leaves: [
-      { text: '<b>For You</b> feeds, on each personalized collection you switch it on for', status: 'live' },
-      { text: '<b>Cart, popup, checkout and thank-you</b> upsells, when they pick their own suggestions', status: 'live' },
-      { text: '<b>One weighted signal</b> in a formula you can read, with its share of the score shown', status: 'live' },
-      { text: '<b>Tagged products move ahead</b>; nothing is pushed down, and an untagged catalogue never moves', status: 'live' },
+      { text: '<b>For You</b> feeds', status: 'live' },
+      { text: '<b>Cart, popup, checkout, thank-you</b> upsells', status: 'live' },
+      { text: '<b>One weighted signal</b>, share shown', status: 'live' },
+      { text: '<b>Tagged products</b> move ahead', status: 'live' },
     ],
   },
   {
     key: 'learn', n: '03', title: 'Learn', slot: 'tr',
-    sub: 'Everything learned is held in testing and compared against what you already have.',
+    sub: 'Held in testing until it beats what you have.',
     leaves: [
-      { text: '<b>Learned picks</b> — per intent, the products those shoppers actually buy on your store', status: 'testing' },
-      { text: '<b>A strict bar</b> — beat your best sellers on visits it did not learn from, three nights running', status: 'testing' },
-      { text: '<b>Trained model</b> — checked against the tag match on visits it never saw', status: 'testing' },
-      { text: '<b>Mix up the first ten</b> on 1 in 20 For You views, so it learns what shoppers wanted rather than what was put first', status: 'live' },
+      { text: '<b>Learned picks</b> per intent', status: 'testing' },
+      { text: '<b>Must beat</b> your best sellers', status: 'testing' },
+      { text: '<b>Trained model</b>, checked against tags', status: 'testing' },
+      { text: '<b>Mix up the first ten</b>, 1 in 20 views', status: 'live' },
     ],
   },
   {
     key: 'prove', n: '04', title: 'Prove', slot: 'br',
-    sub: 'Every figure comes from your own store, and says what it is.',
+    sub: 'Every figure from your own store.',
     leaves: [
-      { text: '<b>The Intent tab</b> — visits by the reason each ended on, hour by hour in your store’s time', status: 'live' },
-      { text: '<b>Readings checked against orders</b> — gifts shipped to someone else, repeat buys, a pick from an earlier visit', status: 'live' },
-      { text: '<b>Intent AI on/off test</b> — a share of shoppers without it, read once at a planned end', status: 'live' },
-      { text: '<b>Influenced, never “caused”</b> — revenue is labelled for what it is', status: 'live' },
+      { text: '<b>Intent tab</b>, in your time zone', status: 'live' },
+      { text: '<b>Readings</b> checked against orders', status: 'live' },
+      { text: '<b>On/off test</b>, read at a planned end', status: 'live' },
+      { text: '<b>Influenced</b>, never “caused”', status: 'live' },
     ],
   },
   {
     key: 'guard', n: '05', title: 'Guardrails', slot: 'bottom',
-    sub: 'So nothing happens on your storefront that you cannot see, explain or switch off.',
+    sub: 'Nothing on your storefront you cannot see or switch off.',
     leaves: [
-      { text: '<b>A switch wherever it acts</b> — per collection and per upsell', status: 'live' },
-      { text: '<b>Read-only first</b> — on Pro it reports; only Growth lets it rank', status: 'live' },
-      { text: '<b>Fails open</b> — if the AI is unavailable, your storefront ranks by your own rules', status: 'live' },
-      { text: '<b>AI summaries are checked</b> before you see them — every number must be one your data holds', status: 'live' },
-      { text: '<b>Shoppers never see a label</b> — a reading changes an order, never a word on the page', status: 'live' },
-      { text: '<b>A declined consent is respected</b> — the pixel then sends only that a visit started, and that visit is never read', status: 'live' },
+      { text: '<b>A switch</b> per collection and upsell', status: 'live' },
+      { text: '<b>Pro reports</b> · Growth ranks', status: 'live' },
+      { text: '<b>Fails open</b> to your own rules', status: 'live' },
+      { text: '<b>AI summaries</b> checked against your data', status: 'live' },
+      { text: '<b>Shoppers</b> never see a label', status: 'live' },
+      { text: '<b>Declined consent</b> — visit never read', status: 'live' },
     ],
   },
 ];
@@ -161,7 +149,7 @@ const FAQ = [
       <div>
         <div class="crumb">Intent AI</div>
         <h1>Knows why they came. Shows you what it did about it.</h1>
-        <p>Intent AI reads one visit — no login, no purchase history — and, once the visit makes it clear, settles on one of five reasons people shop. Your For You feed and upsells can rank by it, as one signal in a formula you can read. The Intent tab shows what it read, and a split test tells you whether it paid.</p>
+        <p>One reading per visit, five reasons people shop. Your feed and upsells can rank by it — and you can check every step.</p>
         <div class="hero-cta" style="margin-top:2rem">
           <a href={APP_STORE_URL} class="btn btn-accent btn-lg">Try it free <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a href="#map" class="btn btn-ghost btn-lg">See the whole system</a>
@@ -188,21 +176,31 @@ const FAQ = [
   <!-- ===================== THE FIVE INTENTS ===================== -->
   <section class="sec" style="padding-top:0">
     <div class="wrap">
-      <div class="shead ctr rv" style="margin-bottom:2.5rem">
+      <div class="shead ctr rv" style="margin-bottom:2.25rem">
         <span class="eyebrow"><span class="dot"></span>Five reasons people shop</span>
-        <h2>One reading per visit. Five you can act on.</h2>
-        <p class="lead-c">Not twelve moods and not a personality score — five reasons a merchant can merchandise for, each described in the app exactly as it is read.</p>
+        <h2>Five readings you can merchandise for.</h2>
       </div>
       <div class="ia-modes">
-        {MODES.map((m, i) => (
-          <article class={`ia-mode rv ia-mode-${m.key}`}>
-            <span class="ia-mode-n">{String(i + 1).padStart(2, '0')}</span>
+        {MODES.map((m) => (
+          <article class="ia-mode rv">
+            <span class="ia-ic"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={m.icon} /></span>
             <h3>{m.label}</h3>
-            <p>{m.reads}</p>
-            <div class="ia-mode-sells"><span>What tends to work</span>{m.sells}</div>
+            <p>{m.cue}</p>
+            <span class="ia-works">{m.works}</span>
           </article>
         ))}
       </div>
+    </div>
+  </section>
+
+  <!-- ===================== FROM A VISIT TO A RANKING ===================== -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="shead ctr rv" style="margin-bottom:2.25rem">
+        <span class="eyebrow"><span class="dot"></span>How it works</span>
+        <h2>From a visit to a ranking</h2>
+      </div>
+      <div class="rv"><IntentFlow /></div>
     </div>
   </section>
 
@@ -212,7 +210,6 @@ const FAQ = [
       <div class="shead ctr rv" style="margin-bottom:3rem">
         <span class="eyebrow"><span class="dot"></span>The whole system</span>
         <h2>Every part of Intent AI, on one page.</h2>
-        <p class="lead-c">What it reads, where it acts, how it learns, how you prove it, and what keeps it in line — each marked with whether it ranks your storefront today.</p>
       </div>
       <div class="rv">
         <IntentMindMap branches={BRANCHES} />
@@ -220,36 +217,16 @@ const FAQ = [
     </div>
   </section>
 
-  <!-- ===================== HOW A VISIT IS READ ===================== -->
-  <section class="sec">
-    <div class="wrap">
-      <div class="shead ctr rv" style="margin-bottom:2.5rem">
-        <h2>From a visit to a ranking</h2>
-      </div>
-      <div class="steps ia-steps4">
-        <div class="step rv"><div class="sn">01</div><h3>Watch this visit</h3><p>The storefront pixel sees what the visit does — the search, the pages, the prices, the cart. A visit ends after 30 minutes with nothing happening.</p></div>
-        <div class="step rv"><div class="sn">02</div><h3>Commit to one reason</h3><p>Each of the five is scored as the visit goes on. Intent AI commits only when one is clear; until then the shopper sees your normal order.</p></div>
-        <div class="step rv"><div class="sn">03</div><h3>Rank where you allowed it</h3><p>Where Intent suggest is on, products tagged with that reason move ahead of the rest. Nothing is pushed down.</p></div>
-        <div class="step rv"><div class="sn">04</div><h3>Report it</h3><p>The Intent tab counts every visit under the reason it ended on, so you see your store’s real mix — and what each kind of visit bought.</p></div>
-      </div>
-    </div>
-  </section>
-
   <!-- ===================== DETAIL ===================== -->
-  <section class="sec" style="padding-top:0">
+  <section class="sec">
     <div class="wrap split-list">
 
       <!-- A — one signal, in a formula you can read -->
       <div class="split rv">
         <div>
           <span class="eyebrow"><span class="dot"></span>Glass box</span>
-          <h2>One signal in your formula — never a black box over it</h2>
-          <p class="lead">Intent match is one weighted signal beside your top sellers, recent views, new arrivals and the rest. The collection editor shows the share of the score it carries in each group of shoppers, and every product in the preview shows why it sits where it does.</p>
-          <ul class="ia-checks">
-            <li><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>Every other signal in your formula keeps its weight</li>
-            <li><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>Intent’s share of each group’s score, stated in plain numbers</li>
-            <li><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>A shopper with no reading sees the order your formula gives</li>
-          </ul>
+          <h2>One signal in your formula — never a black box</h2>
+          <p class="lead">You see the share of the score intent carries, and why each product sits where it does.</p>
         </div>
         <div class="ia-viz">
           <div class="ia-panel">
@@ -266,7 +243,7 @@ const FAQ = [
                 <span class="ia-bar-v">{r.w}%</span>
               </div>
             ))}
-            <p class="ia-panel-cap">Illustration · each signal’s share of this product’s score</p>
+            <p class="ia-panel-cap">Illustration · each signal’s share of the score</p>
           </div>
         </div>
       </div>
@@ -275,8 +252,8 @@ const FAQ = [
       <div class="split split-rev rv">
         <div>
           <span class="eyebrow"><span class="dot"></span>Where it acts</span>
-          <h2>The feed and the four upsells that can use it</h2>
-          <p class="lead">Intent suggest is a switch on each personalized collection, and on the cart, popup, checkout and thank-you upsells when they pick their own suggestions. Bought-together and the free-shipping bar choose on their own evidence — co-purchase pairs and price — and are never re-ranked by intent.</p>
+          <h2>The feed, and four upsells</h2>
+          <p class="lead">One switch — Intent suggest — on each. Bought-together and the shipping bar never use intent.</p>
         </div>
         <div class="ia-viz">
           <div class="ia-panel">
@@ -304,7 +281,7 @@ const FAQ = [
         <div>
           <span class="eyebrow"><span class="dot"></span>Product tags</span>
           <h2>AI tags your catalogue. You have the last word.</h2>
-          <p class="lead">Each product is tagged with one or two of the five reasons, read from its own product text. Settings → Product data &amp; AI lists every tag. Change one and it is marked <b>Set by you</b> and kept when the product next changes — only re-running the AI over the whole catalogue by hand replaces it, and <b>Use AI’s pick</b> puts the AI’s choice back.</p>
+          <p class="lead">Change a tag and it is marked <b>Set by you</b> and kept. <b>Use AI’s pick</b> puts it back.</p>
         </div>
         <div class="ia-viz">
           <div class="ia-panel">
@@ -330,80 +307,23 @@ const FAQ = [
   <!-- ===================== PROOF ===================== -->
   <section class="sec" style="padding-top:0">
     <div class="wrap">
-      <div class="shead ctr rv" style="margin-bottom:2.5rem">
+      <div class="shead ctr rv" style="margin-bottom:2.25rem">
         <span class="eyebrow"><span class="dot"></span>Proof, not promises</span>
-        <h2>Five ways to check it on your own store</h2>
-        <p class="lead-c">Personalization apps ask you to trust a lift figure. Intent AI gives you the readings, the orders they line up with, and a test you control.</p>
+        <h2>Check it on your own store</h2>
       </div>
-      <div class="bento">
-        <div class="b rv">
-          <span class="kicker">The Intent tab</span>
-          <h3>What your visits came for</h3>
-          <p>Every visit counted under the reason it ended on, hour by hour in your store’s own time zone, with what each kind of visit bought. AI summaries quote only numbers your data holds, and never call something a trend without a fair comparison.</p>
-        </div>
-        <div class="b rv">
-          <span class="kicker">Checked against orders</span>
-          <h3>Did the orders agree?</h3>
-          <p>Some orders can confirm a reading: a gift shipped to someone else, a repeat buy of the same thing, a product picked out on an earlier visit. The Intent tab shows how often those orders agree with what was read — and says when there are too few to tell.</p>
-        </div>
-        <div class="b rv">
-          <span class="kicker">Tags vs purchases</span>
-          <h3>Do the tags match what sells?</h3>
-          <p>For each reason, whether those shoppers buy its tagged products more often than everyone else does — labelled as a pattern, not as proof that intent caused it.</p>
-        </div>
-        <div class="b wide rv ia-test">
-          <div>
-          <span class="kicker">Intent AI on/off test</span>
-          <h3>The one number that settles it</h3>
-          <p>A share of shoppers get your store without Intent AI — in the For You feed and in every upsell that ranks by it. The test compares the share of shoppers in each group who bought anything, anywhere on the store, not clicks on one widget. It runs for a planned number of whole weeks, gives no verdict until the end, stops early only if Intent AI is clearly doing harm, and checks the split itself is fair first. “No difference” always says how big a difference the test could have found.</p>
-          </div>
-          <ol class="ia-test-flow" aria-label="How the test runs">
-            <li><span>Split</span>Each shopper lands in one group, and stays there</li>
-            <li><span>Measure</span>The share who bought anything, anywhere on the store</li>
-            <li><span>Check</span>Is the split itself fair? If not, no verdict</li>
-            <li><span>Read</span>Once, at the planned end — 2 to 6 whole weeks</li>
-          </ol>
-        </div>
-        <div class="b rv">
-          <span class="kicker">Attribution</span>
-          <h3>Influenced, never caused</h3>
-          <p>An order is credited to the place a shopper last touched before buying — an upsell only for the lines it added — and labelled “influenced”, because that is all last touch can say.</p>
-        </div>
-      </div>
+      <IntentProof />
     </div>
   </section>
 
   <!-- ===================== LEARNING ===================== -->
   <section class="sec" style="padding-top:0">
     <div class="wrap">
-      <div class="band rv ia-learn">
-        <div class="ia-learn-h">
+      <div class="band rv">
+        <div class="shead ctr" style="margin-bottom:2rem">
           <span class="eyebrow"><span class="dot"></span>How it learns</span>
           <h2>Learning that has to beat what you already have</h2>
-          <p>Intent AI keeps learning from your store. Nothing it learns ranks a storefront on the strength of looking good — it is held in testing, shown to you, and measured against the plain alternative on visits it did not learn from.</p>
         </div>
-        <ol class="ia-learn-list">
-          <li>
-            <span class="ia-st ia-st-testing">Testing</span>
-            <h3>Learned picks, per intent</h3>
-            <p>Each night, for each reason, the products those shoppers actually bought after viewing them — compared with your top best sellers on recent buying visits it did not learn from. It needs at least 30 buying visits, four weeks of data and a clear win, three nights in a row — and the Intent tab shows it as <b>Ready</b>, not as ranking.</p>
-          </li>
-          <li>
-            <span class="ia-st ia-st-testing">Testing</span>
-            <h3>A trained model</h3>
-            <p>Trained on past visits and checked against the tag match on visits it never saw. The Intent tab says how it did, in plain words, and that it is still in testing.</p>
-          </li>
-          <li>
-            <span class="ia-st ia-st-live">Live</span>
-            <h3>Mix up the first ten</h3>
-            <p>On 1 in 20 For You views the first ten products appear in a random order — the same products, sold-out ones left in place — so clicks say what shoppers wanted, not what was put first. One tickbox per collection turns it off.</p>
-          </li>
-          <li>
-            <span class="ia-st ia-st-live">Live</span>
-            <h3>No marking its own homework</h3>
-            <p>Visits known to have been ranked by intent are left out of what it learns from, so it cannot simply learn to repeat its own order.</p>
-          </li>
-        </ol>
+        <IntentLearn />
       </div>
     </div>
   </section>
@@ -411,27 +331,27 @@ const FAQ = [
   <!-- ===================== PLANS ===================== -->
   <section class="sec" style="padding-top:0">
     <div class="wrap">
-      <div class="shead ctr rv" style="margin-bottom:2.5rem">
+      <div class="shead ctr rv" style="margin-bottom:2.25rem">
         <h2>Look first, then let it rank</h2>
       </div>
       <div class="ia-plans">
         <div class="ia-plan rv">
           <span class="kicker">Pro · $99</span>
           <h3>Read-only</h3>
-          <p>See the mix of visits your store gets. Your storefront is never touched.</p>
+          <p>The mix of visits your store gets. Storefront untouched.</p>
         </div>
         <div class="ia-plan feat rv">
           <span class="kicker">Growth · $199</span>
           <h3>Live</h3>
-          <p>Intent suggest on your For You collections and the cart, popup, checkout and thank-you upsells, the full Intent tab with AI summaries, and the on/off test.</p>
+          <p>Intent suggest, the full Intent tab and the on/off test.</p>
         </div>
         <div class="ia-plan rv">
           <span class="kicker">Every new install</span>
           <h3>{REVERSE_TRIAL_DAYS} days of Growth</h3>
-          <p>Free, with no card. Then the store moves to Free on its own — never locked.</p>
+          <p>No card. Then Free — never locked.</p>
         </div>
       </div>
-      <p class="ia-plans-more rv"><a href="/pricing">Compare every plan →</a></p>
+      <p class="ia-more rv"><a href="/pricing">Compare every plan →</a></p>
     </div>
   </section>
 
@@ -442,11 +362,11 @@ const FAQ = [
         <h2>Questions merchants ask</h2>
       </div>
       <div class="faq ia-faq rv">
-        {FAQ.map((f, i) => (
-          <details open={i === 0}><summary>{f.q}<span class="pm"></span></summary><div class="ans" set:html={f.a} /></details>
+        {FAQ.map((f) => (
+          <details><summary>{f.q}<span class="pm"></span></summary><div class="ans" set:html={f.a} /></details>
         ))}
       </div>
-      <p class="ia-plans-more rv">The <a href={GUIDE_URL}>user guide</a> walks through every setting in the app.</p>
+      <p class="ia-more rv">The <a href={GUIDE_URL}>user guide</a> walks through every setting in the app.</p>
     </div>
   </section>
 
@@ -467,35 +387,22 @@ const FAQ = [
 
 <style is:global>
   /* the five intents */
-  .ia-modes { display:grid; grid-template-columns:1fr; gap:12px; }
-  @media (min-width:640px){ .ia-modes { grid-template-columns:1fr 1fr; } }
+  .ia-modes { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (min-width:768px){ .ia-modes { grid-template-columns:repeat(3, 1fr); } }
   @media (min-width:1024px){ .ia-modes { grid-template-columns:repeat(5, 1fr); } }
-  .ia-mode { display:flex; flex-direction:column; gap:8px; background:var(--surface); border:1px solid var(--line);
-    border-radius:16px; padding:20px 18px 18px; }
-  .ia-mode-n { font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.08em; color:var(--green-ink); }
-  .ia-mode h3 { font-size:1.06rem; font-weight:650; letter-spacing:-.015em; color:var(--ink); }
-  .ia-mode p { font-size:var(--fs-caption); line-height:1.5; color:var(--ink-2); flex:1; }
-  .ia-mode-sells { margin-top:6px; padding-top:10px; border-top:1px solid var(--line); font-size:var(--fs-caption);
-    color:var(--ink); font-weight:550; line-height:1.4; }
-  .ia-mode-sells span { display:block; font-family:var(--mono); font-size:9.5px; font-weight:700; letter-spacing:.08em;
-    text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
+  .ia-mode { display:flex; flex-direction:column; align-items:flex-start; gap:6px; background:var(--surface);
+    border:1px solid var(--line); border-radius:16px; padding:18px 16px; }
+  .ia-ic { display:grid; place-items:center; width:42px; height:42px; border-radius:12px; margin-bottom:6px;
+    background:var(--green-soft); border:1px solid var(--green-line); }
+  .ia-ic svg { width:22px; height:22px; fill:none; stroke:var(--green-ink); stroke-width:1.8; stroke-linecap:round;
+    stroke-linejoin:round; }
+  .ia-mode h3 { font-size:1rem; font-weight:650; letter-spacing:-.015em; color:var(--ink); }
+  .ia-mode p { font-size:var(--fs-caption); line-height:1.45; color:var(--ink-2); flex:1; }
+  .ia-works { margin-top:4px; font-family:var(--mono); font-size:9.5px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--green-ink); background:var(--green-soft); border-radius:999px; padding:3px 8px; }
+  @media (max-width:340px){ .ia-modes { grid-template-columns:1fr; } }
 
   .ia-mapsec { background:var(--bg-2); border-block:1px solid var(--line); }
-
-  .ia-checks { list-style:none; margin:1.5rem 0 0; padding:0; display:flex; flex-direction:column; gap:.75rem; }
-  .ia-checks li { display:flex; align-items:flex-start; gap:.625rem; font-size:var(--fs-body); color:var(--ink-2); }
-  .ia-checks li svg { width:18px; height:18px; margin-top:2px; flex:none; fill:none; stroke:var(--green-ink); stroke-width:2.4; }
-
-  .ia-test { display:grid; grid-template-columns:1fr; gap:1.5rem; }
-  @media (min-width:768px){ .ia-test { grid-template-columns:1.15fr 1fr; gap:2rem; align-items:center; } }
-  .ia-test-flow { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; counter-reset:f; }
-  .ia-test-flow li { display:grid; grid-template-columns:76px 1fr; gap:12px; align-items:baseline; padding:11px 14px;
-    border-radius:12px; background:var(--bg-2); border:1px solid var(--line); font-size:var(--fs-caption);
-    line-height:1.45; color:var(--ink-2); }
-  .ia-test-flow li span { font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:.08em;
-    text-transform:uppercase; color:var(--green-ink); }
-
-  @media (min-width:1024px){ .ia-steps4 { grid-template-columns:repeat(4, 1fr); } }
 
   /* detail illustrations */
   .ia-viz { display:flex; justify-content:center; }
@@ -538,22 +445,6 @@ const FAQ = [
     .ia-tagrow-by { grid-column:2; min-width:0; }
   }
 
-  /* learning band */
-  .ia-learn { display:grid; grid-template-columns:1fr; gap:2rem; }
-  @media (min-width:1024px){ .ia-learn { grid-template-columns:.8fr 1.2fr; gap:3.5rem; align-items:start; } }
-  .ia-learn-h h2 { font-family:var(--font-display, inherit); font-weight:600; font-size:1.6rem; line-height:1.18;
-    margin-top:1rem; }
-  .ia-learn-h p { margin-top:.85rem; color:var(--ink-2); line-height:1.6; max-width:46ch; }
-  .ia-learn-list { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr; gap:12px; }
-  @media (min-width:640px){ .ia-learn-list { grid-template-columns:1fr 1fr; } }
-  .ia-learn-list li { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px; }
-  .ia-learn-list h3 { margin-top:10px; font-size:1.02rem; font-weight:650; color:var(--ink); letter-spacing:-.01em; }
-  .ia-learn-list p { margin-top:6px; font-size:var(--fs-caption); line-height:1.5; color:var(--ink-2); }
-  .ia-st { display:inline-block; font-family:var(--mono); font-size:9.5px; font-weight:700; letter-spacing:.08em;
-    text-transform:uppercase; padding:3px 7px; border-radius:6px; border:1px solid; }
-  .ia-st-live { color:var(--green-ink); background:var(--green-soft); border-color:var(--green-line); }
-  .ia-st-testing { color:var(--muted); background:var(--bg-2); border-color:var(--line-2); }
-
   /* plans */
   .ia-plans { display:grid; grid-template-columns:1fr; gap:12px; max-width:960px; margin:0 auto; }
   @media (min-width:768px){ .ia-plans { grid-template-columns:repeat(3, 1fr); } }
@@ -562,6 +453,6 @@ const FAQ = [
   .ia-plan h3 { margin-top:8px; font-size:1.2rem; font-weight:650; color:var(--ink); letter-spacing:-.015em; }
   .ia-plan p { margin-top:6px; font-size:var(--fs-caption); line-height:1.5; color:var(--ink-2); }
   .ia-faq { margin-inline:auto; }
-  .ia-plans-more { margin-top:1.5rem; text-align:center; font-size:var(--fs-caption); color:var(--muted); }
-  .ia-plans-more a { color:var(--green-ink); text-decoration:underline; text-underline-offset:2px; }
+  .ia-more { margin-top:1.5rem; text-align:center; font-size:var(--fs-caption); color:var(--muted); }
+  .ia-more a { color:var(--green-ink); text-decoration:underline; text-underline-offset:2px; }
 </style>
