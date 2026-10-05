@@ -1,143 +1,84 @@
 ---
 /**
- * Intro video — click-to-play, self-hosted.
+ * Intro video — click-to-play YouTube embed (a "facade").
  *
- * ── Drop-in contract ────────────────────────────────────────────────────────
- * Put the files at:
- *   public/video/qsortby-intro.mp4     (required — the video)
- *   public/video/qsortby-intro.webm    (optional — smaller, served first)
- *   public/video/qsortby-intro.jpg     (optional — poster frame, 16:9)
- *   public/video/qsortby-intro.vtt     (optional — captions, English)
+ * The video lives on YouTube (ID in consts.ts → INTRO_VIDEO_ID). Until the
+ * visitor presses play, the frame is just our own poster image and a button —
+ * no YouTube iframe, script or cookie. A YouTube iframe costs ~1 MB of JS and
+ * several third-party requests the moment it renders, on a section most
+ * visitors scroll past. The click swaps in the iframe with autoplay, from
+ * youtube-nocookie.com so YouTube sets no cookies until playback.
  *
- * Nothing else to wire up: this component checks for the MP4 at BUILD time and
- * renders NOTHING when it's absent. That's deliberate — the alternative is a
- * hard-coded <video> that ships a broken player the moment the asset is missing
- * or renamed, on the most-viewed section of the site. A missing file should cost
- * a section, not a first impression.
+ * Without JS the play button is a plain link to the video on YouTube.
  *
- * ── Why click-to-play, not autoplay ────────────────────────────────────────
- * An intro video has narration, so it can't autoplay with sound (browsers block
- * it) and autoplaying it muted throws away the first sentence. `preload="none"`
- * means a visitor who never presses play downloads zero bytes of it — the whole
- * point of a poster.
+ * Poster: public/video/qsortby-intro-youtube.jpg — the video's own YouTube
+ * thumbnail, self-hosted so it loads from our CDN. If the thumbnail on YouTube
+ * changes, re-download it:
+ *   curl -o public/video/qsortby-intro-youtube.jpg \
+ *     https://i.ytimg.com/vi/<ID>/maxresdefault.jpg
  */
-import fs from 'node:fs';
-import path from 'node:path';
-
-const PUBLIC_DIR = path.join(process.cwd(), 'public', 'video');
-const BASE = 'qsortby-intro';
-
-const has = (ext: string) => fs.existsSync(path.join(PUBLIC_DIR, `${BASE}.${ext}`));
-
-// MP4 is the gate: it's the format every browser can play, so without it there
-// is no video to show regardless of what else is present.
-const hasVideo = has('mp4');
-const hasWebm = has('webm');
-const hasPoster = has('jpg');
-const hasCaptions = has('vtt');
+import { INTRO_VIDEO_ID } from '../consts';
 
 interface Props {
-  /** Section eyebrow. */
-  eyebrow?: string;
   /** Heading above the player. */
   heading?: string;
   /** One line under the heading. */
   lead?: string;
-  /** Shown on the play button, e.g. "2 min". Omit if you'd rather not commit. */
+  /** Shown on the play button, e.g. "2:05". Omit if you'd rather not commit. */
   duration?: string;
 }
 
-// Defaults describe what the shipped file actually shows — it walks the whole
-// journey (auto-sorted collection → bought-together → cart upsell + shipping bar
-// → popup → checkout → thank-you), not just the ranking. Copy that promised only
-// a re-ranked collection would undersell the second half of its own video.
 const {
-  eyebrow = 'Watch',
   heading = 'Watch it sort the collection — then grow the order.',
-  lead = 'A minute and a half, no signup: the collection re-ranks itself on live demand, then the same engine goes to work on the basket — bought-together on the product page, a free-shipping nudge in the cart, and an offer at checkout and after it.',
+  lead = 'Two minutes, no signup: the collection re-ranks itself on live demand, then the same engine goes to work on the basket — bought-together on the product page, a free-shipping nudge in the cart, and an offer at checkout and after it.',
   duration,
 } = Astro.props;
+
+const watchUrl = `https://www.youtube.com/watch?v=${INTRO_VIDEO_ID}`;
+const embedUrl = `https://www.youtube-nocookie.com/embed/${INTRO_VIDEO_ID}?autoplay=1&rel=0&playsinline=1`;
 ---
 
-{hasVideo && (
-  <section class="sec alt" style="padding-top:0">
-    <div class="wrap">
-      <div class="shead ctr shead-lg rv" style="margin-bottom:2rem">
-        <h2>{heading}</h2>
-        <p class="lead-c">{lead}</p>
-      </div>
+<section class="sec alt" style="padding-top:0">
+  <div class="wrap">
+    <div class="shead ctr shead-lg rv" style="margin-bottom:2rem">
+      <h2>{heading}</h2>
+      <p class="lead-c">{lead}</p>
+    </div>
 
-      <div class="vplayer rv">
-        {/* `poster` is only set when the file exists — pointing at a missing
-            image would render the browser's broken-image state inside the frame,
-            which looks worse than the plain gradient the CSS falls back to. */}
-        <video
-          id="introVideo"
-          controls
-          preload="none"
-          playsinline
-          poster={hasPoster ? `/video/${BASE}.jpg` : undefined}
-          aria-label="QSortby product introduction"
-        >
-          {hasWebm && <source src={`/video/${BASE}.webm`} type="video/webm" />}
-          <source src={`/video/${BASE}.mp4`} type="video/mp4" />
-          {hasCaptions && (
-            <track
-              kind="captions"
-              src={`/video/${BASE}.vtt`}
-              srclang="en"
-              label="English"
-              default
-            />
-          )}
-          {/* Reached only when the browser can play neither source. A download
-              link is more use than the default empty box. */}
-          <p>
-            Your browser can't play this video.
-            <a href={`/video/${BASE}.mp4`}>Download it instead</a>.
-          </p>
-        </video>
-
-        {/* Overlay lives OUTSIDE the video element so it can be removed from the
-            DOM on play; a child of <video> would be treated as fallback content
-            and never rendered by a browser that can play the file. */}
-        <button type="button" class="vplay" data-for="introVideo" aria-label="Play the QSortby introduction">
+    <div class="vplayer rv" id="introVideo" data-embed={embedUrl}>
+      <img src="/video/qsortby-intro-youtube.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async" />
+      <a class="vplay" href={watchUrl} target="_blank" rel="noopener" aria-label="Play the QSortby introduction">
+        <span class="vplay-pill">
           <span class="vplay-ring">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
           </span>
-          <span class="vplay-txt">Watch the intro{duration ? ` · ${duration}` : ''}</span>
-        </button>
-      </div>
+          <span class="vplay-txt">Watch the intro{duration && <span class="vplay-dur"> · {duration}</span>}</span>
+        </span>
+      </a>
     </div>
-  </section>
-)}
+  </div>
+</section>
 
-{hasVideo && (
-  <script is:inline>
-    // Plain inline JS, no framework: this is one click handler and the section
-    // must work before any hydration would have happened.
-    (() => {
-      const btn = document.querySelector('.vplay');
-      if (!btn) return;
-      const video = document.getElementById(btn.getAttribute('data-for'));
-      if (!video) return;
-      // `controls` ships in the MARKUP so the video stays playable with no JS.
-      // With JS it comes straight back off: the native control bar is a black
-      // strip across the bottom fifth of the poster, and the poster is a
-      // designed light frame that most visitors only ever see (preload="none",
-      // click to play). Controls return the moment play is requested.
-      video.removeAttribute('controls');
-      btn.addEventListener('click', () => {
-        video.controls = true;
-        // Remove the overlay FIRST so the controls are reachable even if play()
-        // is rejected (a blocked or unsupported source shouldn't leave the
-        // visitor stuck behind a dead button).
-        btn.remove();
-        video.play().catch(() => {});
-      });
-    })();
-  </script>
-)}
+<script is:inline>
+  // One click handler, no framework. The link stays a working fallback: if
+  // this never runs, the button opens the video on YouTube.
+  (() => {
+    const box = document.getElementById('introVideo');
+    const btn = box && box.querySelector('.vplay');
+    if (!btn) return;
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const f = document.createElement('iframe');
+      f.src = box.dataset.embed;
+      f.title = 'QSortby product introduction';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      f.referrerPolicy = 'strict-origin-when-cross-origin';
+      f.allowFullscreen = true;
+      box.replaceChildren(f);
+      f.focus();
+    });
+  })();
+</script>
 
 <style>
   /* Sized by aspect ratio rather than a fixed height so the frame can't shift
@@ -153,64 +94,90 @@ const {
     background: var(--grad-mint);
     box-shadow: 0 30px 60px -40px rgba(16, 24, 40, 0.35);
   }
-  .vplayer video {
+  .vplayer img,
+  .vplayer iframe {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    background: transparent;
+    border: 0;
   }
 
-  /* The overlay covers the whole frame: the entire poster is the play target,
-     not just the 52px circle. */
+  /* The overlay covers the whole frame (the entire poster is the play
+     target), but the visible button is one pill at the bottom centre: the
+     YouTube thumbnail is a designed frame with copy and a product card, and
+     a button in the middle would sit on top of them. */
   .vplay {
     position: absolute;
     inset: 0;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    gap: 14px;
-    border: 0;
+    padding-bottom: clamp(14px, 4%, 30px);
     background: transparent;
     cursor: pointer;
     font: inherit;
-    color: var(--ink);
+    text-decoration: none;
+  }
+  .vplay-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 18px 7px 7px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    box-shadow: 0 12px 28px -12px rgba(30, 30, 26, 0.55);
+    transition: transform 0.18s ease, background 0.18s ease;
   }
   .vplay-ring {
     display: grid;
     place-items: center;
-    width: 68px;
-    height: 68px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    background: #fff;
-    border: 1px solid var(--green-line);
-    box-shadow: 0 10px 24px -12px rgba(16, 24, 40, 0.4);
-    transition: transform 0.18s ease;
+    background: var(--green);
   }
   .vplay-ring svg {
-    width: 26px;
-    height: 26px;
-    fill: var(--green);
-    margin-left: 3px;
+    width: 14px;
+    height: 14px;
+    fill: #fff;
+    margin-left: 2px;
   }
   .vplay-txt {
-    font-family: var(--mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
+    font-size: 13.5px;
+    font-weight: 600;
+    white-space: nowrap;
   }
-  .vplay:hover .vplay-ring,
-  .vplay:focus-visible .vplay-ring {
-    transform: scale(1.06);
+  .vplay-dur {
+    font-weight: 500;
+    opacity: 0.6;
+  }
+  .vplay:hover .vplay-pill,
+  .vplay:focus-visible .vplay-pill {
+    transform: translateY(-2px);
+    background: var(--btn-h);
+  }
+  .vplay:focus-visible {
+    outline: none;
+  }
+  .vplay:focus-visible .vplay-pill {
+    outline: 2px solid var(--green);
+    outline-offset: 3px;
+  }
+  @media (max-width: 560px) {
+    .vplay { padding-bottom: 10px; }
+    .vplay-pill { gap: 7px; padding: 4px 12px 4px 4px; }
+    .vplay-ring { width: 24px; height: 24px; }
+    .vplay-ring svg { width: 11px; height: 11px; }
+    .vplay-txt { font-size: 11.5px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .vplay-ring {
+    .vplay-pill {
       transition: none;
     }
-    .vplay:hover .vplay-ring,
-    .vplay:focus-visible .vplay-ring {
+    .vplay:hover .vplay-pill,
+    .vplay:focus-visible .vplay-pill {
       transform: none;
     }
   }

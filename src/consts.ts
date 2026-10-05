@@ -62,3 +62,8 @@ export const FEATURES_NAV = [
 // Empty string = the beacon is not rendered at all. Only loads in production
 // builds, so `astro dev` and local previews don't pollute the numbers.
 export const CF_ANALYTICS_TOKEN = "030c6ca788604ff09ba075e968f569d4";
+
+// Home-page intro video on YouTube (components/IntroVideo.astro). Just the ID —
+// the part after `watch?v=`. Changing the video? Also re-download its poster;
+// the command is in the component's header comment.
+export const INTRO_VIDEO_ID = "Yj5xJKJ2kJM";
