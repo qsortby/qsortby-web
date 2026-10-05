@@ -94,8 +94,12 @@ const embedUrl = `https://www.youtube-nocookie.com/embed/${INTRO_VIDEO_ID}?autop
     background: var(--grad-mint);
     box-shadow: 0 30px 60px -40px rgba(16, 24, 40, 0.35);
   }
+  /* `:global` on the iframe is load-bearing: it is created by the click
+     handler, so it never gets Astro's scoped-style attribute and a plain
+     `.vplayer iframe` rule would not match it — it would render at the
+     browser default 300×150 in the corner of the frame. */
   .vplayer img,
-  .vplayer iframe {
+  .vplayer :global(iframe) {
     display: block;
     width: 100%;
     height: 100%;
