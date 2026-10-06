@@ -47,7 +47,7 @@ npm run preview
 | `/features` | Feature breakdown + product mockup |
 | `/integrations` | Shopify-native surfaces (Online Store, metafields, Flow, POS, Markets) + ecosystem |
 | `/use-cases` | Industry rows — fashion, beauty, electronics, food, home & living |
-| `/pricing` | Plans — Starter $29 / Pro $99, 7-day trial (matches the Billing API) + comparison matrix |
+| `/pricing` | Plans — Free / Starter $29 / Pro $99 / Growth $199, one 7-day trial counted from install (matches the Billing API) + comparison matrix |
 | `/support` | Contact form (Netlify) + support info |
 | `/thank-you` | Post-submit page (no-JS form fallback target; `noindex`) |
 | `/privacy` | Privacy Policy (required for App Store listing) |
@@ -63,5 +63,5 @@ These are placeholders — search and replace as needed:
 
 - **`src/consts.ts`** → `APP_STORE_URL` (currently `https://apps.shopify.com/qsortby`) — set to the live App Store listing URL once published. `SUPPORT_EMAIL` is set to `quang.dinh@scentiment.com`.
 - **Domain** → `astro.config.mjs` `site`, plus `qsortby.com` references in `public/sitemap.xml`, `public/robots.txt`, and the JSON-LD in `src/layouts/Base.astro`. Set to your real domain.
-- **Pricing / claims** kept in sync with the actual Billing API (`Starter $29`, `Pro $99`, `7-day trial`) and the shipped feature set — per `docs/APP_STORE_SUBMISSION.md`, listing content must match the installed app.
+- **Pricing / claims** kept in sync with the actual Billing API (`Free`, `Starter $29`, `Pro $99`, `Growth $199`, one `7-day trial` from install) and the shipped feature set — per `docs/APP_STORE_SUBMISSION.md`, listing content must match the installed app.
 - An OG share image is intentionally omitted (Twitter card is `summary`). Add `public/assets/og.png` (1200×630) and wire `og:image` in `Base.astro` if you want rich link previews.

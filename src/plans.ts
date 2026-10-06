@@ -7,29 +7,25 @@
  *   - what's included → apps/api/src/lib/plan-features.ts (`DEFAULT_PLAN_FEATURES`)
  *   - spec + rationale → docs/PRICING.md  ← read this before changing anything here
  *
- * Two DIFFERENT trials exist; do not conflate them in copy:
- *   1. REVERSE_TRIAL_DAYS (10) — every new install runs on full Growth features,
- *      then auto-downgrades to Free. The app is never locked or turned off.
- *      This is the acquisition hook and belongs in the headline.
- *   2. Shopify's payment trial (10 days, see PAYMENT_TRIAL_DAYS) — only applies
- *      once a merchant picks a PAID plan; it's the window before the first
- *      charge. Billing detail, not a hook. This line said 7 for a while, which
- *      is what put a stale "7-day trial" into /terms — the app has always set
- *      `trialDays: 10`.
+ * The trial is ONE window of 7 days, counted from install (owner, 2026-10-06;
+ * qsortby docs/ai/trial-7-days-plan.md — it was 10 from 2026-09-30):
+ *   - every new install runs on full Growth features for those days, then
+ *     auto-downgrades to Free. The app is never locked or turned off. This is
+ *     the acquisition hook and belongs in the headline;
+ *   - a paid plan picked on day N starts with the 7 − N days left — the app
+ *     sends Shopify max(0, 7 − N) (qsortby resolveTrialDays). Picked after the
+ *     window, it is billed from the day it is approved. The two do NOT stack:
+ *     never write that a paid plan "adds its own trial".
  */
 
-/** Full-access window on install, before auto-downgrade to Free. */
-export const REVERSE_TRIAL_DAYS = 10;
+/** The trial window on install: Growth features, then Free. */
+export const REVERSE_TRIAL_DAYS = 7;
 /**
- * Shopify Billing API trial on paid plans, before the first charge.
- *
- * Deliberately the SAME number as the reverse trial: the app sets
- * `trialDays: 10` on all three paid plans (apps/dashboard/app/shopify.server.ts)
- * so every merchant-facing surface quotes one figure. They still stack —
- * subscribing on day 10 of the reverse trial means free through day 20 — which
- * is why the two are separate constants rather than one.
+ * The same window seen from a paid plan: the most free days a paid plan can
+ * start with, on install day. NOT a second trial — kept as a name only so
+ * billing copy reads as billing copy. Must equal REVERSE_TRIAL_DAYS.
  */
-export const PAYMENT_TRIAL_DAYS = 10;
+export const PAYMENT_TRIAL_DAYS = REVERSE_TRIAL_DAYS;
 
 export interface Plan {
   /** Plan name as shown to merchants — matches ALL_PLAN_NAMES in the app. */

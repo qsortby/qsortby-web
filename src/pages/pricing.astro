@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { APP_STORE_URL } from '../consts';
 import BookDemo from '../components/BookDemo.astro';
-import { PLANS, MATRIX, REVERSE_TRIAL_DAYS, PAYMENT_TRIAL_DAYS } from '../plans';
+import { PLANS, MATRIX, REVERSE_TRIAL_DAYS } from '../plans';
 
 const title = 'Pricing — QSortby for Shopify';
 // Kept under ~155 characters so Google shows the whole thing rather than cutting
@@ -52,7 +52,7 @@ const cellClass = (v: string) => (v === '✓' ? 'yes' : v === '—' ? 'no' : '')
       </div>
 
       <p class="snote" style="margin-top:2rem">
-        Billed via Shopify · cancel anytime · paid plans include a {PAYMENT_TRIAL_DAYS}-day Shopify trial
+        Billed via Shopify · cancel anytime · one {REVERSE_TRIAL_DAYS}-day trial, counted from install
       </p>
     </div>
   </section>
@@ -113,7 +113,7 @@ const cellClass = (v: string) => (v === '✓' ? 'yes' : v === '—' ? 'no' : '')
       </div>
       <div class="faq rv">
         <details><summary>What actually happens after the {REVERSE_TRIAL_DAYS} days?<span class="pm"></span></summary><div class="ans">Your plan becomes <b>Free</b> — automatically, with no card and no interruption. Ranking keeps running, your collections keep updating, attribution keeps reporting. You lose the paid features (extra collections, personalization, analytics), not the app. Nothing is deleted and nothing is switched off.</div></details>
-        <details><summary>So there are two trials?<span class="pm"></span></summary><div class="ans">Yes, and they do different jobs — both {REVERSE_TRIAL_DAYS} days, so there's only one number to remember. The <b>full-access window</b> starts the moment you install: no card, no plan chosen. Separately, when you pick a <i>paid</i> plan, Shopify adds its own <b>{PAYMENT_TRIAL_DAYS}-day trial</b> before the first charge. They <b>stack</b> — subscribe on day {REVERSE_TRIAL_DAYS} of the first window and you're free through day {REVERSE_TRIAL_DAYS * 2}.</div></details>
+        <details><summary>Does a paid plan get its own trial?<span class="pm"></span></summary><div class="ans">No — there is <b>one {REVERSE_TRIAL_DAYS}-day trial</b>, counted from the day you install. During it you have every feature, free, with no card. Pick a paid plan during those days and its first charge comes when they end — a plan picked on day 3 starts with the {REVERSE_TRIAL_DAYS - 3} days left. Pick one after the {REVERSE_TRIAL_DAYS} days and it is billed from the day you approve it in Shopify.</div></details>
         <details><summary>How am I charged?<span class="pm"></span></summary><div class="ans">Through Shopify's Billing API. The subscription appears on your regular Shopify invoice — no separate payment method, no off-platform charging. The Free plan never goes through billing at all.</div></details>
         <details><summary>What if I go over the order limit on Free or Starter?<span class="pm"></span></summary><div class="ans">Nothing breaks. The limit is a soft nudge: you'll see an upgrade prompt in the dashboard, and ranking continues serving your storefront untouched. Hard-capping orders would degrade a live collection your shoppers are browsing — we won't do that.</div></details>
         <details><summary>Can I switch plans?<span class="pm"></span></summary><div class="ans">Any time, up or down, from inside the app. Changes take effect on your next billing cycle.</div></details>
