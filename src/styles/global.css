@@ -293,6 +293,12 @@
 
   /* ---- faq ---- */
   .faq { @apply w-full; max-width:640px; }
+  /* A FAQ list under a centred section heading (.shead.ctr) centres with it.
+     Without this the 640px list hugs the left of the 1080px .narrow column
+     while the heading sits in the middle — the Pricing sections looked
+     broken. The FAQs page puts .faq in a grid column beside its category
+     title, with no centred heading before it, so it keeps its left edge. */
+  .shead.ctr + .faq { margin-inline:auto; }
   .faq details { @apply border-b; border-color:var(--line); }
   .faq summary { @apply flex items-center justify-between gap-4 cursor-pointer py-5 font-display font-medium text-lg; list-style:none; }
   .faq .pm { @apply relative w-4 h-4 shrink-0; }
