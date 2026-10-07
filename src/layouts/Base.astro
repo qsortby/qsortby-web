@@ -2,8 +2,20 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StickyCta from '../components/StickyCta.astro';
-import { DEMO_SCRIPT_URL, DEMO_PRODUCT_KEY, DEMO_EVENT, SUPPORT_EMAIL, CF_ANALYTICS_TOKEN } from '../consts';
+import { DEMO_SCRIPT_URL, DEMO_PRODUCT_KEY, DEMO_EVENT, SUPPORT_EMAIL, CF_ANALYTICS_TOKEN, GA_MEASUREMENT_ID } from '../consts';
 import '../styles/global.css';
+
+const GA_ON = import.meta.env.PROD && !!GA_MEASUREMENT_ID;
+// Consent Mode v2 regions: EEA + UK + Switzerland. Google resolves the
+// visitor's region by IP; there, analytics cookies stay off until the banner
+// (public/assets/analytics.js) records an "accept". Ad signals are off for
+// everyone — the site runs no ads.
+const CONSENT_REGIONS = ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH'];
+const gaBoot = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'granted'});
+gtag('consent','default',{analytics_storage:'denied',region:${JSON.stringify(CONSENT_REGIONS)},wait_for_update:500});
+try{var c=localStorage.getItem('qs-consent');if(c==='granted'||c==='denied')gtag('consent','update',{analytics_storage:c});}catch(e){}
+gtag('js',new Date());gtag('config','${GA_MEASUREMENT_ID}');`;
 
 const { title, description, noindex = false, image, faq = [], breadcrumb } = Astro.props;
 
@@ -170,6 +182,11 @@ const jsonld = {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+    {/* Google Analytics 4 with Consent Mode v2 — production only. The boot
+        snippet must run before gtag.js so the consent defaults apply to the
+        very first hit. See GA_MEASUREMENT_ID in consts.ts. */}
+    {GA_ON && <script is:inline set:html={gaBoot} />}
+    {GA_ON && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>}
   </head>
   <body>
     <Header />
@@ -177,6 +194,9 @@ const jsonld = {
     <Footer />
     <StickyCta />
     <script src="/assets/app.js" is:inline defer></script>
+    {/* Click tracking + UTM tags on install links + the cookie banner. Safe
+        without GA: every event call is a no-op when gtag is absent. */}
+    <script src="/assets/analytics.js" is:inline defer></script>
     {/* QOne Desk — our own booking embed, behind every "Book a demo"
         (see components/BookDemo.astro). Loaded once here because the demo CTA
         sits in the header and footer, so it's on every page anyway. async: it

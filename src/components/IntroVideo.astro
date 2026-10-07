@@ -35,7 +35,7 @@ const {
 } = Astro.props;
 
 const watchUrl = `https://www.youtube.com/watch?v=${INTRO_VIDEO_ID}`;
-const embedUrl = `https://www.youtube-nocookie.com/embed/${INTRO_VIDEO_ID}?autoplay=1&rel=0&playsinline=1`;
+const embedUrl = `https://www.youtube-nocookie.com/embed/${INTRO_VIDEO_ID}?autoplay=1&rel=0&playsinline=1&enablejsapi=1`;
 ---
 
 <section class="sec alt" style="padding-top:0">
@@ -68,6 +68,7 @@ const embedUrl = `https://www.youtube-nocookie.com/embed/${INTRO_VIDEO_ID}?autop
     if (!btn) return;
     btn.addEventListener('click', (e) => {
       e.preventDefault();
+      if (window.qsTrack) window.qsTrack('video_play', { video_title: 'QSortby intro' });
       const f = document.createElement('iframe');
       f.src = box.dataset.embed;
       f.title = 'QSortby product introduction';

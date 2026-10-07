@@ -67,3 +67,10 @@ export const CF_ANALYTICS_TOKEN = "030c6ca788604ff09ba075e968f569d4";
 // the part after `watch?v=`. Changing the video? Also re-download its poster;
 // the command is in the component's header comment.
 export const INTRO_VIDEO_ID = "Yj5xJKJ2kJM";
+
+// Google Analytics 4 — property "QSortby", web stream qsortby.com.
+// Loaded only in production builds (Base.astro), with Consent Mode v2:
+// cookies stay off for EU/EEA/UK/CH visitors until they accept the banner.
+// Click tracking (install_click, demo_open, demo_booked, video_play) lives in
+// public/assets/analytics.js. Empty string = GA is not loaded at all.
+export const GA_MEASUREMENT_ID = "G-TRN9BZGJ5R";
