@@ -20,6 +20,12 @@ const onFeatures = path.startsWith('/features/');
         </div>
       </div>
       {NAV.map(([href, label]) => <a href={href} class={path === href ? 'active' : ''}>{label}</a>)}
+      {/* Mobile menu only: the two actions, full width at the foot of the
+          panel. On desktop they live in .nav-cta beside the menu instead. */}
+      <div class="nav-mcta">
+        <a href={APP_STORE_URL} class="btn btn-accent btn-lg">Install free</a>
+        <BookDemo class="btn btn-line btn-lg">Book a demo</BookDemo>
+      </div>
     </nav>
     {/* Install is the primary action: QSortby is a self-serve app with a $0 tier,
         so putting "Book a demo" first would gate a funnel that needs no gate.

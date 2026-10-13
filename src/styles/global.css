@@ -573,25 +573,43 @@
 .nav-overlay { position:fixed; inset:0; z-index:40; background:rgba(26,26,26,.4); opacity:0; visibility:hidden; transition:opacity .25s var(--ease),visibility .25s; }
 body.nav-open .nav-overlay { opacity:1; visibility:visible; }
 @media (min-width:1024px){ .nav-overlay { display:none; } }
+.nav-mcta { display:none; }
 @media (max-width:1023px){
-  header.site .nav-links { position:absolute; top:100%; left:0; right:0; flex-direction:column; gap:0; background:var(--bg); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:6px 20px 18px; z-index:60; box-shadow:0 30px 50px -30px rgba(16,24,40,.3); }
-  body.nav-open header.site .nav-links { display:flex; }
-  header.site .nav-links a { padding:14px 4px; font-size:1.0625rem; border-bottom:1px solid var(--line); }
-  header.site .nav-links a:last-child { border-bottom:0; }
+  /* Open menu = a full-height sheet under a SOLID header. The header is
+     translucent everywhere else; left translucent here, the dimming overlay
+     showed through it and turned it grey. */
   body.nav-open { overflow:hidden; }
+  body.nav-open header.site { background:var(--bg); border-bottom-color:var(--line); -webkit-backdrop-filter:none; backdrop-filter:none; }
   header.site .nav-cta > a.btn { display:none; }
 
-  /* dropdown becomes an inline accordion under its own trigger row, instead
-     of the floating panel used at lg — same open state, no floating layer
-     needed when the whole nav is already a full-width column. */
-  header.site .nav-menu { display:flex; flex-direction:column; border-bottom:1px solid var(--line); }
-  header.site .nav-menu-btn { width:100%; justify-content:space-between; padding:14px 4px; font-size:1.0625rem; }
+  header.site .nav-links { position:absolute; top:100%; left:0; right:0; z-index:60;
+    height:calc(100dvh - 4rem); overflow-y:auto; overscroll-behavior:contain;
+    flex-direction:column; align-items:stretch; gap:0;
+    padding:8px 20px calc(20px + env(safe-area-inset-bottom)); background:var(--bg);
+    font-size:1.125rem; font-weight:600; color:var(--ink); }
+  body.nav-open header.site .nav-links { display:flex; animation:navIn .22s var(--ease) both; }
+  header.site .nav-links > a { display:flex; align-items:center; justify-content:space-between; padding:16px 2px; border-bottom:1px solid var(--line); }
+  header.site .nav-links > a::after { content:""; width:7px; height:7px; border-right:1.6px solid var(--faint); border-top:1.6px solid var(--faint); transform:rotate(45deg); }
+  header.site .nav-links a.active { color:var(--green-ink); }
+
+  /* "Features" is a labelled group, always open — four links is too few to
+     hide behind a toggle, and the toggle was what read as broken. */
+  header.site .nav-menu { display:block; padding:14px 0 10px; border-bottom:1px solid var(--line); }
+  header.site .nav-menu-btn { pointer-events:none; padding:0 2px 6px; font-size:.6875rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); }
+  header.site .nav-menu-btn span.active { color:var(--muted); }
+  header.site .nav-menu-btn svg { display:none; }
   header.site .nav-dropdown { position:static; opacity:1; visibility:visible; pointer-events:auto; transform:none;
-    background:none; border:0; box-shadow:none; padding:0 0 6px; min-width:0;
-    max-height:0; overflow:hidden; transition:max-height .22s var(--ease); }
-  header.site .nav-menu.open .nav-dropdown { max-height:220px; }
-  header.site .nav-dropdown a { padding:10px 4px 10px 14px; font-size:1rem; }
+    display:grid; grid-template-columns:1fr 1fr; gap:8px; min-width:0; padding:4px 0 0;
+    background:none; border:0; box-shadow:none; max-height:none; overflow:visible; }
+  header.site .nav-dropdown a { padding:13px 14px; border-radius:12px; font-size:.9375rem; font-weight:600; color:var(--ink);
+    background:var(--surface); border:1px solid var(--line); white-space:normal; }
+  header.site .nav-dropdown a.active { color:var(--green-ink); background:var(--green-soft); border-color:var(--green-line); }
+
+  header.site .nav-mcta { display:flex; flex-direction:column; gap:10px; margin-top:auto; padding-top:24px; }
+  header.site .nav-mcta .btn { width:100%; }
 }
+@keyframes navIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){ body.nav-open header.site .nav-links { animation:none; } }
 .menu-btn .ic-close { display:none; }
 body.nav-open .menu-btn .ic-open { display:none; }
 body.nav-open .menu-btn .ic-close { display:block; }
