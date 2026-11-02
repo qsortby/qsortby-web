@@ -2,7 +2,8 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StickyCta from '../components/StickyCta.astro';
-import { DEMO_SCRIPT_URL, DEMO_PRODUCT_KEY, DEMO_EVENT, SUPPORT_EMAIL, CF_ANALYTICS_TOKEN, GA_MEASUREMENT_ID } from '../consts';
+import HelpLauncher from '../components/HelpLauncher.astro';
+import { DEMO_SCRIPT_URL, DEMO_PRODUCT_KEY, DEMO_EVENT, SUPPORT_WIDGET_URL, SUPPORT_EMAIL, CF_ANALYTICS_TOKEN, GA_MEASUREMENT_ID } from '../consts';
 import '../styles/global.css';
 
 const GA_ON = import.meta.env.PROD && !!GA_MEASUREMENT_ID;
@@ -193,6 +194,7 @@ const jsonld = {
     <main><slot /></main>
     <Footer />
     <StickyCta />
+    <HelpLauncher />
     <script src="/assets/app.js" is:inline defer></script>
     {/* Click tracking + UTM tags on install links + the cookie banner. Safe
         without GA: every event call is a no-op when gtag is absent. */}
@@ -208,6 +210,22 @@ const jsonld = {
       data-product={DEMO_PRODUCT_KEY}
       data-event={DEMO_EVENT}
       data-layout="calendar"
+      is:inline
+      async></script>
+    {/* QOne Desk support chat, same product key as the booking embed above.
+        data-hidden drops the widget's own launcher: components/HelpLauncher
+        is the button, and opens the chat through window.QOneDesk. Must stay a
+        classic inline script: the widget finds its config through
+        document.currentScript, which is null for a module or a bundled
+        script, and then it silently does nothing. The offsets are pinned
+        here rather than left to the Desk setting (the attributes win over
+        it) because they place the chat panel just above our launcher. */}
+    <script
+      src={SUPPORT_WIDGET_URL}
+      data-product={DEMO_PRODUCT_KEY}
+      data-offset-x="20"
+      data-offset-y="20"
+      data-hidden="true"
       is:inline
       async></script>
     {/* Cloudflare Web Analytics — cookieless, no consent banner needed.
