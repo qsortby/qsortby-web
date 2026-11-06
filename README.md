@@ -26,7 +26,6 @@ matching dark panel with an emerald button. Tokens live in `tailwind.config.mjs`
 ## Develop
 
 ```bash
-cd website
 npm install
 npm run dev      # http://localhost:4321
 npm run build    # outputs to dist/
@@ -36,32 +35,46 @@ npm run preview
 ## Deploy to Netlify
 
 1. New site → connect this repo.
-2. Set **Base directory** to `website`, **Build command** to `npm run build`, **Publish directory** to `website/dist` (the included `netlify.toml` already sets command/publish relative to the base dir).
+2. The included `netlify.toml` sets the build command (`npm run build`) and publish directory (`dist`).
 3. Deploy. Netlify auto-detects the static `support` form on `/support`; submissions appear under **Forms** in the Netlify dashboard. Configure email/Slack notifications there.
 
 ## Pages
 
 | Route | Purpose |
 |-------|---------|
-| `/` | Landing — hero w/ live board, trust bar, problem/solution, product mockup, bento features, steps, stat band, integrations, testimonials, pricing teaser, FAQ, CTA |
-| `/features` | Feature breakdown + product mockup |
-| `/integrations` | Shopify-native surfaces (Online Store, metafields, Flow, POS, Markets) + ecosystem |
-| `/use-cases` | Industry rows — fashion, beauty, electronics, food, home & living |
-| `/pricing` | Plans — Free / Starter $29 / Pro $99 / Growth $199, one 7-day trial counted from install (matches the Billing API) + comparison matrix |
+| `/` | Landing — hero flow (auto-sort → pair → personalize), intro video, "What you get" tabs (merchandising / personalization / upsell), "if you've said any of these", Intent AI teaser, CTA |
+| `/features/merchandising` | Auto-sort: the 16 ranking signals, windows (rolling / period / snapshot), goes-with grouping, test mode + theme preview + restore, A/B proof |
+| `/features/personalization` | Segment rules → per-visitor "For You" ranking, trace-this-shopper, apply to collection / block / upsell |
+| `/features/upsell-blocks` | Six upsell surfaces (cart, free-shipping bar, bought-together, popup, thank-you, in-checkout on Plus), display rules, Intent suggest on Growth |
+| `/features/intent-ai` | Intent AI end to end: five intents, where it acts, what is Live vs Testing, proof, guardrails |
+| `/integrations` | Shopify-native surfaces (collections + 4 theme sections, metafields, order tags, checkout/thank-you extensions, pixel) + ecosystem (review apps, Klaviyo/GA4 connect, AI assistants via MCP) |
+| `/use-cases` | Nine merchant situations, grouped in three bands |
+| `/pricing` | Plans — Free / Starter $29 / Pro $99 / Growth $199, 10-day reverse trial on install + 7-day trial on the first paid plan (matches the Billing API) + comparison matrix + billing FAQ |
+| `/faqs` | Categorised FAQ (also feeds the FAQPage JSON-LD in `Base.astro`) |
 | `/support` | Contact form (Netlify) + support info |
 | `/thank-you` | Post-submit page (no-JS form fallback target; `noindex`) |
 | `/privacy` | Privacy Policy (required for App Store listing) |
 | `/terms` | Terms of Service |
 
-Shared components: `AppShot.astro` (CSS dashboard mockup), `StickyCta.astro` (mobile install bar), plus the live leaderboard on the home hero (`public/assets/app.js`).
+The user guide is a separate site at `guide.qsortby.com` (`GUIDE_URL` in `src/consts.ts`).
 
-> **Placeholder content:** the home-page testimonials are illustrative (marked with an HTML comment) — replace with real, attributable merchant quotes before public launch.
+Shared components: `HeroFlow.astro` (home hero), `Offer.astro` (home tabs), the `*Hero.astro` / `*Features.astro` pairs per feature page, `IntentTeaser.astro` + `Intent*.astro`, `BookDemo.astro` (QOne Desk booking), `HelpLauncher.astro` (QOne Desk chat), `StickyCta.astro` (mobile install bar).
 
-## ⚠️ Update before publishing
+## Keeping the site honest
 
-These are placeholders — search and replace as needed:
+The app repo is the authority. Before changing a claim, check it there:
 
-- **`src/consts.ts`** → `APP_STORE_URL` (currently `https://apps.shopify.com/qsortby`) — set to the live App Store listing URL once published. `SUPPORT_EMAIL` is set to `quang.dinh@scentiment.com`.
-- **Domain** → `astro.config.mjs` `site`, plus `qsortby.com` references in `public/sitemap.xml`, `public/robots.txt`, and the JSON-LD in `src/layouts/Base.astro`. Set to your real domain.
-- **Pricing / claims** kept in sync with the actual Billing API (`Free`, `Starter $29`, `Pro $99`, `Growth $199`, one `7-day trial` from install) and the shipped feature set — per `docs/APP_STORE_SUBMISSION.md`, listing content must match the installed app.
-- An OG share image is intentionally omitted (Twitter card is `summary`). Add `public/assets/og.png` (1200×630) and wire `og:image` in `Base.astro` if you want rich link previews.
+- Plans, prices, trial → `apps/shopify/app/lib/plans.ts`, `apps/shopify/app/shopify.server.ts`
+- What each plan includes → `apps/api/src/lib/plan-features.ts` (`DEFAULT_PLAN_FEATURES`, `DEFAULT_PLAN_META`)
+- Ranking signals, windows → `docs/RANKING.md`, the collection editor
+- Storefront surfaces → `apps/shopify/extensions/*` (theme sections, pixel, checkout + thank-you extensions), `apps/shopify/app/routes/proxy/*`
+- Integrations → `apps/shopify/app/lib/oauth/provider.ts` (Klaviyo, Google, Judge.me), `apps/shopify/app/routes/app/settings/ai-connections` (MCP)
+- Retention figures in `/privacy` → `workers/events-retention/src/index.ts`
+
+Features that exist in code but ship behind a server-side switch (MCP connector, Klaviyo/GA4 data flows, related-products metafields, popup/free-shipping "Look") are described as **rolling out / opening in stages**, never as live.
+
+## Config
+
+- **`src/consts.ts`** — `APP_STORE_URL`, `SUPPORT_EMAIL` (single inbox for every mailto, the form failure message and the Organization schema), `GUIDE_URL`, demo booking + support widget keys, analytics IDs.
+- **Domain** → `astro.config.mjs` `site`, plus `qsortby.com` in `public/sitemap.xml`, `public/robots.txt` and the JSON-LD in `src/layouts/Base.astro`.
+- **Share image** → `public/og-default.jpg` (source in `design/og-card.html`).
