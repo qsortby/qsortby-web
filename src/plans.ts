@@ -7,25 +7,23 @@
  *   - what's included → apps/api/src/lib/plan-features.ts (`DEFAULT_PLAN_FEATURES`)
  *   - spec + rationale → docs/PRICING.md  ← read this before changing anything here
  *
- * The trial is ONE window of 7 days, counted from install (owner, 2026-10-06;
- * qsortby docs/ai/trial-7-days-plan.md — it was 10 from 2026-09-30):
- *   - every new install runs on full Growth features for those days, then
- *     auto-downgrades to Free. The app is never locked or turned off. This is
- *     the acquisition hook and belongs in the headline;
- *   - a paid plan picked on day N starts with the 7 − N days left — the app
- *     sends Shopify max(0, 7 − N) (qsortby resolveTrialDays). Picked after the
- *     window, it is billed from the day it is approved. The two do NOT stack:
- *     never write that a paid plan "adds its own trial".
+ * Two independent trials (owner, 2026-11-06; qsortby
+ * docs/ai/trial-10-plus-7-plan.md — from 2026-10-06 to then it was one shared
+ * 7-day window):
+ *   - REVERSE trial: every new install runs on full Growth features for 10
+ *     days, then auto-downgrades to Free. The app is never locked or turned
+ *     off. This is the acquisition hook and belongs in the headline;
+ *   - PAID-PLAN trial: a store's FIRST paid plan starts with 7 free days,
+ *     counted from the day it is approved in Shopify — independent of the 10,
+ *     never added to them (qsortby resolveTrialDays). Once per store: a plan
+ *     change or a re-subscribe gets no trial and is billed from approval.
  */
 
 /** The trial window on install: Growth features, then Free. */
-export const REVERSE_TRIAL_DAYS = 7;
-/**
- * The same window seen from a paid plan: the most free days a paid plan can
- * start with, on install day. NOT a second trial — kept as a name only so
- * billing copy reads as billing copy. Must equal REVERSE_TRIAL_DAYS.
- */
-export const PAYMENT_TRIAL_DAYS = REVERSE_TRIAL_DAYS;
+export const REVERSE_TRIAL_DAYS = 10;
+/** The free days a store's first paid plan starts with, from approval.
+ *  Must equal TRIAL_DAYS in qsortby apps/shopify/app/lib/plans.ts. */
+export const PAYMENT_TRIAL_DAYS = 7;
 
 export interface Plan {
   /** Plan name as shown to merchants — matches ALL_PLAN_NAMES in the app. */
@@ -68,7 +66,7 @@ export const PLANS: Plan[] = [
       // line leads with the limit. Same phrasing as the listing.
       'Real-time best-sellers ranking, 1 collection',
       'Sold-out auto-demotion',
-      'Keep paired products side by side',
+      'Goes-with rules (publish from Starter)',
       // The AOV surfaces start on Free deliberately: a merchant has to see an
       // upsell working before a tier that adds more of them means anything.
       'Cart upsell + free-shipping bar',
@@ -99,7 +97,7 @@ export const PLANS: Plan[] = [
       '3 sort rules, 5 visitor types each',
       // ─── below here: /pricing only, not the home teaser ───
       '3 upsells of each type',
-      'Per-category rankings',
+      'Per-category rankings + goes-with rules live on your storefront',
       // No plan caps the window — the only entitlement is Free's 7-day FLOOR.
       // What Starter actually buys is the short end, plus calendar windows.
       'Short windows unlocked — from 1 hour',
@@ -128,6 +126,10 @@ export const PLANS: Plan[] = [
       // CSV export lives on the Analytics page, which is what `analytics`
       // gates, so it is a real Pro line.
       'Full report history & CSV export',
+      // MCP endpoint per store (Settings → AI connections). Gated by
+      // `ai_connector` on Pro+ in the app; the server-side switch is opening in
+      // stages, so the line says so rather than promising it is on today.
+      'AI connections — Claude / ChatGPT via MCP (rolling out)',
     ],
     badge: 'Most popular',
     feat: true,
@@ -195,8 +197,14 @@ for (const p of PLANS) {
 export const MATRIX: { label: string; cells: string[] }[] = [
   { label: 'Real-time best-sellers ranking', cells: ['✓', '✓', '✓', '✓'] },
   { label: 'Sold-out auto-demotion', cells: ['✓', '✓', '✓', '✓'] },
-  { label: 'A/B testing + revenue attribution', cells: ['✓', '✓', '✓', '✓'] },
-  { label: 'Klaviyo & Google Analytics', cells: ['✓', '✓', '✓', '✓'] },
+  // `pairing` is granted everywhere but `publish: 0` on Free: a Free merchant
+  // can write goes-with rules in the dashboard, not push them to the storefront.
+  { label: 'Goes-with rules (published to storefront)', cells: ['Draft only', '✓', '✓', '✓'] },
+  // `experiments.maxActive`: 1 on Starter, unlimited elsewhere.
+  { label: 'A/B testing + revenue attribution', cells: ['✓', '1 active test', '✓', '✓'] },
+  // Klaviyo and GA4 have OAuth connect in the app; the data flows that use the
+  // connection are not shipped yet. Say "connection", never "sync".
+  { label: 'Klaviyo & GA4 connection (data sync rolling out)', cells: ['✓', '✓', '✓', '✓'] },
   { label: 'Managed collections', cells: ['1', '5', 'Unlimited', 'Unlimited'] },
   // The ONLY window entitlement in the app is `smart_sortby.minWindowDays`, a
   // FLOOR, set to 7 on Free and unset everywhere else. There is no max-window
@@ -228,11 +236,13 @@ export const MATRIX: { label: string; cells: string[] }[] = [
   { label: 'Upsells per type', cells: ['1', '3', 'Unlimited', 'Unlimited'] },
   { label: 'Customer events & analytics', cells: ['—', '—', '✓', '✓'] },
   { label: 'AI authoring (taxonomy + logic)', cells: ['—', '—', '✓', '✓'] },
+  { label: 'AI connections — Claude / ChatGPT via MCP (rolling out)', cells: ['—', '—', '✓', '✓'] },
   { label: 'Intent mix — read-only', cells: ['—', '—', '✓', '✓'] },
   { label: 'Live per-shopper reranking', cells: ['—', '—', '—', '✓'] },
   { label: 'Personalized offers in cart / popup / checkout / thank-you', cells: ['—', '—', '—', '✓'] },
   { label: 'Intent insights — heatmap, per-intent results, AI summaries', cells: ['—', '—', '—', '✓'] },
-  { label: 'Orders / month', cells: ['200*', '2,000*', 'Unlimited', 'Unlimited'] },
+  // No order allowance: `smart_sortby.maxOrdersPerMonth` defaults to 0 (none)
+  // on every plan, so there is no cap and no nudge to describe here.
   // Nothing in the app tiers support, and /support promises email + a one
   // business-day reply + free setup help to EVERY plan. This row used to say
   // Free got docs only, which contradicted our own support page.

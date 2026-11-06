@@ -14,15 +14,16 @@ const description =
 // WRITES per-product ranks — it doesn't; the metafields it provisions are
 // inputs the merchant fills in for the ranker to read.
 const ecosystem = [
-  { cat: 'Review apps', apps: 'Judge.me, Fera, REVIEWS.io, Stamped', note: 'Read automatically', svg: '<path d="M12 3l2.6 5.6 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.4l6-.8z"/>' },
+  { cat: 'Review apps', apps: 'Judge.me, Fera, REVIEWS.io, Stamped', note: 'Judge.me 1-click · others read automatically', svg: '<path d="M12 3l2.6 5.6 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.4l6-.8z"/>' },
   { cat: 'Email Marketing', apps: 'Klaviyo', note: 'OAuth built, opening in stages', svg: '<path d="M3 5h18v14H3z"/><path d="M3 7l9 6 9-6"/>' },
   { cat: 'Analytics', apps: 'Google Analytics (GA4)', note: 'Opening in stages', svg: '<path d="M4 19V5M4 19h16M8 16V9M13 16v-5M18 16v-8"/>' },
   { cat: 'Ads & Catalogs', apps: 'Meta, Google feeds', note: 'Via Shopify collections', svg: '<path d="M20.6 8.5L12 3 3.4 8.5 12 14z"/><path d="M3.4 12.5L12 18l8.6-5.5"/>' },
+  { cat: 'AI assistants', apps: 'Claude, ChatGPT (MCP)', note: 'Pro+ · opening in stages', svg: '<path d="M4 19V5M4 19h16M8 16V9M13 16v-5M18 16v-8"/>' },
   { cat: 'Helpdesk', apps: 'Gorgias, Zendesk', note: 'Via order tags', svg: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>' },
 ];
 
 const native = [
-  { nm: 'Online Store', sub: 'Theme & collections', d: 'QSortby maintains real Shopify collections, sorted by your chosen signal. Add them to your nav, homepage or any section like any other collection.' },
+  { nm: 'Online Store', sub: 'Theme sections & collections', d: 'QSortby maintains real Shopify collections, sorted by your chosen signal, and ships four theme sections — Best Sellers, For You, Bought With and Goes With — plus one app embed. Add them in the theme editor like any other section; no code.' },
   { nm: 'Metafields', sub: 'Catalog attributes', d: 'QSortby provisions metafields for margin, launch date, replenishment and your own product taxonomy. Fill them in and the ranker uses them — in the app and in your theme.' },
   { nm: 'Order tags', sub: 'Attribution in Admin', d: 'Orders a QSortby feed influenced are tagged in Shopify Admin, by surface, with the A/B variant on the order itself — so you can segment and report with the tools you already use.' },
   { nm: 'Checkout & thank-you', sub: 'App extensions', d: 'Ranked offers render inside checkout (Shopify Plus) and on the order-status page through Shopify\'s own extension points — no theme work either side.' },
@@ -63,7 +64,7 @@ const native = [
         <h2>Connected in three steps.</h2>
       </div>
       <div class="steps">
-        <div class="step rv"><div class="sn">01</div><h3>Install &amp; authorize</h3><p>Grant access to orders, products, inventory and customers at install — read to rank, plus write so QSortby can maintain collections, order tags and metafield definitions. Shopify's native event delivery is wired up for you.</p></div>
+        <div class="step rv"><div class="sn">01</div><h3>Install &amp; authorize</h3><p>Grant access to orders, products, inventory, customers, themes and pixels at install — read to rank, plus write so QSortby can maintain collections, order tags, metafield definitions, the theme app embed and the checkout pixel. Shopify's native event delivery is wired up for you.</p></div>
         <div class="step rv"><div class="sn">02</div><h3>Pick your surfaces</h3><p>Choose which collections to sort and which segments to rank. Flip the QSortby embed on in your theme editor so the first-party signals start flowing.</p></div>
         <div class="step rv"><div class="sn">03</div><h3>It reads what you already run</h3><p>Sorted collections land in your storefront and every sales channel, and your review app is picked up automatically &mdash; so review score works as a ranking signal with nothing to connect.</p></div>
       </div>
@@ -75,7 +76,7 @@ const native = [
     <div class="wrap">
       <div class="shead ctr rv" style="margin-bottom:2.5rem">
         <h2>Feeds the tools you already run.</h2>
-        <p class="lead-c">Review apps are read automatically — nothing to connect. Klaviyo and GA4 have their OAuth flow built and are opening to merchants in stages. Everything else travels through Shopify's own collections and metafields, so there's no proprietary lock-in.</p>
+        <p class="lead-c">Judge.me connects in one click and syncs its reviews; Fera, REVIEWS.io and Stamped are read from the metafields they already write. Klaviyo and GA4 connect today, with the data flows that use them opening in stages. On Pro and Growth, an MCP endpoint lets Claude or ChatGPT read your QSortby data and set up drafts you approve in the app. Everything else travels through Shopify's own collections, metafields and order tags, so there's no proprietary lock-in.</p>
       </div>
       <div class="intg rv">
         {ecosystem.map((n) => (
@@ -85,7 +86,7 @@ const native = [
           </div>
         ))}
       </div>
-      <p class="snote rv" style="margin-top:1.25rem">Review scores are picked up from whichever review app you already run &mdash; no keys, no setup &mdash; and can be used as a ranking signal straight away. Klaviyo and GA4 are built and rolling out. Everything else reads QSortby's work through standard Shopify collections, metafields and order tags.</p>
+      <p class="snote rv" style="margin-top:1.25rem">Review scores become a ranking signal (&ldquo;Top rated&rdquo;) straight away: Judge.me via a one-click connect, Fera, REVIEWS.io and Stamped via their metafields. Klaviyo and GA4 connect now; their data flows are rolling out. <strong>AI connections</strong> (Pro+, opening in stages) expose your store's QSortby data over MCP &mdash; collections, why a product ranks where it does, influenced revenue, movers, experiments and the intent mix, never shopper personal data &mdash; so an assistant can answer questions and propose drafts; nothing goes live without you. Everything else reads QSortby's work through standard Shopify collections, metafields and order tags.</p>
     </div>
   </section>
 
