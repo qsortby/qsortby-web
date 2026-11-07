@@ -1,0 +1,30 @@
+---
+// Help launcher — our own floating button and menu, in place of the QOne
+// widget's launcher (Base.astro loads widget.js with data-hidden). Two jobs
+// only: open the support chat, and get to the user guide. Wired in app.js,
+// styled at the bottom of global.css.
+//
+// Rendered hidden and revealed by app.js: without JS it would be a button that
+// does nothing, and the guide is in the nav anyway. The chat item stays hidden
+// until the widget has actually mounted, so a blocked or disabled widget leaves
+// a menu with just the guide link rather than a dead "Chat" row.
+import { GUIDE_URL } from '../consts';
+---
+<div class="help" hidden>
+  <div class="help-menu" id="help-menu" role="menu" aria-label="Help and support">
+    <button type="button" class="help-item help-chat" role="menuitem">
+      <span class="help-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg></span>
+      <span class="help-tx"><b>Chat with support</b><small class="help-hint">someone on the QSortby team</small></span>
+    </button>
+    <div class="help-sep help-chat" role="separator"></div>
+    <a class="help-link" role="menuitem" href={GUIDE_URL}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z" /><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z" /></svg>
+      Help center
+    </a>
+  </div>
+  <button type="button" class="help-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="help-menu" aria-label="Help and support">
+    <svg class="i-q" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
+    <svg class="i-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
+    <span class="help-badge" hidden></span>
+  </button>
+</div>

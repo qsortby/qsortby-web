@@ -36,6 +36,14 @@ export const DEMO_PRODUCT_KEY = DEMO_TEST_MODE
   : "fp_ab49994270d17cd686485bfd";
 export const DEMO_EVENT = "demo";
 
+// Support chat — the same QOne Desk product (and the same key above), loaded
+// once in Base.astro with its own launcher hidden; components/HelpLauncher is
+// the button that opens it. Which corner the chat panel opens in is a Desk
+// setting: keep it bottom-right, above our launcher. The 20px offset is pinned
+// on the script tag. Same host as book.js: the widget takes its API origin
+// from its own src, so it has to stay on qdn.
+export const SUPPORT_WIDGET_URL = "https://qdn.qone.work/widget.js";
+
 // User guide — canonical page lives at /guide; also served on the guide.qsortby.com
 // subdomain (same Netlify site, see netlify.toml). Point links at the subdomain.
 export const GUIDE_URL = "https://guide.qsortby.com";

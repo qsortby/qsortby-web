@@ -53,6 +53,60 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
   });
 
+  /* help launcher (components/HelpLauncher.astro) — our button in place of
+     the QOne widget's, which Base.astro loads with data-hidden. The widget
+     arrives async and mounts only once its config has loaded, so poll for it
+     (every 0.5s, up to 20s) and show the chat item once it has mounted. */
+  var help = document.querySelector('.help');
+  if (help) {
+    var hb = help.querySelector('.help-btn');
+    var badge = help.querySelector('.help-badge');
+    var hint = help.querySelector('.help-hint');
+    var hint0 = hint.textContent;
+    var setHelp = function (open) {
+      help.classList.toggle('open', open);
+      hb.setAttribute('aria-expanded', open ? 'true' : 'false');
+      hb.setAttribute('aria-label', open ? 'Close help menu' : 'Help and support');
+    };
+    help.hidden = false;
+    hb.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = !help.classList.contains('open');
+      // The chat panel opens right above this button, so a click here while
+      // it is up means "back to the menu": close the chat first. The widget
+      // reports no open/close state to track, and close() on a panel that is
+      // already closed changes nothing.
+      if (open && window.QOneDesk) window.QOneDesk.close();
+      setHelp(open);
+    });
+    document.addEventListener('click', function (e) { if (!help.contains(e.target)) setHelp(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && help.classList.contains('open')) { setHelp(false); hb.focus(); }
+    });
+    help.querySelector('.help-item').addEventListener('click', function () {
+      setHelp(false);
+      if (window.QOneDesk) window.QOneDesk.open();
+    });
+    var tries = 0, hooked = false;
+    var poll = setInterval(function () {
+      var desk = window.QOneDesk;
+      if (desk && !hooked) {
+        hooked = true;
+        desk.on('unread', function (n) {
+          n = typeof n === 'number' ? n : 0;
+          badge.hidden = !n;
+          badge.textContent = n > 9 ? '9+' : n;
+          hint.textContent = n ? 'a reply is waiting for you' : hint0;
+        });
+      }
+      // The host is display:none when a visitor has switched the widget off
+      // (?qone-feedback=off), and then the chat cannot open.
+      var host = document.querySelector('[data-qone-feedback]');
+      if (host && host.style.display !== 'none') help.classList.add('ready');
+      if (help.classList.contains('ready') || ++tries > 40) clearInterval(poll);
+    }, 500);
+  }
+
   /* ============ LIVE RANKING TABLE ============
      Rows are absolutely positioned inside #js-board; we translateY each to its
      rank slot so a reorder slides rows past one another (Linear-quiet motion). */
