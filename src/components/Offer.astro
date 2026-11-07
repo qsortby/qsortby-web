@@ -66,11 +66,18 @@ const TABS: Tab[] = [
   },
   {
     key: 'upsell',
-    label: 'Upsell',
-    sub: 'Add upsell blocks to any touchpoint, and personalize what they recommend.',
+    label: 'Upsell AI',
+    sub: 'Offers learned from your own orders, placed where a shopper is deciding, re-ranked by why they came.',
+    // Every row is checkable in the app. Row 2 is the popup's "How products
+    // are chosen" sources + the bought-together block (the nightly affinity
+    // rebuild, apps/api services/affinity + storefront-data); row 3 is the
+    // Intent suggest switch on the cart, popup, checkout and thank-you editors
+    // (Growth). Nothing here may describe the learned per-intent picks or the
+    // trained model as ranking a storefront — both are in testing.
     rows: [
-      { title: 'Add upsell blocks anywhere', desc: 'Add a block to the cart drawer, checkout, thank-you page, home or product page, and set the rule it follows — frequently bought together, best sellers, or trending.' },
-      { title: 'Personalize what each block recommends', desc: 'Show different products to each shopper based on their browsing behavior, session activity, and what’s actually selling.' },
+      { title: 'Add upsell blocks anywhere', desc: 'Cart drawer, free-shipping bar, pop-up, bought-together, checkout and thank-you page. Set the rule each one follows and the conditions it shows under.' },
+      { title: 'Offers learned from your own orders', desc: 'Bought together, added together, viewed together and similar are rebuilt every night from your order lines and sessions — no hand-kept bundle list, and nothing sold out or already in the cart is ever offered.' },
+      { title: 'Re-ranked by why the shopper came', desc: 'Switch on Intent suggest and the cart, pop-up, checkout and thank-you offers re-rank by what this visit came for — a gift buyer and someone replacing a product see different offers from the same cart.' },
     ],
   },
 ];

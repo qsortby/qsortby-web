@@ -124,7 +124,9 @@
   header.site.scrolled { border-bottom-color:var(--line); }
   .nav { @apply flex items-center justify-between h-16; }
   .logo { @apply flex items-center gap-2.5 font-display font-bold text-lg text-ink; letter-spacing:-.02em; }
-  .logomark { @apply h-7 w-auto shrink-0; }
+  /* 32px: the lowercase logo (brand guideline p.07) carries the y descender, so the
+     box is taller than the Q; h-8 keeps the Q at the 28px the uppercase mark had. */
+  .logomark { @apply h-8 w-auto shrink-0; }
   .nav-links { @apply hidden lg:flex items-center gap-7 text-sm font-medium text-ink-2; }
   .nav-links a { @apply transition-colors; }
   .nav-links a:hover { @apply text-ink; }

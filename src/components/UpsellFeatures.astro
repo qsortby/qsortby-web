@@ -1,6 +1,6 @@
 ---
 /**
- * UPSELL — "how it works" detail, four sections under the page's How-it-works
+ * UPSELL AI — "how it works" detail, five sections under the page's How-it-works
  * steps. Same shape as components/MerchandisingFeatures.astro: copy + one
  * illustration per claim, alternating sides via the sitewide `.split`/
  * `.split-rev` classes. Self-contained `uf-*` styling — this page never
@@ -40,18 +40,48 @@ const SURFACES = [
   <div class="split split-rev rv">
     <div class="uf-copy">
       <h2>Set the rule behind each block</h2>
-      <p class="lead">Frequently bought together, best sellers, or trending, pick what a block suggests, then layer display rules on top, cart over $50, contains a tag, comes from a vendor, so it only shows when it actually fits.</p>
+      <p class="lead">Pick what a block suggests — best sellers, trending, your own list, or one of the lists learned from your orders — then layer display rules on top: cart over $50, contains a tag, comes from a vendor, so it only shows when it actually fits. A pop-up can start from one cart product, the most expensive, the first in, or the one with most units.</p>
     </div>
     <div class="uf-viz">
       <div class="uf-panel">
         <span class="uf-label">Block rule</span>
-        <div class="uf-rule"><span>Recommends</span><b>Best sellers</b></div>
+        <div class="uf-rule"><span>Recommends</span><b>Bought together</b></div>
+        <div class="uf-rule"><span>Starting from</span><b>Most expensive in cart</b></div>
         <span class="uf-label" style="margin-top:18px">Only show when</span>
         <div class="uf-chips">
           <span class="uf-chip">Cart &gt; $50</span>
           <span class="uf-chip">Tag: outdoor</span>
           <span class="uf-chip">Vendor: Trailhead</span>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2b — learned from orders. The four lists are services/storefront-data's
+       `type`s (bought / added / viewed / similar), rebuilt nightly by
+       workers/product-affinity + product-similar; a pair counts from two
+       orders (MIN_PAIR_COUNT). Also what the popup's "How products are chosen"
+       offers and the bought-together block reads. No counts are shown: they
+       are the merchant's own, and the site must not invent one. -->
+  <div class="split rv">
+    <div class="uf-copy">
+      <h2>Learned from your orders, rebuilt every night</h2>
+      <p class="lead">QSortby keeps four lists for every product — what it is <b>bought</b> with, <b>added</b> to the cart with, <b>viewed</b> with, and what it is <b>similar</b> to — read from your own order lines and sessions and rebuilt nightly, so a pairing that stopped selling stops being offered. A pair has to appear in more than one order to count, so one unusual basket never becomes a recommendation.</p>
+    </div>
+    <div class="uf-viz">
+      <div class="uf-panel">
+        <span class="uf-label">Trail Runner &middot; related lists &middot; rebuilt nightly</span>
+        {[
+          { k: 'Bought together', items: ['Steel Bottle', 'Trail Socks', 'Running Cap'] },
+          { k: 'Added together', items: ['Trail Socks', 'Everyday Tee'] },
+          { k: 'Viewed together', items: ['Field Watch', 'Studio Headphones'] },
+          { k: 'Similar', items: ['Road Runner', 'Trail Runner GTX'] },
+        ].map((l) => (
+          <div class="uf-list">
+            <span class="uf-list-k">{l.k}</span>
+            <span class="uf-list-v">{l.items.join(' · ')}</span>
+          </div>
+        ))}
       </div>
     </div>
   </div>
@@ -89,7 +119,7 @@ const SURFACES = [
   <div class="split split-rev rv">
     <div class="uf-copy">
       <h2>Re-ranked by what the shopper came for</h2>
-      <p class="lead">On Growth, switch on Intent suggest and the cart, popup, checkout and thank-you offers re-rank their own suggestions by why each visit came — someone buying a gift and someone replacing a product can see different offers from the same cart. A shopper with nothing read sees the normal order.</p>
+      <p class="lead">On Growth, switch on Intent suggest and the cart, popup, checkout and thank-you offers re-rank their own suggestions by why each visit came — someone buying a gift and someone replacing a product can see different offers from the same cart. A shopper with nothing read sees the normal order. Then the <a href="/features/intent-ai">Intent AI on/off test</a> holds a share of shoppers on the plain offers and compares how many in each group bought, so you read whether it paid instead of guessing.</p>
     </div>
     <div class="uf-viz">
       <div class="uf-panel dark">
@@ -137,6 +167,13 @@ const SURFACES = [
   .uf-chips { display:flex; flex-wrap:wrap; gap:8px; }
   .uf-chip { font-family:var(--mono); font-size:11px; font-weight:600; color:var(--ink-2);
     background:var(--bg-2); border:1px solid var(--line); border-radius:999px; padding:6px 12px; }
+
+  /* section 2b — the four learned lists */
+  .uf-list { display:flex; flex-direction:column; gap:3px; padding:10px 0; border-top:1px solid var(--line); }
+  .uf-list:first-of-type { border-top:0; padding-top:0; }
+  .uf-list-k { font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--green-ink); }
+  .uf-list-v { font-size:var(--fs-body); font-weight:600; color:var(--ink); }
 
   /* section 3 — guardrails: skipped vs. valid rows */
   .uf-grow { display:flex; align-items:center; gap:10px; padding:10px 11px; border-radius:11px;

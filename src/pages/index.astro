@@ -7,18 +7,20 @@ import IntentTeaser from '../components/IntentTeaser.astro';
 import { APP_STORE_URL } from '../consts';
 import BookDemo from '../components/BookDemo.astro';
 
-const title = 'QSortby — Collection Sorting & Upsells for Shopify';
+const title = 'QSortby — Sort by sales. Upsell by AI. | Shopify';
 const description =
-  'Auto-sort Shopify collections on a rule you write — then check the result: why each product ranks where it does, what the last run changed, and what it earned.';
+  'Auto-sort Shopify collections by what sells, then upsell in the cart, popup, checkout and thank-you page with offers learned from your own orders and re-ranked by why each shopper came. Every sort and every offer measured in your own dashboard.';
 ---
 <Base title={title} description={description}>
   <!-- ===================== HERO ===================== -->
   <section class="hero">
     <div class="wrap herogrid">
       <div class="hero-copy">
-        <h1>Turn Every Collection Into a Sales Machine — Sort Smarter, Sell More.</h1>
+        {/* The brand tagline, verbatim (consts.TAGLINE): the dot is always
+            brand green and the line is never translated. */}
+        <h1>Sort by sales<em style="color:var(--green)">.</em> Upsell by AI<em style="color:var(--green)">.</em></h1>
         <p class="lead">
-          Real-time sorting by trending, best-selling, or your own custom rules — fully automated, always up to date.
+          Collections rank themselves by what is selling. Then the right add-on is suggested at the moment a shopper is deciding — learned from your own orders, re-ranked by why they came, and measured in your own dashboard.
         </p>
         <div class="hero-cta">
           <a href={APP_STORE_URL} class="btn btn-accent btn-lg">Install free <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -106,6 +108,54 @@ const description =
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ===================== LEARNS FROM YOUR ORDERS =====================
+       The machine-learning story, told at the level a merchant can verify in
+       the app, with its status said out loud. Three cards:
+         1. bought-together pairs — the nightly market-basket rebuild from
+            customer_order_lines (apps/api services/affinity; a pair counts from
+            two orders). The API's isAffinityRanked flag is NOT merchant-visible,
+            so the card must not claim the app "says so" when a list is padded.
+         2. the live "bought together" goes-with source — switches a partner only
+            after a clear margin and a week's dwell; an unsellable partner is
+            replaced at once (services/pair-resolution).
+         3. the per-intent learned picks — computed nightly, held in TESTING
+            until they beat the store's own best sellers on visits they did not
+            learn from, three nights running (packages/shared intent-fit), shown
+            as "Ready" in the Intent tab and NOT used to rank. Do not move that
+            card to "live" until the app serves it by default.
+       Status words match /features/intent-ai: Live / Testing. -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="shead ctr shead-lg rv" style="margin-bottom:2.5rem">
+        <span class="eyebrow"><span class="dot"></span>Learns from your orders</span>
+        <h2>Upsells that learn from your store — and have to prove it first.</h2>
+        <p class="lead-c">No bundle list to maintain. QSortby reads what your shoppers actually buy together, keeps those offers current as the orders change, and holds anything it learns in testing until it beats what you already have.</p>
+      </div>
+
+      <div class="bento rv">
+        <div class="b">
+          <span class="kicker">Live</span>
+          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7z"/><path d="M9 8a3 3 0 0 1 6 0"/><path d="M4 4h4"/></svg></span>
+          <h3>Bought together, from real orders</h3>
+          <p>Every night QSortby rebuilds which products your customers buy, add and view together from your own order lines and sessions. A pair has to show up in more than one order to count, so one unusual basket never becomes a recommendation.</p>
+        </div>
+        <div class="b">
+          <span class="kicker">Live</span>
+          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5"/><path d="M18 4v4h-4"/><path d="M20 12a8 8 0 0 1-14 5"/><path d="M6 20v-4h4"/></svg></span>
+          <h3>Goes-with that keeps up with your orders</h3>
+          <p>A goes-with rule can follow your live purchases: a partner is swapped only once a challenger has clearly overtaken it and held that lead for a week, so your product pages are not reshuffled by one busy weekend. A partner that stops being sellable is replaced without waiting.</p>
+        </div>
+        <div class="b">
+          <span class="kicker">Testing</span>
+          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg></span>
+          <h3>Learning that has to beat your best sellers</h3>
+          <p>For each reason a visit comes — a gift, a replacement, a treat — QSortby learns which products those shoppers go on to buy. Those picks stay in testing, measured against your own best sellers on visits they never learned from, and are shown to you in the Intent tab as <b>Ready</b> only once they clearly win, three nights in a row. Nothing learned ranks your storefront without you.</p>
+        </div>
+      </div>
+      <p class="rv" style="margin-top:1.5rem;text-align:center;font-size:var(--fs-caption);color:var(--muted)"><a href="/features/upsell-blocks">How Upsell AI works →</a> &nbsp;·&nbsp; <a href="/features/intent-ai">How Intent AI learns →</a></p>
     </div>
   </section>
 

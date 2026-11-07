@@ -138,6 +138,14 @@ const FAQ = [
     a: 'Run the <b>Intent AI on/off test</b>. A share of your shoppers get the same store without Intent AI, and the test compares how many shoppers in each group bought anything, anywhere on the store. It runs for a planned number of weeks and is read once at the end, so an early lucky streak cannot decide it.',
   },
   {
+    q: 'What does Intent AI learn from?',
+    a: 'Your own store. Which products each reason’s shoppers went on to buy after viewing them, held against what you already sell best; whether an order was a gift, read from the order itself; and the bought-together, added-together and viewed-together lists rebuilt nightly from your order lines. Product tags are drafted by AI from your catalogue, and you can edit them. Nothing learned on another store ranks yours.',
+  },
+  {
+    q: 'If the learned picks pass the bar, do they go live by themselves?',
+    a: 'No. Passing the bar turns a reading to <b>Ready</b> in your Intent tab; a person decides whether it ever ranks, and today it does not. What the test does buy you is a number you can trust: the picks were measured on visits they never learned from, against your own best sellers, and had to win three nights running — a lucky night cannot pass.',
+  },
+  {
     q: 'Is the machine-learning part ranking my store?',
     a: 'No. What Intent AI learns — which products each intent’s shoppers buy, and a trained model — is shown to you in the Intent tab as in testing, measured against what you already have on visits it did not learn from, and kept off your storefront. Today your storefront is ranked by your formula and your product tags.',
   },
@@ -322,6 +330,7 @@ const FAQ = [
         <div class="shead ctr" style="margin-bottom:2rem">
           <span class="eyebrow"><span class="dot"></span>How it learns</span>
           <h2>Learning that has to beat what you already have</h2>
+          <p class="lead-c">Four steps, each one checkable in your Intent tab — and the last one is a bar, not a switch.</p>
         </div>
         <IntentLearn />
       </div>

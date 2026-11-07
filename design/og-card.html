@@ -56,6 +56,7 @@ h1{
   font-size:88px; line-height:1.06; font-weight:700; letter-spacing:-.036em;
 }
 h1 .g{color:var(--green-ink)}
+.sub .g{color:var(--green)}
 
 .sub{
   margin-top:32px; font-size:32px; line-height:1.4; color:var(--ink-2); font-weight:500;
@@ -64,7 +65,6 @@ h1 .g{color:var(--green-ink)}
 .mark{
   display:flex; align-items:center; gap:16px; margin-top:54px;
 }
-.mark span{font-size:38px; font-weight:700; letter-spacing:-.022em}
 
 /* ---------- right: the order, drawn without any invented UI ---------- */
 .stack{
@@ -102,15 +102,12 @@ h1 .g{color:var(--green-ink)}
 <div>
   <div class="eyebrow"><i></i>Shopify collection merchandising</div>
   <h1>Sort your<br>collections.<br><span class="g">See why.<br>Prove it worked.</span></h1>
-  <p class="sub">Your rule. Your reasoning. Your numbers.</p>
+  <p class="sub">Sort by sales<span class="g">.</span> Upsell by AI<span class="g">.</span> Offers learned from your own orders.</p>
   <div class="mark">
-    <svg width="52" height="52" viewBox="0 0 32 32" fill="none">
-      <rect x="2.5" y="2.5" width="27" height="27" rx="7" stroke="#191a12" stroke-width="2"/>
-      <rect x="13.25" y="7.6" width="5.5" height="5.5" rx="1.5" fill="#0e9d63"/>
-      <rect x="13.25" y="13.75" width="5.5" height="5.5" rx="1.5" fill="#0e9d63" fill-opacity="0.55"/>
-      <rect x="13.25" y="19.9" width="5.5" height="5.5" rx="1.5" fill="#0e9d63" fill-opacity="0.28"/>
-    </svg>
-    <span>QSortby</span>
+    <!-- The logo, inline from public/logo.svg (brand guideline 2026-11). The
+         wordmark is part of the logo artwork — the guideline forbids setting
+         the product name in any other font, so no <span> beside the symbol. -->
+    <img src="file:///Users/qdn/GitHub/qsortby-web/public/logo.svg" width="249" height="60" alt="QSortby">
   </div>
 </div>
 

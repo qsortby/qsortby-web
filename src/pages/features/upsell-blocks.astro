@@ -5,16 +5,17 @@ import BookDemo from '../../components/BookDemo.astro';
 import UpsellHero from '../../components/UpsellHero.astro';
 import UpsellFeatures from '../../components/UpsellFeatures.astro';
 
-const title = 'Upsell Blocks — QSortby';
+const title = 'Upsell AI — QSortby';
 const description =
-  'Add personalized upsell blocks to any Shopify touchpoint — product page, cart drawer, free-shipping bar, checkout and thank-you page — each one built from the same ranking engine.';
+  'Upsell AI for Shopify: cart, pop-up, bought-together, free-shipping, checkout and thank-you offers learned from your own orders — rebuilt nightly, never sold out — and re-ranked by why each shopper came. Then an on/off test says whether it paid.';
 ---
-<Base title={title} description={description} breadcrumb="Upsell blocks">
+<Base title={title} description={description} breadcrumb="Upsell AI">
   <section class="phero phero-mint">
     <div class="wrap herogrid">
       <div>
-        <h1>Every touchpoint is a chance to sell more.</h1>
-        <p>From the cart drawer to the thank-you page, QSortby turns different surfaces into upsell opportunities, all fed by the same live ranking, so what's suggested is always what's actually selling and in stock.</p>
+        <div class="crumb">Upsell AI</div>
+        <h1>Offers learned from your orders, shown where they decide.</h1>
+        <p>From the cart drawer to the thank-you page, every block can draw on what your shoppers actually buy together — rebuilt every night from your own orders — and re-ranks it by why this visit came. Nothing sold out, nothing already in the cart.</p>
         <div class="hero-cta" style="margin-top:2rem">
           <a href={APP_STORE_URL} class="btn btn-accent btn-lg">Try it free <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
@@ -30,15 +31,15 @@ const description =
         <h2>How it works</h2>
       </div>
       <div class="steps">
-        <div class="step rv"><div class="sn">01</div><h3>Pick a touchpoint</h3><p>Choose where the block shows up, cart drawer, checkout, thank-you page, or wherever fits.</p></div>
-        <div class="step rv"><div class="sn">02</div><h3>Set the rule</h3><p>Choose what it suggests, frequently bought together, best sellers, or trending, and add display rules if it should only show sometimes.</p></div>
-        <div class="step rv"><div class="sn">03</div><h3>Publish</h3><p>Publish, and let it start working, live on the rule you set, turning that touchpoint into another chance to sell.</p></div>
+        <div class="step rv"><div class="sn">01</div><h3>Pick a touchpoint</h3><p>Cart drawer, free-shipping bar, pop-up, bought-together, checkout or thank-you page — wherever a shopper is already paying attention.</p></div>
+        <div class="step rv"><div class="sn">02</div><h3>Choose what it learns from</h3><p>Bought together, added together, viewed together, similar, your goes-with rules, best sellers, trending — or a list of your own. Add conditions so it only shows when it fits.</p></div>
+        <div class="step rv"><div class="sn">03</div><h3>Publish, then test it</h3><p>Go live on the rule you set. On Growth, switch on Intent suggest and run the on/off test to read what it earned — on the same shoppers, in your own dashboard.</p></div>
       </div>
     </div>
   </section>
 
   <!-- ===================== FEATURE DETAIL =====================
-       Four sections, each a claim + its own illustration, alternating sides
+       Five sections, each a claim + its own illustration, alternating sides
        (components/UpsellFeatures.astro) — same shape as the Merchandising
        page's detail section. -->
   <section class="sec" style="padding-top:0">
@@ -52,7 +53,7 @@ const description =
     <div class="wrap">
       <div class="cta rv">
         <h2>Ready to see it in <em>action?</em></h2>
-        <p>Start your free trial or book a demo with our upsell experts.</p>
+        <p>Install free, add one block, and read what it earned in your own dashboard.</p>
         <div class="hero-cta" style="justify-content:center">
           <a href={APP_STORE_URL} class="btn btn-accent btn-lg">Get started <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <BookDemo class="btn btn-ghost btn-lg">Book a demo</BookDemo>

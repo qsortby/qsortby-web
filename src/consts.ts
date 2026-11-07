@@ -1,6 +1,16 @@
 /** Shared site constants. */
 export const SITE_NAME = "QSortby";
-export const TAGLINE = "Every sort has to prove it made you money.";
+// The brand tagline (brand guideline 2026-11, p.02/13): the header and hero
+// use it verbatim, the closing dot is always brand green, and it is never
+// translated. The old line — "Every sort has to prove it made you money." —
+// was an outcome claim; it is also why docs/APP_STORE_LISTING.md in the app
+// repo forbade reusing the site's tagline in the listing. This one is a
+// capability, so the same sentence can open the listing's intro.
+// 2026-11-07, owner's call: the guideline's "Auto-sort, then upsell." said
+// nothing about the AI the product is sold on. Two parallel clauses, "by AI"
+// beside "by sales" so AI reads as a source rather than a label. Both dots
+// are brand green. Update the guideline (p.02/13) to match.
+export const TAGLINE = "Sort by sales. Upsell by AI.";
 
 // Live App Store listing. Every primary CTA on the site points here.
 export const APP_STORE_URL = "https://apps.shopify.com/qsortby";
@@ -52,7 +62,7 @@ export const NAV = [
 export const FEATURES_NAV = [
   ["/features/merchandising", "Merchandising"],
   ["/features/personalization", "Personalization"],
-  ["/features/upsell-blocks", "Upsell blocks"],
+  ["/features/upsell-blocks", "Upsell AI"],
   ["/features/intent-ai", "Intent AI"],
 ] as const;
 

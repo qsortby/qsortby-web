@@ -15,8 +15,33 @@
  * Self-contained `il-` classes.
  */
 const CHECKS = ['30+ buying visits', '4 weeks of data', 'Beats your best sellers, clearly', '3 nights in a row'];
+
+// The four steps, in the order the data moves. Each is checkable in the app:
+// 1 the Intent tab's readings; 2 "checked against orders" on the same tab
+// (intent_case_labels — caseLabel() in apps/api services/intent-fit: gift from
+// the order's address, need-based from a product bought before, high-intent
+// from a repeat buyer, treat from the price band); 3 the nightly recompute
+// (/internal/intent-fit, started by workers/product-affinity); 4 the gate
+// above. Step 3 says "your store" on purpose: the fit is per shop and per
+// intent, and nothing from another store ranks this one.
+const STEPS = [
+  { n: '01', k: 'Read', t: 'Why this visit came', d: 'Five reasons, from this visit alone. Nothing read, nothing changes.' },
+  { n: '02', k: 'Check', t: 'Against the order', d: 'Did the gift buyer ship to someone else? Did the “replacing” visit buy something bought before? Readings are held against your orders.' },
+  { n: '03', k: 'Learn', t: 'Per intent, per product, your store only', d: 'Each night: how often that reason’s shoppers bought a product after viewing it, against everyone else — leaning on the tag until there is enough to go on.' },
+  { n: '04', k: 'Gate', t: 'Beat your best sellers', d: 'On visits it never learned from. Pass three nights running and the Intent tab says Ready. It still does not rank.' },
+];
 ---
 <div class="il">
+  <ol class="il-steps">
+    {STEPS.map((s) => (
+      <li>
+        <span class="il-n">{s.n}<i>{s.k}</i></span>
+        <b>{s.t}</b>
+        <span>{s.d}</span>
+      </li>
+    ))}
+  </ol>
+
   <div class="il-row">
     <div class="il-box">
       <span class="il-k">Learned picks</span>
@@ -66,6 +91,19 @@ const CHECKS = ['30+ buying visits', '4 weeks of data', 'Beats your best sellers
 
 <style is:global>
   .il { display:flex; flex-direction:column; gap:14px; }
+  .il-steps { list-style:none; margin:0 0 6px; padding:0; display:grid; grid-template-columns:1fr; gap:10px; counter-reset:none; }
+  @media (min-width:900px){ .il-steps { grid-template-columns:repeat(4, 1fr); } }
+  .il-steps li { display:flex; flex-direction:column; gap:6px; background:var(--surface); border:1px solid var(--line);
+    border-radius:14px; padding:14px 16px; position:relative; }
+  .il-n { display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:9.5px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .il-n i { font-style:normal; color:var(--green-ink); }
+  .il-steps li b { font-size:.95rem; font-weight:650; color:var(--ink); letter-spacing:-.01em; line-height:1.3; }
+  .il-steps li > span:last-child { font-size:var(--fs-caption); line-height:1.45; color:var(--ink-2); }
+  @media (min-width:900px){
+    .il-steps li:not(:last-child)::after { content:""; position:absolute; right:-9px; top:50%; width:8px; height:8px;
+      margin-top:-4px; border-right:2px solid var(--green); border-bottom:2px solid var(--green); transform:rotate(-45deg); }
+  }
   .il-row { display:grid; grid-template-columns:1fr; gap:8px; }
   @media (min-width:1024px){ .il-row { grid-template-columns:1fr 36px 1.25fr 36px 1fr; gap:0; align-items:stretch; } }
   .il-box, .il-gate { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px;
