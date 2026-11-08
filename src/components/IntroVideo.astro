@@ -230,7 +230,6 @@ const embedUrl = `https://www.youtube-nocookie.com/embed/${INTRO_VIDEO_ID}?autop
   }
   @media (prefers-reduced-motion: reduce) { .vbig::after { animation: none; } .vplayer img { transition: none; } }
 
-  /* The thumbnail's open space is lower-middle, between the copy and the
-     phone — the play button sits there rather than over the headline. */
-  .vbig { position: absolute; left: 55%; top: 66%; translate: -50% -50%; }
+  /* Play button dead centre of the frame. */
+  .vbig { position: absolute; left: 50%; top: 50%; translate: -50% -50%; }
 </style>
