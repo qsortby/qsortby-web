@@ -1,0 +1,111 @@
+{
+  "voice_id": "SSfU0eLfP3qeuR4j2bwD",
+  "model_id": "eleven_multilingual_v2",
+  "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.8,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "pad_seconds": 0.3,
+  "scenes": [
+    {
+      "id": "01-open",
+      "minDur": 5,
+      "vo": "Sort smarter. Sell more with AI. This is QSortby.",
+      "speed": 1.8
+    },
+    {
+      "id": "02-cost",
+      "minDur": 5,
+      "vo": "Every visit to your store costs you about the same."
+    },
+    {
+      "id": "03-numbers",
+      "minDur": 8,
+      "vo": "You already know these numbers. What a click costs you, how many of them ever convert, and what an order is worth."
+    },
+    {
+      "id": "04-six",
+      "minDur": 7,
+      "vo": "Two of those you can barely move. The third one you can, and there are six places to do it."
+    },
+    {
+      "id": "05-rules",
+      "minDur": 6,
+      "vo": "You set the rules once. No theme code, no developer."
+    },
+    {
+      "id": "06-data",
+      "minDur": 7,
+      "vo": "It runs on your own sales data, so it is right from the first day you switch it on."
+    },
+    {
+      "id": "07-learn",
+      "minDur": 11,
+      "vo": "And it keeps learning. Every order, every add to cart, every product view teaches QSortby what goes together. Bought together, added together, viewed together. So no bundle list ever goes stale."
+    },
+    {
+      "id": "08-collection",
+      "minDur": 7,
+      "vo": "Then it just runs. Your collection leads with whatever is selling right now,"
+    },
+    {
+      "id": "09-product",
+      "minDur": 6,
+      "vo": "and the product page shows what people actually buy alongside it."
+    },
+    {
+      "id": "10-cart",
+      "minDur": 8,
+      "vo": "By the time they open the cart, they are forty-one dollars from free shipping. So that is exactly what you offer."
+    },
+    {
+      "id": "11-popup",
+      "minDur": 6,
+      "vo": "Still browsing, and one well-timed offer catches them."
+    },
+    {
+      "id": "12-intent",
+      "minDur": 11,
+      "vo": "And it knows why they came. A gift buyer and someone replacing a product see different offers from the same cart, because Intent AI reads the visit, not the history."
+    },
+    {
+      "id": "13-checkout",
+      "minDur": 7,
+      "vo": "At checkout, one more add before they pay. No restart, no re-entering anything."
+    },
+    {
+      "id": "14-thankyou",
+      "minDur": 8,
+      "vo": "And once they have paid, one tap puts it on the same order. No risk to the sale you just made."
+    },
+    {
+      "id": "15-testing",
+      "minDur": 9,
+      "vo": "Everything it learns has to earn its place. New picks stay in testing until they beat your own best sellers, on shoppers they never learned from."
+    },
+    {
+      "id": "16-prove",
+      "minDur": 8,
+      "vo": "Then an on-off test on your own shoppers tells you whether it paid. Read once, at a planned end."
+    },
+    {
+      "id": "17-moments",
+      "minDur": 6,
+      "vo": "Six moments you were already paying for, and never selling into."
+    },
+    {
+      "id": "18-chart",
+      "minDur": 7,
+      "vo": "Same traffic. Same spend. A bigger order, every time."
+    },
+    {
+      "id": "19-close",
+      "minDur": 8,
+      "vo": "Cue sort by. Sort smarter. Sell more with AI. Free to install on the Shopify App Store.",
+      "speed": 1.8
+    }
+  ],
+  "speed": 1.6
+}

@@ -1,0 +1,24 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="base.js"></script><script src="data.js"></script>
+<style>
+.shop{top:170px;opacity:0;animation:in .8s .3s forwards}
+.grid .p{transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+body.sorted .grid{animation:none}
+.sortbadge{position:absolute;right:48px;top:40px;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:8px 12px;border:1px solid var(--line);border-radius:999px}
+.sortbadge i{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+body.sorted .sortbadge{color:var(--green-ink);border-color:var(--green-line);background:var(--green-soft)}body.sorted .sortbadge i{background:var(--green)}
+.callout{left:720px;top:620px;opacity:0;animation:in .6s 4.6s forwards}
+</style>
+<div class="stage" id="st"></div>
+<script>
+watermark(); stepper(0,'$165');
+const g=AURORA.slice(0,16);
+document.getElementById('st').innerHTML=shop('New Arrivals',24,`<div class="grid" id="g">${g.map((p,i)=>tile(p,i)).join('')}</div><div class="sortbadge" id="sb"><i></i><span id="sbt">Sort · manual</span></div>`)
+ +`<div class="callout"><b>41%</b>reach a product page</div>`;
+window.onStart=()=>after(()=>{
+  document.body.classList.add('sorted'); document.getElementById('sbt').textContent='Sort · best selling · live';
+  // reorder: best sellers to the front, by swapping positions visually
+  const order=[13,14,2,16-1,0,6,1,7,3,9,10,11,4,5,8,12].slice(0,16);
+  const els=[...document.querySelectorAll('#g .p')]; const rects=els.map(e=>e.getBoundingClientRect());
+  order.forEach((from,to)=>{const e=els[from]; e.style.transform=`translate(${rects[to].left-rects[from].left}px,${rects[to].top-rects[from].top}px)`; if(to<3){e.querySelector('.no').remove();e.insertAdjacentHTML('beforeend','<span class="fl">Top seller</span>')}});
+},2200);
+</script>

@@ -1589,3 +1589,87 @@ body.nav-open .help { visibility:hidden; }
 .help-sep { height:1px; margin:6px; background:var(--line); }
 .help-link { display:flex; align-items:center; gap:10px; padding:8px; border-radius:8px; font-size:.8125rem; color:var(--ink-2); }
 .fbar a { color:inherit; text-decoration:underline; text-underline-offset:2px; }
+
+/* =====================================================================
+   2026-11 REFRESH — same system as qpushly.com, final word on grounds.
+
+   Paper as the whole page ground read grey and flat, so the floor is white
+   again and colour is spent where it means something:
+     • hero        mint morning light behind the product, warm corner glow
+     • video band  cool neutral (#F5F7F6) — beige fought the green, dropped
+     • upsells     soft mint band
+     • final CTA   the one deep-green moment, white text
+   Cards and product windows stay white with cool light borders.
+   ===================================================================== */
+:root {
+  --bg:#FFFFFF; --bg-2:#F6F7F6;
+  --line:#E7E9EC; --line-2:#D6DADF;
+  --paper:#F6F7F6;                       /* small neutral fills (chips, icons) */
+  --paper-band:#F5F7F6; --paper-band-line:#E7ECEA;   /* neutral, not beige: beige fights the green */
+  --mint-band:#F1FAF6; --mint-band-line:#D6F3E7;
+}
+body { background:var(--bg); }
+header.site { background:rgba(255,255,255,.86); }
+.stickycta { background:rgba(255,255,255,.94); }
+
+.hero, .phero, .phero.phero-mint { isolation:isolate; background:
+  radial-gradient(42% 60% at 76% 40%, rgba(43,217,150,.26), transparent 70%),
+  radial-gradient(30% 40% at 96% 92%, rgba(255,184,107,.20), transparent 70%),
+  linear-gradient(180deg,#EAFAF3 0%,#FFFFFF 88%); }
+.phero:not(.phero-mint) { background:
+  radial-gradient(40% 70% at 85% 10%, rgba(43,217,150,.20), transparent 70%),
+  linear-gradient(180deg,#EEFAF4 0%,#FFFFFF 100%); }
+
+.alt { background:var(--paper-band); border-block:1px solid var(--paper-band-line); }
+.sec.mintband { background:var(--mint-band); border-block:1px solid var(--mint-band-line); }
+.band { background:var(--surface); border-color:var(--line); box-shadow:var(--shadow-float); }
+
+.cta { background:
+  radial-gradient(60% 90% at 85% 15%, rgba(43,217,150,.45), transparent 70%),
+  linear-gradient(150deg,#00A36B 0%,#067A55 55%,#04573D 100%);
+  border:0; color:#fff; }
+.cta::before, .cta::after { display:none; }
+.cta .eyebrow, .cta .eyebrow .dot { color:#D6F3E7; }
+.cta .eyebrow .dot { background:#D6F3E7; }
+.cta h2 { color:#fff; }
+.cta h2 em { color:#C9F5E2; }
+.cta p { color:rgba(255,255,255,.84); }
+.cta .btn-accent { background:#fff; color:#04573D; box-shadow:0 10px 24px -12px rgba(0,40,25,.5); }
+.cta .btn-accent:hover { background:#EAFAF3; }
+.cta .btn-ghost { color:#fff; border-color:rgba(255,255,255,.45); background:transparent; }
+.cta .btn-ghost:hover { border-color:#fff; background:rgba(255,255,255,.08); }
+
+/* Spacing for the coloured bands. The page used `padding-top:0` on most
+   sections because they all sat on one ground and two paddings stacked. Now a
+   band starts and ends with full room, and so does whatever follows it. */
+.sec.alt, .sec.mintband { padding-top:6rem !important; padding-bottom:6rem; }
+.sec.alt + .sec, .sec.alt + script + .sec, .sec.mintband + .sec, .hero + .sec { padding-top:6rem !important; }
+@media (max-width:767px) {
+  .sec.alt, .sec.mintband { padding-top:4rem !important; padding-bottom:4rem; }
+  .sec.alt + .sec, .sec.alt + script + .sec, .sec.mintband + .sec, .hero + .sec { padding-top:4rem !important; }
+}
+
+/* Hero tagline: one sentence per line, never a mid-sentence break. */
+.hero h1 .h1l { display:block; white-space:nowrap; }
+@media (max-width:379px) { .hero h1 .h1l { white-space:normal; } }
+
+/* "If you've said any of these" — six things merchants actually say, each as
+   a speech bubble, with the fix underneath. Deliberately still: the upsell
+   section below carries the animated vignettes, this one reads at a glance. */
+.said { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px 22px; }
+@media (max-width:1023px) { .said { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:639px)  { .said { grid-template-columns:minmax(0,1fr); gap:22px; } }
+.said li { display:flex; flex-direction:column; }
+.said li .said-q { flex:1; }
+.said-q { position:relative; margin:0; padding:20px 22px 22px; border-radius:18px 18px 18px 6px; background:var(--surface);
+  border:1px solid var(--line); box-shadow:0 1px 2px rgba(16,24,40,.04), 0 10px 24px -18px rgba(16,24,40,.25);
+  font-size:1.125rem; font-weight:600; line-height:1.38; letter-spacing:-.01em; color:var(--ink); text-wrap:balance;
+  transition:border-color .2s var(--ease), transform .2s var(--ease); }
+.said-q::before { content:"\201C"; display:block; height:22px; margin-bottom:6px; font-size:2.75rem; line-height:1; font-weight:700; color:var(--green); }
+.said-q::after { content:""; position:absolute; left:-1px; bottom:-9px; width:16px; height:10px; background:var(--surface);
+  border-left:1px solid var(--line); clip-path:polygon(0 0,100% 0,0 100%); }
+.said li:hover .said-q { border-color:var(--green-line); transform:translateY(-2px); }
+.said li:hover .said-q::after { border-color:var(--green-line); }
+.said-a { display:flex; gap:10px; align-items:flex-start; margin:18px 0 0 6px; font-size:var(--fs-body); line-height:1.5; color:var(--ink-2); }
+.said-a svg { flex:none; width:22px; height:22px; padding:4px; border-radius:50%; background:var(--green-soft); fill:none;
+  stroke:var(--green-ink); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; margin-top:1px; }

@@ -1,0 +1,23 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="base.js"></script>
+<style>
+.phone{left:750px;top:150px;transform:scale(.86);transform-origin:top center;opacity:0;animation:up .9s cubic-bezier(.2,.7,.2,1) .3s forwards}@keyframes up{from{opacity:0;transform:translateY(60px) scale(.86)}to{opacity:1;transform:scale(.86)}}
+.f{margin-top:10px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);font-size:13px;color:var(--ink2)}.f small{display:block;font-size:10px;color:var(--faint);margin-bottom:2px}
+.off{margin-top:14px;padding:12px;border-radius:12px;border:1px solid var(--green-line);background:var(--green-soft);opacity:0;animation:in .5s 1.8s forwards}
+.off .k{color:var(--green-ink)}.ci{display:flex;align-items:center;gap:10px;padding:8px 0 0;font-size:14px;font-weight:600}
+.add{margin-left:auto;padding:6px 10px;border-radius:8px;background:var(--ink);color:#fff;font-size:11px;font-weight:700;transition:background .3s}
+body.added .add{background:var(--green)}body.added .add span{display:none}body.added .add::after{content:"Added ✓"}
+.tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:20px;font-size:13px;color:var(--muted)}.tot b{font-size:22px;color:var(--ink)}
+.btn{margin-top:12px}
+.callout{left:1230px;top:470px;opacity:0;animation:in .6s 3.6s forwards}
+</style>
+<div class="stage">
+  <div class="phone"><div class="scr"><div class="notch"></div><span class="k">Checkout · payment</span>
+    <div class="f" style="margin-top:12px"><small>SHIP TO</small>Maya · 14 Nelson St, Bristol BS1</div>
+    <div class="f"><small>CARD</small>•••• •••• •••• 4242</div>
+    <div class="off"><span class="k">Add before you pay · no restart</span>
+      <div class="ci"><span class="thumb"><img src="../assets/products/candle-amber.svg"></span>Ember Candle · $38<span class="add"><span>Add</span></span></div></div>
+    <div class="tot"><span>Total</span><b id="tot">$351</b></div><span class="btn">Pay now</span>
+    <div class="home"></div></div></div>
+  <div class="callout"><b>$389</b>one tap · same checkout</div>
+</div>
+<script>watermark(); stepper(4,'$351','+$28');window.onStart=()=>after(()=>{document.body.classList.add('added');document.getElementById('tot').textContent='$389'},3200)</script>

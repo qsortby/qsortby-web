@@ -1,0 +1,23 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="base.js"></script><script src="data.js"></script>
+<style>
+.shop{top:170px;filter:blur(0);animation:blur .8s 1.2s forwards}@keyframes blur{to{filter:blur(6px);opacity:.6}}
+.dim{position:absolute;inset:0;background:rgba(30,30,26,0);animation:dim .8s 1.2s forwards;z-index:2}@keyframes dim{to{background:rgba(30,30,26,.35)}}
+.pop{position:absolute;left:50%;top:50%;width:560px;transform:translate(-50%,-50%) scale(.96);background:#fff;border-radius:22px;box-shadow:0 60px 120px -40px rgba(0,0,0,.5);padding:28px;z-index:3;opacity:0;animation:pop .6s cubic-bezier(.2,.7,.2,1) 1.6s forwards}
+@keyframes pop{to{opacity:1;transform:translate(-50%,-50%)}}
+.pop .im{height:220px;border-radius:14px;background:#f1e2e0;display:grid;place-items:center}.pop .im img{width:36%}
+.pop .k{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--green-ink);margin-top:18px;display:block}
+.pop h4{font-size:24px;font-weight:700;letter-spacing:-.02em;margin-top:6px}
+.pop p{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.5}
+.pop .acts{display:flex;align-items:center;gap:18px;margin-top:18px}
+.pop .yes{padding:12px 20px;border-radius:10px;background:var(--green);color:#fff;font-weight:700;font-size:14px}.pop .no{font-size:13px;color:var(--faint)}
+body.added .pop .yes{background:var(--green-ink)}body.added .pop .yes::after{content:"  ✓ Added"}
+.callout{left:300px;top:560px;z-index:4;opacity:0;animation:in .6s 4.2s forwards}
+</style>
+<div class="stage" id="st"></div>
+<script>
+watermark(); stepper(3,'$323','+$64');
+document.getElementById('st').innerHTML=shop('New Arrivals',24,`<div class="grid">${AURORA.slice(0,16).map((p,i)=>tile(p,i)).join('')}</div>`)
++`<div class="dim"></div><div class="pop"><div class="im"><img src="../assets/products/perfume-rose.svg"></div><span class="k">One-time offer</span><h4>Add Matte Lip 04 for $28?</h4><p>Pairs with everything already in your cart. Added in one tap — no re-entering anything.</p><div class="acts"><span class="yes">Yes, add it</span><span class="no">No thanks</span></div></div>`
++`<div class="callout"><b>11%</b>accept rate</div>`;
+window.onStart=()=>after(()=>document.body.classList.add('added'),4000);
+</script>

@@ -1,0 +1,46 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+.stage{display:grid;grid-template-columns:560px 1fr;gap:90px;align-items:center;padding-top:0;height:1000px}
+.right{width:1100px;display:grid;gap:22px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.v{padding:30px 32px}
+.v .who{display:flex;align-items:center;gap:12px;font-size:17px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.v .read{font-size:28px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.v .read i{width:12px;height:12px;border-radius:50%;background:var(--green)}
+.cart{display:flex;align-items:center;gap:10px;font-size:19px;color:var(--muted);padding:10px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:14px}
+.off{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:14px;background:var(--paper);border:1px solid var(--line);font-size:21px;font-weight:600;margin-top:10px;opacity:0;transform:translateY(10px);animation:in .5s forwards}
+.off.top{background:var(--green-soft);border-color:var(--green-line)}
+.tab{padding:26px 32px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;opacity:0;animation:in .6s 7.4s forwards}
+.tab .t{font-size:22px;font-weight:600}.tab .s{font-size:18px;color:var(--muted);margin-top:4px}
+.tab .badges{display:flex;gap:10px}
+</style>
+<div class="stage">
+  <div class="copy">
+    <span class="eyebrow in d1"><i></i>Intent AI</span>
+    <h2 class="in d2">Re-ranked by why they came.</h2>
+    <p class="lead in d3">Same cart, two reasons for the visit, two different offers. What it learns stays in testing until it beats your best sellers.</p>
+  </div>
+  <div class="right">
+    <div class="pair">
+      <div class="card v in d2">
+        <div class="who">Visit A</div>
+        <div class="read in d3"><i></i>Buying a gift</div>
+        <div class="cart"><span class="thumb" style="width:40px;height:40px"><img src="../assets/products/perfume-rose.svg"></span>Rose Eau de Parfum</div>
+        <div class="off top" style="animation-delay:2.2s"><span class="thumb"><img src="../assets/products/box.svg"></span>Gift wrap &amp; card</div>
+        <div class="off" style="animation-delay:2.5s"><span class="thumb"><img src="../assets/products/candle-amber.svg"></span>Amber Candle Duo</div>
+      </div>
+      <div class="card v in d3">
+        <div class="who">Visit B</div>
+        <div class="read in d4"><i></i>Replacing something</div>
+        <div class="cart"><span class="thumb" style="width:40px;height:40px"><img src="../assets/products/perfume-rose.svg"></span>Rose Eau de Parfum</div>
+        <div class="off top" style="animation-delay:3.4s"><span class="thumb"><img src="../assets/products/box.svg"></span>Refill pack, 100 ml</div>
+        <div class="off" style="animation-delay:3.7s"><span class="thumb"><img src="../assets/products/candle-tin.svg"></span>Travel atomiser</div>
+      </div>
+    </div>
+    <div class="card tab">
+      <div><div class="t">Intent tab · what it has learned</div><div class="s">Learned picks per intent, checked on visits they never learned from</div></div>
+      <div class="badges"><span class="badge live">Intent suggest · live</span><span class="badge test">Learned picks · testing</span></div>
+    </div>
+  </div>
+  <div class="sub"><span>Intent AI reads why each visit came and re-ranks the offers. What it learns stays in <b>testing</b> until it beats your best sellers.</span></div>
+</div>

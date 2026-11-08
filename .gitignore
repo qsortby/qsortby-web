@@ -13,3 +13,9 @@ node_modules/
 # netlify
 .netlify/
 
+
+# listing video renders + voice-over (regenerate: design/video/README.md)
+design/video/out/
+design/video/audio/
+design/video/music.mp3
+design/video/music.wav

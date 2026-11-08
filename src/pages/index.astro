@@ -7,9 +7,10 @@ import IntentTeaser from '../components/IntentTeaser.astro';
 import { APP_STORE_URL } from '../consts';
 import BookDemo from '../components/BookDemo.astro';
 
-const title = 'QSortby — Sort by sales. Upsell by AI. | Shopify';
+const title = 'QSortby — Sort smarter. Sell more with AI. | Shopify';
 const description =
-  'Auto-sort Shopify collections by what sells, then upsell in the cart, popup, checkout and thank-you page with offers learned from your own orders and re-ranked by why each shopper came. Every sort and every offer measured in your own dashboard.';
+  'Auto-sort Shopify collections by what sells, then upsell in the cart, popup, checkout and thank-you page with offers learned from what your shoppers view, add and buy, re-ranked by why each shopper came. Every sort and every offer measured in your own dashboard.';
+import CardViz from '../components/CardViz.astro';
 ---
 <Base title={title} description={description}>
   <!-- ===================== HERO ===================== -->
@@ -18,9 +19,9 @@ const description =
       <div class="hero-copy">
         {/* The brand tagline, verbatim (consts.TAGLINE): the dot is always
             brand green and the line is never translated. */}
-        <h1>Sort by sales<em style="color:var(--green)">.</em> Upsell by AI<em style="color:var(--green)">.</em></h1>
+        <h1><span class="h1l">Sort smarter<em style="color:var(--green)">.</em></span> <span class="h1l">Sell more with AI<em style="color:var(--green)">.</em></span></h1>
         <p class="lead">
-          Collections rank themselves by what is selling. Then the right add-on is suggested at the moment a shopper is deciding — learned from your own orders, re-ranked by why they came, and measured in your own dashboard.
+          Collections rank themselves by what is selling. Then AI suggests the right add-on at the moment a shopper is deciding — learned from what your shoppers view, add and buy, re-ranked by why they came, and measured in your own dashboard.
         </p>
         <div class="hero-cta">
           <a href={APP_STORE_URL} class="btn btn-accent btn-lg">Install free <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -75,43 +76,37 @@ const description =
         <p class="lead-c">Nobody wakes up wanting to re-order a collection. Something looked wrong, and you went looking for a way to stop fixing it by hand.</p>
       </div>
 
-      <div class="bento rv">
-        <div class="b">
-          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v13M6 13l6 6 6-6"/></svg></span>
-          <h3>Sold-out products hog the front row</h3>
-          <p>Shopify's default sort leaves a sold-out product right where it was, someone has to notice and move it by hand. QSortby drops it within minutes automatically, and brings it back the moment it's restocked.</p>
-        </div>
-        <div class="b">
-          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 4.9L19 9.7l-4.9 1.8L12 16.4l-1.8-4.9L5 9.7l4.9-1.8z"/></svg></span>
-          <h3>New drops get buried before they have a chance</h3>
-          <p>A brand-new product has no sales history yet, so a best-seller sort puts it at the bottom on day one. QSortby factors in how new it is too, so it can actually rise.</p>
-        </div>
-        <div class="b">
-          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.9 3.1-6 7-6s7 2.1 7 6"/></svg></span>
-          <h3>Every visitor sees the exact same order</h3>
-          <p>No matter what a shopper is looking for, the collection looks the same for everyone. QSortby builds a feed from what this visit is actually doing, no login or purchase history needed.</p>
-        </div>
-        <div class="b">
-          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>
-          <h3>You reorder a collection and have no idea if it helped</h3>
-          <p>The order changes, then you wait two weeks and guess whether sales moved because of it or for ten other reasons. QSortby runs the new order as an A/B test against the old one, so you get real numbers instead of a guess.</p>
-        </div>
-        <div class="b">
-          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
-          <h3>Merchandising breaks down past a few hundred products</h3>
-          <p>Dragging products around by hand works fine with twenty items. With a thousand, it's just not possible anymore. QSortby lets you set the rule once and apply it to every collection, new products sort themselves in without you touching a thing.</p>
-        </div>
-        <div class="b">
-          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
-          <h3>Nobody can explain why a product ranks where it does</h3>
-          <p>Someone asks why a product is sitting where it is, and most apps just don't tell you. QSortby shows you the rule behind every ranking in plain language, and you can change it anytime.</p>
-        </div>
-      </div>
+      <ul class="said rv">
+        <li>
+          <p class="said-q">Sold-out products keep hogging the front row.</p>
+          <p class="said-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span>Dropped within minutes, and back the moment it's restocked.</span></p>
+        </li>
+        <li>
+          <p class="said-q">Our new drops get buried before they have a chance.</p>
+          <p class="said-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span>How new a product is counts too, so a launch can actually rise.</span></p>
+        </li>
+        <li>
+          <p class="said-q">Every visitor sees the exact same order.</p>
+          <p class="said-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span>A feed built from what this visit is doing. No login needed.</span></p>
+        </li>
+        <li>
+          <p class="said-q">I reordered a collection and have no idea if it helped.</p>
+          <p class="said-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span>The new order runs as an A/B test against the old one.</span></p>
+        </li>
+        <li>
+          <p class="said-q">Past a few hundred products, I can't merchandise by hand.</p>
+          <p class="said-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span>Set the rule once. Every collection, and every new product, follows it.</span></p>
+        </li>
+        <li>
+          <p class="said-q">Nobody can tell me why a product ranks where it does.</p>
+          <p class="said-a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span>The rule behind every position, in plain language, yours to change.</span></p>
+        </li>
+      </ul>
 
     </div>
   </section>
 
-  <!-- ===================== LEARNS FROM YOUR ORDERS =====================
+  <!-- ===================== LEARNS FROM YOUR SHOPPERS =====================
        The machine-learning story, told at the level a merchant can verify in
        the app, with its status said out loud. Three cards:
          1. bought-together pairs — the nightly market-basket rebuild from
@@ -127,30 +122,30 @@ const description =
             as "Ready" in the Intent tab and NOT used to rank. Do not move that
             card to "live" until the app serves it by default.
        Status words match /features/intent-ai: Live / Testing. -->
-  <section class="sec" style="padding-top:0">
+  <section class="sec mintband">
     <div class="wrap">
       <div class="shead ctr shead-lg rv" style="margin-bottom:2.5rem">
-        <span class="eyebrow"><span class="dot"></span>Learns from your orders</span>
+        <span class="eyebrow"><span class="dot"></span>Learns from your shoppers</span>
         <h2>Upsells that learn from your store — and have to prove it first.</h2>
-        <p class="lead-c">No bundle list to maintain. QSortby reads what your shoppers actually buy together, keeps those offers current as the orders change, and holds anything it learns in testing until it beats what you already have.</p>
+        <p class="lead-c">No bundle list to maintain. QSortby reads what your shoppers actually view, add and buy together, keeps those offers current as behavior changes, and holds anything it learns in testing until it beats what you already have.</p>
       </div>
 
       <div class="bento rv">
         <div class="b">
           <span class="kicker">Live</span>
-          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7z"/><path d="M9 8a3 3 0 0 1 6 0"/><path d="M4 4h4"/></svg></span>
-          <h3>Bought together, from real orders</h3>
-          <p>Every night QSortby rebuilds which products your customers buy, add and view together from your own order lines and sessions. A pair has to show up in more than one order to count, so one unusual basket never becomes a recommendation.</p>
+          <CardViz kind="pairs" />
+          <h3>Bought, added and viewed together</h3>
+          <p>Every night QSortby rebuilds which products your customers buy, add and view together from your own orders, cart adds and product views. A bought-together pair has to show up in more than one order to count, so one unusual basket never becomes a recommendation.</p>
         </div>
         <div class="b">
           <span class="kicker">Live</span>
-          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5"/><path d="M18 4v4h-4"/><path d="M20 12a8 8 0 0 1-14 5"/><path d="M6 20v-4h4"/></svg></span>
+          <CardViz kind="goeswith" />
           <h3>Goes-with that keeps up with your orders</h3>
           <p>A goes-with rule can follow your live purchases: a partner is swapped only once a challenger has clearly overtaken it and held that lead for a week, so your product pages are not reshuffled by one busy weekend. A partner that stops being sellable is replaced without waiting.</p>
         </div>
         <div class="b">
           <span class="kicker">Testing</span>
-          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg></span>
+          <CardViz kind="proof" />
           <h3>Learning that has to beat your best sellers</h3>
           <p>For each reason a visit comes — a gift, a replacement, a treat — QSortby learns which products those shoppers go on to buy. Those picks stay in testing, measured against your own best sellers on visits they never learned from, and are shown to you in the Intent tab as <b>Ready</b> only once they clearly win, three nights in a row. Nothing learned ranks your storefront without you.</p>
         </div>

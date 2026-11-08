@@ -1,0 +1,43 @@
+<!doctype html><meta charset="utf-8"><base href="../../video/scenes/"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="../../listing/shots/_shot.css"><script src="data.js"></script>
+<style>
+.places{left:72px;top:262px;width:680px;padding:10px 24px}
+.pl{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:16px;padding:15px 0;border-top:1px solid var(--line)}
+.pl:first-child{border-top:0}
+.pl .ic{width:48px;height:48px;border-radius:12px;background:var(--paper2);display:grid;place-items:center;color:var(--ink2)}
+.pl .ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.pl b{display:block;font-size:16px;font-weight:600}.pl small{font-size:13px;color:var(--muted)}
+.shop{left:800px;right:72px;top:262px;padding:26px 30px;opacity:1}
+.shop .grid{grid-template-columns:repeat(4,1fr);gap:12px}
+.shop::after{content:"";position:absolute;inset:0;background:rgba(30,30,26,.28)}
+.drawer{position:absolute;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 40px 90px -40px rgba(16,24,40,.4);padding:22px 24px;z-index:4}
+.drawer .hd{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.drawer .hd .k{margin:0}.drawer .hd .x{width:26px;height:26px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;font-size:13px;color:var(--muted)}
+.drawer .ci{font-size:15px}.drawer .ci .thumb{width:52px;height:52px}
+.drawer .qty{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--muted);padding:5px 10px;border:1px solid var(--line);border-radius:8px}
+.drawer .rec .ci{font-size:14px}.drawer .rec .ci .thumb{width:42px;height:42px}
+.drawer .btn{margin-top:16px;font-size:15px;padding:14px}
+.drawer{left:1108px;top:286px;width:396px;height:590px;border-radius:16px}
+</style>
+<div class="cap"><h1>Six places to lift the order. <span class="g">One engine.</span></h1>
+<p>Collection, product page, cart, pop-up, checkout and thank-you page — switch each on from one screen. <b>No theme code</b>; every place draws from the same learned lists.</p></div>
+<div class="brand"><img src="../assets/logo.svg"><span>Shopify app</span></div>
+<div class="card places">
+ <div class="pl"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><span><b>Collection</b><small>Ranked by what is selling</small></span><span class="pill live"><i></i>Live</span></div>
+ <div class="pl"><span class="ic"><svg viewBox="0 0 24 24"><path d="M20 7 12 3 4 7v10l8 4 8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg></span><span><b>Product page</b><small>Bought together · goes with this</small></span><span class="pill live"><i></i>Live</span></div>
+ <div class="pl"><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.5 11h11L21 7H6.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg></span><span><b>Cart</b><small>Free-shipping gap + one add</small></span><span class="pill live"><i></i>Live</span></div>
+ <div class="pl"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M8 12h8M12 9v6"/></svg></span><span><b>Pop-up</b><small>One well-timed offer</small></span><span class="pill live"><i></i>Live</span></div>
+ <div class="pl"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M3 10h18"/></svg></span><span><b>Checkout</b><small>One more add, no restart · Plus</small></span><span class="pill"><i></i>Not set up</span></div>
+ <div class="pl"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg></span><span><b>Thank-you page</b><small>Added to the same order</small></span><span class="pill live"><i></i>Live</span></div>
+</div>
+<div class="stage" id="st"></div>
+<div class="drawer"><div class="hd">Your cart <span class="k">2 items</span><span class="x">×</span></div>
+ <div class="ci" style="margin-top:6px"><span class="thumb"><img src="../assets/products/tee.svg"></span>Ridge Wool Sweater<span class="qty">1</span></div>
+ <div class="ci"><span class="thumb"><img src="../assets/products/tee.svg"></span>Wool Scarf<span class="qty">1</span></div>
+ <div class="ship">You're <b>almost</b> at free shipping<div class="bar"><i></i></div></div>
+ <div class="rec"><span class="k">Goes well with this</span>
+  <div class="ci"><span class="thumb"><img src="../assets/products/bottle.svg"></span>Clarity Serum<span class="add">Add</span></div>
+  <div class="ci"><span class="thumb"><img src="../assets/products/candle-amber.svg"></span>Ember Candle<span class="add">Add</span></div></div>
+ <span class="btn">Checkout</span></div>
+<script>
+document.getElementById('st').innerHTML=shop('New Arrivals',24,'<div class="grid">'+[13,14,2,0,6,1,7,3].map((i,k)=>tile(AURORA[i],k)).join('')+'</div>');
+</script>

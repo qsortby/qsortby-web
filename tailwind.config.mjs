@@ -13,15 +13,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: "#F4F1EA",
-        "bg-2": "#EDE9DF",
+        bg: "#FFFFFF",
+        "bg-2": "#F6F7F6",
         surface: "#ffffff",
         ink: "#1E1E1A",
         "ink-2": "#3D3C37",
         muted: "#5E5C55",
         faint: "#9A978E",
-        line: "#E2DDD1",
-        "line-2": "#D3CDBF",
+        line: "#E7E9EC",
+        "line-2": "#D6DADF",
         // primary = ink/near-black; emerald is the accent (kept under `green.*`)
         btn: { DEFAULT: "#1E1E1A", hover: "#3A3935" },
         green: {

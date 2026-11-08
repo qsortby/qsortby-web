@@ -1,0 +1,1 @@
+(function(){const s=document.createElement('div');s.className='streaks';let h='';for(let i=0;i<34;i++){h+=`<i style="left:${Math.random()*100}%;top:${Math.random()*100}%;--r:${(Math.random()*40-20).toFixed(0)}deg;--d:${(6+Math.random()*10).toFixed(1)}s;animation-delay:-${(Math.random()*10).toFixed(1)}s"></i>`}s.innerHTML=h;document.body.prepend(s)})();

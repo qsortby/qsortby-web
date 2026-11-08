@@ -1,0 +1,25 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="_dark.css"><script src="base.js"></script>
+<style>
+.panel{position:absolute;left:50%;top:130px;width:680px;--tx:-50%;padding:26px 32px}
+.panel .hd{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;margin-bottom:10px}.panel .hd img{width:34px;border-radius:9px}
+.row small{display:block;font-family:var(--mono);font-size:11px;color:rgba(244,241,234,.45);margin-top:3px;letter-spacing:.1em}
+.feed{position:absolute;left:1330px;top:200px;width:400px;padding:22px 26px;opacity:0;animation:in .7s 3.6s forwards}
+.feed .r{display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid rgba(255,255,255,.08);font-family:var(--mono);font-size:13px;color:rgba(244,241,234,.75)}
+.feed .r:first-of-type{border-top:0}.feed .r b{color:var(--green-bright)}
+</style>
+<body class="dark">
+<div class="stage" style="transform:scale(1.18);transform-origin:50% 42%">
+  <div class="glass panel in d1"><div class="hd"><img src="../assets/app-icon.svg">QSortby</div>
+    <div class="row"><div>Auto-sorted collection<small>COLLECTION PAGE</small></div><span class="tog" data-t="1.0"></span></div>
+    <div class="row"><div>Frequently bought together<small>PRODUCT PAGE</small></div><span class="tog" data-t="1.5"></span></div>
+    <div class="row"><div>Cart upsell + shipping bar<small>DRAWER · CART PAGE</small></div><span class="tog" data-t="2.0"></span></div>
+    <div class="row"><div>Popup upsell<small>ANY PAGE</small></div><span class="tog" data-t="2.5"></span></div>
+    <div class="row"><div>In-checkout upsell<small>CHECKOUT · PLUS</small></div><span class="tog" data-t="3.0"></span></div>
+    <div class="row"><div>Thank-you upsell<small>POST-PURCHASE</small></div><span class="tog" data-t="3.5"></span></div></div>
+  <div class="glass feed"><span class="k">Orders · live</span>
+    <div class="r"><span>#4821 · Ridge Wool Sweater</span><b>+1</b></div><div class="r"><span>#4822 · Ember Candle ×2</span><b>+2</b></div>
+    <div class="r"><span>#4823 · Aurora Low</span><b>+1</b></div><div class="r"><span>#4824 · Clarity Serum</span><b>+1</b></div>
+    <div class="r"><span>re-scored</span><b>4 s</b></div></div>
+</div>
+<script src="_dark.js"></script><script>watermark();window.onStart=()=>document.querySelectorAll('.tog').forEach(t=>after(()=>t.classList.add('on'),t.dataset.t*1000))</script>
+</body>

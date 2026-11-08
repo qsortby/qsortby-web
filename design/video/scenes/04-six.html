@@ -1,0 +1,25 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="base.js"></script>
+<style>
+.three{position:absolute;left:0;right:0;top:140px;display:flex;justify-content:center;gap:150px;opacity:.35;filter:blur(2px)}
+.three .stat .n{font-size:80px;color:var(--ink2)}
+.three .stat.hot{opacity:1;filter:none;animation:pop .6s 1.2s forwards}
+@keyframes pop{to{transform:scale(1.08)}}
+.lock{position:absolute;top:118px;font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--faint);opacity:0;animation:in .5s forwards}
+.six{position:absolute;left:50%;top:560px;transform:translateX(-50%) scale(1.5);transform-origin:top center}
+.six .stepper{position:static;transform:none;opacity:0;animation:in .8s 2.6s forwards;--tx:0px}
+.six .stepper .s .l{color:var(--muted)}
+.cap{position:absolute;left:0;right:0;top:480px;text-align:center;font-family:var(--mono);font-size:14px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);opacity:0;animation:in .6s 3.4s forwards}
+</style>
+<div class="stage">
+  <div class="three">
+    <div class="stat"><div class="n">$1.42</div><div class="c">Cost per click</div></div>
+    <div class="stat"><div class="n">2.1%</div><div class="c">Conversion</div></div>
+    <div class="stat hot"><div class="n">$165</div><div class="c">Average order value</div></div>
+  </div>
+  <div class="lock" style="left:505px;animation-delay:.6s">▲ hard to move</div>
+  <div class="lock" style="left:905px;animation-delay:.9s">▲ hard to move</div>
+  <div class="cap">Six places to move it</div>
+  <div class="six" id="six"></div>
+</div>
+<script>watermark();(function(){const h=document.getElementById('six');stepper(-1);const st=document.body.lastElementChild;h.appendChild(st);st.className='stepper';
+window.onStart=()=>{const steps=[...st.querySelectorAll('.s')];steps.forEach((s,i)=>after(()=>s.classList.add('lit'),3600+i*260));after(()=>st.querySelector('.rail').style.setProperty('--p',1),3600+6*260)}})()</script>

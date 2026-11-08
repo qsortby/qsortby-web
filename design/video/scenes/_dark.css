@@ -1,0 +1,5 @@
+/* particle streaks of the old cut's dark scenes */
+.streaks{position:absolute;inset:0;overflow:hidden;z-index:0}
+.streaks i{position:absolute;width:140px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,rgba(46,229,154,.55),transparent);
+  transform:rotate(var(--r));animation:drift var(--d) linear infinite;opacity:.5}
+@keyframes drift{from{transform:rotate(var(--r)) translateX(-300px)}to{transform:rotate(var(--r)) translateX(1100px)}}

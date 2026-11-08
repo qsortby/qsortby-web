@@ -1,0 +1,9 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="base.js"></script>
+<style>
+.six{position:absolute;left:50%;top:380px;transform:translateX(-50%) scale(1.55);transform-origin:top center}
+.six .stepper{position:static;transform:none;opacity:0;animation:in .8s .3s forwards;--tx:0px}
+.six .stepper .s{opacity:0;animation:in .4s forwards}
+.cap{position:absolute;left:0;right:0;top:300px;text-align:center;font-family:var(--mono);font-size:14px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);opacity:0;animation:in .6s .2s forwards}
+</style>
+<div class="stage"><div class="cap">Six moments · one engine</div><div class="six" id="six"></div></div>
+<script>watermark();(function(){stepper(6);const st=document.body.lastElementChild;document.getElementById('six').appendChild(st);st.className='stepper';[...st.querySelectorAll('.s')].forEach((s,i)=>s.style.animationDelay=(.6+i*.3)+'s')})()</script>

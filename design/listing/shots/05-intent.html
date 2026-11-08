@@ -1,0 +1,48 @@
+<!doctype html><meta charset="utf-8"><base href="../../video/scenes/"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="../../listing/shots/_shot.css"><script src="data.js"></script>
+<style>
+
+.drawer{position:absolute;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 40px 90px -40px rgba(16,24,40,.4);padding:22px 24px;z-index:4}
+.drawer .hd{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.drawer .hd .k{margin:0}.drawer .hd .x{width:26px;height:26px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;font-size:13px;color:var(--muted)}
+.drawer .ci{font-size:15px}.drawer .ci .thumb{width:52px;height:52px}
+.drawer .qty{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--muted);padding:5px 10px;border:1px solid var(--line);border-radius:8px}
+.drawer .rec .ci{font-size:14px}.drawer .rec .ci .thumb{width:42px;height:42px}
+.drawer .btn{margin-top:16px;font-size:15px;padding:14px}
+.drawer{top:318px;width:440px}
+.da{left:72px}.db{left:560px}
+.read{display:flex;align-items:center;gap:8px;margin-top:12px;padding:8px 12px;border-radius:999px;background:var(--green-soft);border:1px solid var(--green-line);font-size:12.5px;font-weight:700;color:var(--green-ink);width:max-content}
+.read i{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.cue{position:absolute;top:258px;width:440px;display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.5}
+.cue b{font-family:'Be Vietnam Pro';font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);padding:6px 10px;border:1px solid var(--line2);border-radius:8px;background:#fff;white-space:nowrap}
+.ca{left:72px}.cb{left:560px}
+.side{left:1050px;top:262px;width:478px}
+.side .rule{padding:12px 0}
+.note{position:absolute;left:1050px;top:520px;width:478px;padding:20px 24px;border-radius:18px;background:var(--ink);color:#F4F1EA;z-index:4}
+.note .k{color:rgba(244,241,234,.5)}.note p{font-size:15px;line-height:1.5;margin-top:4px}.note p b{color:var(--green-bright);font-weight:600}
+</style>
+<div class="cap"><h1>Intent AI: same cart, <span class="g">different offers</span></h1>
+<p>Each visit is read for <b>why it came</b> and the offers are re-ranked to match — no login, no history needed.</p></div>
+<div class="brand"><img src="../assets/logo.svg"><span>Shopify app</span></div>
+<div class="cue ca"><b>Visit A</b>searched “birthday gift for her” · 4 categories in 3 minutes</div>
+<div class="drawer da"><div class="hd">Your cart <span class="k">1 item</span><span class="x">×</span></div>
+ <div class="ci" style="margin-top:6px"><span class="thumb"><img src="../assets/products/perfume-rose.svg"></span>Oud Eau de Parfum<span class="qty">1</span></div>
+ <div class="read"><i></i>Buying a gift</div>
+ <div class="rec"><span class="k">For this visit</span>
+  <div class="ci"><span class="thumb"><img src="../assets/products/box.svg"></span>Gift wrap &amp; card<span class="add">Add</span></div>
+  <div class="ci"><span class="thumb"><img src="../assets/products/candle-amber.svg"></span>Ember Candle<span class="add">Add</span></div></div>
+ <span class="btn">Checkout</span></div>
+<div class="cue cb"><b>Visit B</b>came straight from search · 1 product, 40 seconds · bought before</div>
+<div class="drawer db"><div class="hd">Your cart <span class="k">1 item</span><span class="x">×</span></div>
+ <div class="ci" style="margin-top:6px"><span class="thumb"><img src="../assets/products/perfume-rose.svg"></span>Oud Eau de Parfum<span class="qty">1</span></div>
+ <div class="read"><i></i>Replacing something</div>
+ <div class="rec"><span class="k">For this visit</span>
+  <div class="ci"><span class="thumb"><img src="../assets/products/bottle.svg"></span>Refill, 100 ml<span class="add">Add</span></div>
+  <div class="ci"><span class="thumb"><img src="../assets/products/candle-tin.svg"></span>Travel atomiser<span class="add">Add</span></div></div>
+ <span class="btn">Checkout</span></div>
+<div class="card side"><span class="k">Read for this visit</span>
+ <div class="rule"><span>Signals</span><b>search · path · pace · price range</b></div>
+ <div class="rule"><span>Needs</span><b>No login, no history</b></div>
+ <div class="rule"><span>Stored</span><b>Nothing personal</b></div>
+ <div class="rule"><span>Checked against</span><b>Your own orders</b></div></div>
+<div class="note"><span class="k">Same cart · same moment</span>
+ <p>Two shoppers, one product in the cart. Intent AI re-ranks the <b>same learned lists</b> so each sees the offer that fits the reason they came.</p></div>

@@ -1,0 +1,36 @@
+/* Listing screenshots — 1600×900 on top of the video's scene kit (base.css).
+   Every page sets <base href="../../video/scenes/"> so the kit's relative asset
+   paths resolve; this file is loaded by its real path afterwards. */
+html,body{width:1600px;height:900px}
+#qs-mark,.wm,.sub{display:none!important}
+*,*::before,*::after{animation-play-state:running!important}
+.cap{position:absolute;left:72px;top:60px;z-index:6;max-width:1120px}
+.cap h1{white-space:nowrap;font-size:44px;line-height:1.08;font-weight:700;letter-spacing:-.035em;color:var(--ink)}
+.cap h1 .g{color:var(--green-ink)}
+.cap p{margin-top:14px;font-size:19px;line-height:1.45;color:var(--muted);max-width:860px}
+.cap p b{color:var(--ink);font-weight:600}
+.brand{position:absolute;right:72px;top:70px;z-index:6;display:flex;align-items:center;gap:10px}
+.brand img{height:28px}
+.brand span{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);padding-left:12px;border-left:1px solid var(--line2)}
+.shop{left:72px;right:72px;top:250px;border-radius:24px 24px 0 0}
+.grid{grid-template-columns:repeat(8,1fr)}
+.p .pr{display:none}
+.p .nm{padding-bottom:12px}
+.card{position:absolute;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 30px 70px -30px rgba(16,24,40,.35);padding:22px 24px;z-index:4}
+.card .k{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.rule{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:11px 0;border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+.rule:first-of-type{border-top:0}.rule b{color:var(--ink);font-weight:600}.rule .v{font-family:var(--mono);font-size:12px;color:var(--faint)}
+.chip{font-size:10.5px}
+.chip.off{color:var(--faint)}
+.phone{width:380px;height:780px;border-radius:58px;padding:12px}
+.phone .scr{border-radius:48px;padding:62px 22px 22px}
+.ci{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:14px;font-weight:600}.ci:first-of-type{border-top:0}
+.ci .thumb{width:46px;height:46px;border-radius:10px}
+.add{margin-left:auto;padding:6px 10px;border-radius:8px;background:var(--ink);color:#fff;font-size:11px;font-weight:700;white-space:nowrap}
+.rec{margin-top:14px;padding:12px;border-radius:12px;border:1px solid var(--green-line);background:var(--green-soft)}
+.rec .k{color:var(--green-ink)}.rec .ci{border:0;padding:8px 0 0}
+.ship{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--paper2);font-size:12.5px;font-weight:600}
+.ship b{color:var(--green-ink)}.ship .bar{margin-top:8px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}.ship .bar i{display:block;height:100%;width:76%;background:var(--green)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line2);background:#fff;color:var(--muted)}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+.pill.live{color:var(--green-ink);background:var(--green-soft);border-color:var(--green-line)}.pill.live i{background:var(--green)}

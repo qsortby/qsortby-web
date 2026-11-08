@@ -1,0 +1,17 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="base.js"></script>
+<style>
+.three{position:absolute;left:0;right:0;top:250px;display:flex;justify-content:center;gap:150px}
+.three .stat .n{font-size:96px;color:var(--ink2)}
+.big{position:absolute;left:0;right:0;top:520px;text-align:center}
+.big .n{font-size:190px}
+body.late .three{animation:dim .6s forwards}@keyframes dim{to{opacity:.35;filter:blur(2px)}}
+</style>
+<div class="stage">
+  <div class="three">
+    <div class="stat in d1"><div class="n">$1.42</div><div class="c">Cost per click</div></div>
+    <div class="stat in d2"><div class="n">9,412</div><div class="c">Visits · 30 days</div></div>
+    <div class="stat in d3"><div class="n">2.1%</div><div class="c">Conversion</div></div>
+  </div>
+  <div class="big stat in d6"><div class="n">$165</div><div class="c">Average order value</div></div>
+</div>
+<script>watermark();window.onStart=()=>after(()=>document.body.classList.add('late'),4200)</script>

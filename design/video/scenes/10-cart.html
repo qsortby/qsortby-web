@@ -1,0 +1,32 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="base.js"></script>
+<style>
+.phone{left:750px;top:150px;transform:scale(.86);transform-origin:top center;opacity:0;animation:up .9s cubic-bezier(.2,.7,.2,1) .3s forwards}@keyframes up{from{opacity:0;transform:translateY(60px) scale(.86)}to{opacity:1;transform:scale(.86)}}
+.ci{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:14px;font-weight:600}.ci:first-of-type{border-top:0}
+.ci .p{margin-left:auto;font-weight:500;color:var(--muted)}
+.ship{margin-top:16px;padding:14px;border-radius:12px;background:var(--paper2);opacity:0;animation:in .5s 1.6s forwards}
+.ship .t{font-size:12px;font-weight:600}.ship .t b{color:var(--green-ink)}
+.ship .b{height:8px;border-radius:4px;background:#e0ddd4;margin-top:8px;overflow:hidden}.ship .b i{display:block;height:100%;width:0;background:var(--green);animation:fill 1s 2s forwards}
+@keyframes fill{to{width:86%}}
+.rec{margin-top:14px;padding:12px;border-radius:12px;border:1px solid var(--green-line);background:var(--green-soft);opacity:0;animation:in .5s 3.6s forwards}
+.rec .k{color:var(--green-ink)}.rec .ci{border:0;padding:8px 0 0}
+.add{margin-left:auto;padding:6px 10px;border-radius:8px;background:var(--ink);color:#fff;font-size:11px;font-weight:700}
+.tot{display:flex;justify-content:space-between;margin-top:18px;font-size:13px;color:var(--muted)}.tot b{font-size:20px;color:var(--ink)}
+.btn{margin-top:12px}
+.callout{left:1230px;top:420px;opacity:0;animation:in .6s 2.2s forwards}
+.callout2{left:380px;top:560px;opacity:0;animation:in .6s 5.2s forwards}
+</style>
+<div class="stage">
+  <div class="phone"><div class="scr"><div class="notch"></div>
+    <span class="k">Cart · 2 items</span>
+    <div style="margin-top:12px">
+      <div class="ci"><span class="thumb"><img src="../assets/products/tee.svg"></span>Ridge Wool Sweater<span class="p">$165</span></div>
+      <div class="ci"><span class="thumb"><img src="../assets/products/cap.svg"></span>Wool Scarf<span class="p">$94</span></div></div>
+    <div class="ship"><div class="t"><b>$41</b> away from free shipping</div><div class="b"><i></i></div></div>
+    <div class="rec"><span class="k">Goes well with this</span>
+      <div class="ci"><span class="thumb"><img src="../assets/products/bottle.svg"></span>Clarity Serum<span class="add">Add · $64</span></div></div>
+    <div class="tot"><span>Subtotal</span><b>$259</b></div><span class="btn">Checkout</span>
+    <div class="home"></div></div></div>
+  <div class="callout"><b>$41</b>free-shipping gap · this cart</div>
+  <div class="callout callout2"><b>38%</b>of carts clear the threshold</div>
+</div>
+<script>watermark(); stepper(2,'$259','+$94')</script>

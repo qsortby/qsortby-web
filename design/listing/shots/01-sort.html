@@ -1,0 +1,28 @@
+<!doctype html><meta charset="utf-8"><base href="../../video/scenes/"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="../../listing/shots/_shot.css"><script src="data.js"></script>
+<style>
+.shop{top:262px;right:560px}
+.grid{grid-template-columns:repeat(5,1fr);gap:16px}
+.sortbadge{position:absolute;right:44px;top:36px}
+.p.so{opacity:.55}.p.so .im{filter:grayscale(1)}
+.p.so .fl{background:var(--ink2)}
+.rulecard{left:1080px;top:262px;width:448px}
+.signals{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.signals span{padding:6px 11px;border-radius:999px;border:1px solid var(--line2);font-size:12.5px;font-weight:600;color:var(--muted)}
+.signals span.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+</style>
+<div class="cap"><h1>Collections that rank <span class="g">themselves</span></h1>
+<p>Pick a signal — sales velocity, revenue, margin, conversion or trending — and every new order re-scores the collection in seconds. <b>Sold-out products move last</b> and come back on restock.</p></div>
+<div class="brand"><img src="../assets/logo.svg"><span>Shopify app</span></div>
+<div class="stage" id="st"></div>
+<div class="card rulecard"><span class="k">Rule · New Arrivals</span>
+  <div class="rule"><span>Sort by</span><b>Best selling · 7 days</b></div>
+  <div class="rule"><span>Sold out</span><b>Keep last · return on restock</b></div>
+  <div class="rule"><span>New arrivals</span><b>Boost 14 days</b></div>
+  <div class="rule"><span>Re-scores</span><span class="v">on every order</span></div>
+  <div class="signals" style="margin-top:14px"><span class="on">Sales velocity</span><span>Revenue</span><span>Margin</span><span>Conversion</span><span>Trending</span></div></div>
+<script>
+const order=[13,14,2,0,6,1,7,3,9,16].map(i=>AURORA[i]);
+document.getElementById('st').innerHTML=shop('New Arrivals',24,
+ '<div class="grid">'+order.map((p,i)=>i<3?tile(p,i,{flag:'Top seller'}):i===9?tile(p,i,{cls:'so',flag:'Sold out · last'}):tile(p,i)).join('')+'</div>'
+ +'<div class="sortbadge pill live"><i></i>Sort · best selling · live</div>');
+</script>

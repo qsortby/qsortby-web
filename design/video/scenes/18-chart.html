@@ -1,0 +1,27 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="base.js"></script>
+<style>
+.ch{position:absolute;left:260px;top:180px;width:1400px;height:520px}
+.ch svg{width:100%;height:100%;overflow:visible}
+.ch path.l{fill:none;stroke:var(--green);stroke-width:4;stroke-linecap:round;stroke-dasharray:2000;stroke-dashoffset:2000;animation:draw 2.4s .4s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.ch path.a{fill:url(#g);opacity:0;animation:in 1s 1.6s forwards}
+.pt{opacity:0;animation:in .3s forwards}.pt circle{fill:#fff;stroke:var(--green);stroke-width:4}.pt text{font-family:'Be Vietnam Pro';font-weight:700;font-size:22px;fill:var(--ink)}
+.pt tspan{font-family:var(--mono);font-size:11px;fill:var(--faint);font-weight:400;letter-spacing:.14em}
+.big{position:absolute;left:0;right:0;top:760px;text-align:center;opacity:0;animation:in .7s 3s forwards}
+.big .n{font-size:120px;font-weight:700;letter-spacing:-.04em;line-height:1}.big .n s{color:var(--faint);font-size:64px;font-weight:600;margin-right:24px;text-decoration-color:var(--faint)}
+.big .c{margin-top:14px;font-family:var(--mono);font-size:14px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+</style>
+<div class="stage">
+  <div class="ch"><svg viewBox="0 0 1400 520"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00A36B" stop-opacity=".25"/><stop offset="1" stop-color="#00A36B" stop-opacity="0"/></linearGradient></defs>
+    <path class="a" d="M60 420 L330 300 L600 215 L870 170 L1140 130 L1340 60 L1340 520 L60 520Z"/>
+    <path class="l" d="M60 420 L330 300 L600 215 L870 170 L1140 130 L1340 60"/>
+    <g class="pt" style="animation-delay:.5s"><circle cx="60" cy="420" r="9"/><text x="60" y="470" text-anchor="middle">$165<tspan x="60" dy="22">COLLECTION</tspan></text></g>
+    <g class="pt" style="animation-delay:1s"><circle cx="330" cy="300" r="9"/><text x="330" y="270" text-anchor="middle">$259<tspan x="330" dy="-26">BOUGHT WITH</tspan></text></g>
+    <g class="pt" style="animation-delay:1.4s"><circle cx="600" cy="215" r="9"/><text x="600" y="185" text-anchor="middle">$323<tspan x="600" dy="-26">CART</tspan></text></g>
+    <g class="pt" style="animation-delay:1.8s"><circle cx="870" cy="170" r="9"/><text x="870" y="140" text-anchor="middle">$351<tspan x="870" dy="-26">POPUP</tspan></text></g>
+    <g class="pt" style="animation-delay:2.2s"><circle cx="1140" cy="130" r="9"/><text x="1140" y="100" text-anchor="middle">$389<tspan x="1140" dy="-26">CHECKOUT</tspan></text></g>
+    <g class="pt" style="animation-delay:2.6s"><circle cx="1340" cy="60" r="9"/><text x="1340" y="30" text-anchor="middle">$421<tspan x="1340" dy="-26">THANK YOU</tspan></text></g>
+  </svg></div>
+  <div class="big"><div class="n"><s>$165</s>$421</div><div class="c">Average order value · Aurora demo store · illustrative figures</div></div>
+</div>
+<script>watermark()</script>

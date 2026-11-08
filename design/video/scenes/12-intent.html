@@ -1,0 +1,38 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="base.js"></script>
+<style>
+.phone{top:150px;transform:scale(.8);transform-origin:top center;opacity:0;animation:up .9s cubic-bezier(.2,.7,.2,1) forwards}
+.pa{left:470px;animation-delay:.3s}.pb{left:1030px;animation-delay:.6s}
+@keyframes up{from{opacity:0;transform:translateY(60px) scale(.8)}to{opacity:1;transform:scale(.8)}}
+.read{display:flex;align-items:center;gap:8px;margin-top:10px;padding:8px 12px;border-radius:999px;background:var(--green-soft);border:1px solid var(--green-line);font-size:12px;font-weight:700;color:var(--green-ink);opacity:0;animation:in .5s forwards}
+.read i{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.ci{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:14px;font-weight:600}.ci:first-of-type{border-top:0}.ci .p{margin-left:auto;font-weight:500;color:var(--muted)}
+.rec{margin-top:14px;padding:12px;border-radius:12px;border:1px solid var(--green-line);background:var(--green-soft);opacity:0;animation:in .5s forwards}
+.rec .k{color:var(--green-ink)}.rec .ci{border:0;padding:8px 0 0}
+.add{margin-left:auto;padding:6px 10px;border-radius:8px;background:var(--ink);color:#fff;font-size:11px;font-weight:700}
+.cues{position:absolute;width:300px;top:260px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.9;opacity:0;animation:in .6s forwards}
+.cues b{display:block;color:var(--ink);font-family:'Be Vietnam Pro';font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.ca{left:140px;animation-delay:1.4s}.cb{left:1480px;animation-delay:2.4s}
+.same{position:absolute;left:50%;top:560px;--tx:-50%;padding:10px 16px;border-radius:999px;background:#fff;border:1px solid var(--line);font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);opacity:0;animation:in .5s 1s forwards}
+.note{position:absolute;left:50%;top:870px;--tx:-50%;font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--green-ink);opacity:0;animation:in .6s 7.6s forwards}
+</style>
+<div class="stage">
+  <div class="cues ca"><b>Visit A</b>searched “birthday gift for her”<br>4 categories in 3 minutes<br>looked at $18 → $140</div>
+  <div class="phone pa"><div class="scr"><div class="notch"></div><span class="k">Cart · 1 item</span>
+    <div class="ci" style="margin-top:12px"><span class="thumb"><img src="../assets/products/perfume-rose.svg"></span>Oud Eau de Parfum<span class="p">$98</span></div>
+    <div class="read" style="animation-delay:2s"><i></i>Buying a gift</div>
+    <div class="rec" style="animation-delay:3s"><span class="k">For this visit</span>
+      <div class="ci"><span class="thumb"><img src="../assets/products/box.svg"></span>Gift wrap &amp; card<span class="add">Add · $8</span></div>
+      <div class="ci"><span class="thumb"><img src="../assets/products/candle-amber.svg"></span>Ember Candle<span class="add">Add · $38</span></div></div>
+    <div class="home"></div></div></div>
+  <div class="same">Same cart · same moment</div>
+  <div class="cues cb"><b>Visit B</b>came straight from search<br>1 product, 40 seconds<br>bought this before</div>
+  <div class="phone pb"><div class="scr"><div class="notch"></div><span class="k">Cart · 1 item</span>
+    <div class="ci" style="margin-top:12px"><span class="thumb"><img src="../assets/products/perfume-rose.svg"></span>Oud Eau de Parfum<span class="p">$98</span></div>
+    <div class="read" style="animation-delay:3.4s"><i></i>Replacing something</div>
+    <div class="rec" style="animation-delay:4.4s"><span class="k">For this visit</span>
+      <div class="ci"><span class="thumb"><img src="../assets/products/bottle.svg"></span>Refill, 100 ml<span class="add">Add · $58</span></div>
+      <div class="ci"><span class="thumb"><img src="../assets/products/candle-tin.svg"></span>Travel atomiser<span class="add">Add · $14</span></div></div>
+    <div class="home"></div></div></div>
+  <div class="note">Intent AI · read from this visit · no login, no history</div>
+</div>
+<script>watermark(); stepper(3,'$323')</script>

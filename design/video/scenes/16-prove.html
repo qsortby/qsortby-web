@@ -1,0 +1,28 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><script src="base.js"></script>
+<style>
+.card{position:absolute;left:50%;top:150px;width:1000px;--tx:-50%;background:#fff;border:1px solid var(--line);border-radius:28px;box-shadow:0 40px 100px -40px rgba(16,24,40,.3);padding:40px 44px}
+.hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}.hd .k{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.arms{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.arm{padding:22px;border-radius:18px;background:var(--paper2);border:1px solid var(--line)}
+.arm .k{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.arm b{font-size:24px;font-weight:700}.arm p{font-size:14px;color:var(--muted);margin-top:4px}
+.arm.on{background:var(--green-soft);border-color:var(--green-line)}
+.half{display:flex;gap:4px;margin-top:14px}.half i{flex:1;height:10px;border-radius:5px;background:#dedbd2}.arm.on .half i{background:var(--green)}
+.bar{height:10px;border-radius:5px;background:var(--paper2);margin-top:26px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--green-bright));animation:fill 2.6s 1.2s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes fill{to{width:100%}}
+.ln{display:flex;justify-content:space-between;margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.res{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:18px;font-size:18px;opacity:0;animation:in .6s 4.6s forwards}
+.res b{color:var(--green-ink)}.res .chip{margin-left:auto}
+</style>
+<div class="stage" style="transform:scale(1.15);transform-origin:50% 40%">
+  <div class="card in d1">
+    <div class="hd"><span class="k">Intent AI · on/off test</span><span class="chip live">Running</span></div>
+    <div class="arms">
+      <div class="arm in d2"><span class="k">Arm A · Intent AI off</span><b>Your plain offers</b><p>Half of your shoppers</p><div class="half"><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="arm on in d3"><span class="k">Arm B · Intent AI on</span><b>Re-ranked by intent</b><p>The other half</p><div class="half"><i></i><i></i><i></i><i></i><i></i></div></div>
+    </div>
+    <div class="bar"><i></i></div><div class="ln"><span>Week 1</span><span>Planned end · week 4</span></div>
+    <div class="res"><span>Shoppers who bought anything, anywhere:</span><b>read once, at the end</b><span class="chip">Influenced · never “caused”</span></div>
+  </div>
+</div>
+<script>watermark()</script>

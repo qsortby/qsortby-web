@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" fill="none">
+  <defs>
+    <linearGradient id="bx-f" x1="120" y1="200" x2="300" y2="336" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#D8B98E"/><stop offset="1" stop-color="#B3915F"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="210" cy="356" rx="98" ry="15" fill="#191a12" opacity=".10"/>
+  <!-- lid flaps -->
+  <path d="M210 148l90 44-90 44-90-44z" fill="#E7CFAA"/>
+  <path d="M210 148l90 44-90 44z" fill="#191a12" opacity=".06"/>
+  <!-- body -->
+  <path d="M120 192l90 44v106l-90-44z" fill="url(#bx-f)"/>
+  <path d="M300 192l-90 44v106l90-44z" fill="#A8834F"/>
+  <!-- tape -->
+  <path d="M120 192l90 44 90-44" stroke="#8A6B3E" stroke-opacity=".5" stroke-width="5"/>
+  <path d="M210 236v106" stroke="#8A6B3E" stroke-opacity=".5" stroke-width="5"/>
+  <!-- label — drawn as a parallelogram so it sits on the box's angled face
+       (a plain rect would float off the surface; skew transforms shift origin) -->
+  <path d="M144 244l56 27v40l-56-27z" fill="#F6EFE2"/>
+  <path d="M156 268l16 8v14l-16-8z" fill="#0e9d63"/>
+  <path d="M178 280l16 8v6l-16-8z" fill="#B79B7E"/>
+  <path d="M156 292l38 19v5l-38-19z" fill="#CDBCA6"/>
+</svg>

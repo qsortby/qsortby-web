@@ -1,0 +1,34 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+.stage{display:grid;grid-template-columns:600px 1fr;gap:110px;align-items:center;padding-top:0;height:1000px}
+.card{width:1000px;padding:40px 44px}
+.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.arms{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.arm{padding:24px;border-radius:20px;background:var(--paper);border:1px solid var(--line)}
+.arm .k{display:block;margin-bottom:10px}
+.arm .big{font-size:30px;font-weight:700}
+.arm .m{font-size:19px;color:var(--muted);margin-top:6px}
+.arm.on{background:var(--green-soft);border-color:var(--green-line)}
+.line{margin-top:26px;padding-top:22px;border-top:1px solid var(--line);display:flex;align-items:center;gap:16px;font-size:22px;color:var(--ink2)}
+.line b{color:var(--green-ink)}
+.fill{height:12px;border-radius:6px;background:var(--paper2);overflow:hidden;margin-top:14px}.fill i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--green-bright));animation:fill 2.4s 1.4s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes fill{to{width:100%}}
+</style>
+<div class="stage">
+  <div class="copy">
+    <span class="eyebrow in d1"><i></i>Proof</span>
+    <h2 class="in d2">Did it pay? Test it.</h2>
+    <p class="lead in d3">A share of your shoppers get the store without Intent AI. The test runs for planned weeks and is read once, at the end.</p>
+  </div>
+  <div class="card in d2">
+    <div class="head"><span class="k">Intent AI on/off test</span><span class="badge live">Running · ends in 2 weeks</span></div>
+    <div class="arms">
+      <div class="arm in d4"><span class="k">Arm A · Intent AI off</span><div class="big">Your plain offers</div><div class="m">Same store, same shoppers</div></div>
+      <div class="arm on in d5"><span class="k">Arm B · Intent AI on</span><div class="big">Re-ranked by intent</div><div class="m">Feed + four upsells</div></div>
+    </div>
+    <div class="fill"><i></i></div>
+    <div class="line in d7"><span>Read once at the planned end · counts shoppers who bought anything, anywhere</span></div>
+    <div class="line in d8" style="border:0;padding-top:8px"><span>Revenue is labelled <b>influenced</b> — never “caused”.</span></div>
+  </div>
+  <div class="sub"><span>Then an on/off test tells you whether it paid — on your own shoppers.</span></div>
+</div>

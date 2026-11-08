@@ -1,0 +1,39 @@
+<!doctype html><meta charset="utf-8"><base href="../../video/scenes/"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="../../listing/shots/_shot.css"><script src="data.js"></script>
+<style>
+
+.gate{left:72px;top:262px;width:720px;padding:22px 26px}
+.gr{display:grid;grid-template-columns:1fr 150px 130px;align-items:center;gap:16px;padding:13px 0;border-top:1px solid var(--line);font-size:15px}
+.gr:first-of-type{border-top:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);padding-bottom:6px}
+.gr b{font-weight:600}.gr small{display:block;font-size:12.5px;color:var(--muted);font-weight:400;margin-top:2px}
+.gr .m{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.gr .m i{flex:1;height:6px;border-radius:3px;background:var(--line);position:relative;overflow:hidden}.gr .m i::after{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--green);border-radius:3px}
+.gr .m i.ref::after{background:var(--faint)}
+.ab{left:832px;top:262px;width:696px;padding:22px 26px}
+.ab .hd{display:flex;align-items:center;justify-content:space-between}
+.ab h4{font-size:17px;font-weight:600}
+.grp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.gb{padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--paper)}
+.gb .k{margin-bottom:10px}.gb b{font-size:18px;font-weight:600}.gb p{font-size:13px;color:var(--muted);margin-top:4px}
+.gb.on{border-color:var(--green-line);background:var(--green-soft)}.gb.on .k{color:var(--green-ink)}
+.gb .tog{margin:10px 0 0;width:40px;height:22px}.gb .tog::after{width:16px;height:16px}.gb .tog.on::after{left:21px}
+.tl{margin-top:16px}
+.tl .bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}.tl .bar i{display:block;height:100%;width:58%;background:var(--ink)}
+.tl .lb{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-top:8px}
+.foot{position:absolute;left:72px;bottom:72px;right:72px;display:flex;gap:40px;font-size:14.5px;color:var(--muted)}
+.foot span{display:flex;align-items:center;gap:10px}.foot i{width:9px;height:9px;border-radius:50%;background:var(--green)}
+</style>
+<div class="cap"><h1>What it learns has to <span class="g">earn its place</span></h1>
+<p>A learned pick stays in <b>Testing</b> until it beats your own best sellers on your own shoppers. Then an on/off test tells you whether it paid — read at its planned end, not whenever it looks good.</p></div>
+<div class="brand"><img src="../assets/logo.svg"><span>Shopify app</span></div>
+<div class="card gate"><span class="k">Learned picks · per intent</span>
+ <div class="gr"><span>Intent</span><span>vs best sellers</span><span>Status</span></div>
+ <div class="gr"><span><b>Buying a gift</b><small>Gift wrap, candle, card</small></span><span class="m"><i style="--w:84%"></i></span><span class="chip live">Ready</span></div>
+ <div class="gr"><span><b>Replacing something</b><small>Refill, travel size</small></span><span class="m"><i style="--w:70%"></i></span><span class="chip live">Ready</span></div>
+ <div class="gr"><span><b>Browsing new</b><small>New arrivals, trending</small></span><span class="m"><i style="--w:48%"></i></span><span class="chip test">Testing</span></div>
+ <div class="gr"><span><b>Price checking</b><small>Not enough orders yet</small></span><span class="m"><i class="ref" style="--w:30%"></i></span><span class="chip">Collecting</span></div></div>
+<div class="card ab"><div class="hd"><h4>On/off test · Cart upsell</h4><span class="pill live"><i></i>Running</span></div>
+ <div class="grp">
+  <div class="gb on"><span class="k">Group A · Upsell on</span><b>Half of visits</b><p>See the learned cart offer</p><span class="tog on"></span></div>
+  <div class="gb"><span class="k">Group B · Upsell off</span><b>Half of visits</b><p>See the cart as it was</p><span class="tog"></span></div></div>
+ <div class="tl"><div class="bar"><i></i></div><div class="lb"><span>Day 8 of 14</span><span>Read at planned end</span></div></div></div>
+<div class="foot"><span><i></i>Orders are shown as <b>&nbsp;influenced&nbsp;</b> never “caused”</span><span><i></i>Nothing is ranked by a learned model until it is Ready</span><span><i></i>Stop a test any time</span></div>

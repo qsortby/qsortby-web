@@ -7,10 +7,12 @@ export const SITE_NAME = "QSortby";
 // repo forbade reusing the site's tagline in the listing. This one is a
 // capability, so the same sentence can open the listing's intro.
 // 2026-11-07, owner's call: the guideline's "Auto-sort, then upsell." said
-// nothing about the AI the product is sold on. Two parallel clauses, "by AI"
-// beside "by sales" so AI reads as a source rather than a label. Both dots
-// are brand green. Update the guideline (p.02/13) to match.
-export const TAGLINE = "Sort by sales. Upsell by AI.";
+// nothing about the AI the product is sold on, and "Sort by sales. Upsell by
+// AI." read as someone else's line. "Sort smarter. Sell more." is the tail of
+// the hero the site ran with for months, kept because it is already the
+// product's own voice, with the AI named in the second clause. Both dots are
+// brand green. Update the guideline (p.02/13) to match.
+export const TAGLINE = "Sort smarter. Sell more with AI.";
 
 // Live App Store listing. Every primary CTA on the site points here.
 export const APP_STORE_URL = "https://apps.shopify.com/qsortby";
@@ -84,7 +86,7 @@ export const CF_ANALYTICS_TOKEN = "030c6ca788604ff09ba075e968f569d4";
 // Home-page intro video on YouTube (components/IntroVideo.astro). Just the ID —
 // the part after `watch?v=`. Changing the video? Also re-download its poster;
 // the command is in the component's header comment.
-export const INTRO_VIDEO_ID = "Yj5xJKJ2kJM";
+export const INTRO_VIDEO_ID = "Xr7JXxZqbWs";
 
 // Google Analytics 4 — property "QSortby", web stream qsortby.com.
 // Loaded only in production builds (Base.astro), with Consent Mode v2:

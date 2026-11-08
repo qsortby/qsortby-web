@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" fill="none">
+  <defs>
+    <linearGradient id="cp-b" x1="132" y1="130" x2="288" y2="272" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2E6E68"/><stop offset="1" stop-color="#1B4A46"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="210" cy="336" rx="98" ry="15" fill="#191a12" opacity=".10"/>
+  <!-- crown -->
+  <path d="M124 256v-16a86 86 0 0 1 172 0v16z" fill="url(#cp-b)"/>
+  <path d="M210 154v102M168 162c-14 22-20 56-20 94M252 162c14 22 20 56 20 94" stroke="#fff" stroke-opacity=".16" stroke-width="5"/>
+  <circle cx="210" cy="156" r="9" fill="#0e9d63"/>
+  <!-- brim -->
+  <path d="M124 256h172c34 0 58 16 58 34a10 10 0 0 1-10 10H124z" fill="#173E3B"/>
+  <path d="M124 290h216" stroke="#fff" stroke-opacity=".14" stroke-width="4"/>
+  <!-- front badge -->
+  <rect x="182" y="212" width="56" height="26" rx="7" fill="#F6EFE2" opacity=".92"/>
+  <rect x="192" y="221" width="12" height="8" rx="3" fill="#0e9d63"/>
+  <rect x="210" y="223" width="20" height="5" rx="2.5" fill="#B79B7E"/>
+</svg>

@@ -1,0 +1,31 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="_dark.css"><script src="base.js"></script>
+<style>
+.p1{position:absolute;left:300px;top:330px;width:520px;padding:26px 28px;opacity:0;animation:tilt1 .7s cubic-bezier(.2,.7,.2,1) .5s forwards}
+@keyframes tilt1{from{opacity:0;transform:perspective(1400px) rotateY(14deg) translateY(16px)}to{opacity:1;transform:perspective(1400px) rotateY(14deg)}}
+.p2{position:absolute;left:1000px;top:250px;width:560px;padding:26px 28px;opacity:0;animation:tilt2 .7s cubic-bezier(.2,.7,.2,1) 1.5s forwards}
+@keyframes tilt2{from{opacity:0;transform:perspective(1400px) rotateY(-14deg) translateY(16px)}to{opacity:1;transform:perspective(1400px) rotateY(-14deg)}}
+.p3{position:absolute;left:820px;top:560px;width:520px;padding:24px 28px}
+.rule{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid rgba(255,255,255,.08);font-size:17px}
+.rule:first-of-type{border-top:0}.rule b{color:var(--green-bright);font-weight:600}
+.rule .v{font-family:var(--mono);font-size:13px;color:rgba(244,241,234,.6)}
+.pick{display:flex;gap:12px;margin-top:12px}.pick .thumb{background:rgba(255,255,255,.08)}
+.add{margin-left:auto;padding:6px 12px;border-radius:8px;background:var(--green);color:#fff;font-size:12px;font-weight:700}
+</style>
+<body class="dark">
+<div class="stage" style="transform:scale(1.18);transform-origin:50% 42%">
+  <div class="glass p1"><span class="k">Rule · Sort collection</span>
+    <div class="rule"><span>Sort by</span><b>Best selling · 7 days</b></div>
+    <div class="rule"><span>Sold out</span><b>Keep last</b></div>
+    <div class="rule"><span>New arrivals</span><b>Boost 14 days</b></div>
+    <div class="rule"><span>Runs</span><span class="v">every 5 min</span></div></div>
+  <div class="glass p2"><span class="k">Rule · Bought with</span>
+    <div class="rule"><span>Source</span><b>Bought together</b></div>
+    <div class="rule"><span>Show</span><b>3 products</b></div>
+    <div class="pick"><span class="thumb"><img src="../assets/products/candle-amber.svg"></span><span class="thumb"><img src="../assets/products/mug.svg"></span><span class="thumb"><img src="../assets/products/bottle.svg"></span></div></div>
+  <div class="glass p3 in d5"><span class="k">Rule · Cart upsell</span>
+    <div class="rule"><span>Only when</span><b>Cart &gt; $50</b></div>
+    <div class="rule"><span>Pick from</span><b>Bought together → best sellers</b></div>
+    <div class="rule"><span>Theme code</span><span class="v">none</span></div></div>
+</div>
+<script src="_dark.js"></script><script>watermark()</script>
+</body>

@@ -1,0 +1,117 @@
+@font-face{font-family:'Be Vietnam Pro';font-weight:400;src:url('../assets/fonts/bevietnam-400.woff2') format('woff2')}
+@font-face{font-family:'Be Vietnam Pro';font-weight:500;src:url('../assets/fonts/bevietnam-500.woff2') format('woff2')}
+@font-face{font-family:'Be Vietnam Pro';font-weight:600;src:url('../assets/fonts/bevietnam-600.woff2') format('woff2')}
+@font-face{font-family:'Be Vietnam Pro';font-weight:700;src:url('../assets/fonts/bevietnam-700.woff2') format('woff2')}
+@font-face{font-family:'Be Vietnam Pro';font-weight:800;src:url('../assets/fonts/bevietnam-800.woff2') format('woff2')}
+:root{--paper:#FAFAF8;--paper2:#F1EFE9;--ink:#1E1E1A;--ink2:#3D3C37;--muted:#5E5C55;--faint:#9A978E;--line:#E6E2D8;--line2:#D3CDBF;
+  --green:#00A36B;--green-ink:#067A55;--green-bright:#2EE59A;--green-soft:#D6F3E7;--green-line:#cbe8da;--down:#c4392f;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+body{background:var(--paper)}
+/* the old cut's ground: white with a soft mint glow in the top corners */
+body::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(900px 420px at 0% 0%,rgba(0,163,107,.16),transparent 60%),radial-gradient(900px 420px at 100% 0%,rgba(0,163,107,.14),transparent 60%)}
+body.dark{background:#0A1510}
+body.dark::before{background:radial-gradient(1100px 600px at 50% 30%,rgba(0,163,107,.22),transparent 65%)}
+.stage{position:absolute;inset:0;z-index:1}
+/* everything waits for window.__start() — recording starts first, then the clock */
+*,*::before,*::after{animation-play-state:paused!important}
+body.go *,body.go *::before,body.go *::after{animation-play-state:running!important}
+/* watermark */
+.wm{position:absolute;left:56px;bottom:40px;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;letter-spacing:.22em;color:var(--faint);z-index:3}
+.wm i{width:10px;height:10px;border-radius:3px;background:var(--green)}
+body.dark .wm{color:rgba(244,241,234,.45)}
+/* subtitle: word by word, newest word green (old cut) */
+.sub{position:absolute;left:0;right:0;bottom:92px;z-index:5;display:flex;justify-content:center;pointer-events:none}
+.sub::before{content:"";position:absolute;left:0;right:0;bottom:-92px;height:300px;z-index:-1;pointer-events:none;
+  background:linear-gradient(to top,rgba(250,250,248,.96) 30%,rgba(250,250,248,0))}
+body.dark .sub::before{background:linear-gradient(to top,rgba(10,21,16,.96) 30%,rgba(10,21,16,0))}
+.sub .t{max-width:1180px;text-align:center;font-size:38px;line-height:1.3;font-weight:700;letter-spacing:-.012em;color:var(--ink);
+  text-shadow:0 0 24px var(--paper),0 0 48px var(--paper),0 0 8px var(--paper)}
+body.dark .sub .t{color:#F4F1EA;text-shadow:0 0 24px #0A1510,0 0 48px #0A1510}
+.sub .w{opacity:0;transition:opacity .12s,color .35s}.sub .w.on{opacity:1}.sub .w.now{color:var(--green-ink)}
+body.dark .sub .w.now{color:var(--green-bright)}
+/* big stat */
+.stat{text-align:center}
+.stat .n{font-size:150px;font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.stat .c{margin-top:18px;font-family:var(--mono);font-size:16px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+/* small floating callout (old cut: "bundle attach rate", "11% accept rate") */
+.callout{position:absolute;padding:14px 18px;border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:0 18px 40px -22px rgba(16,24,40,.3);font-family:var(--mono);font-size:14px;letter-spacing:.06em;color:var(--muted)}
+.callout b{display:block;font-family:'Be Vietnam Pro';font-size:40px;font-weight:700;letter-spacing:-.03em;color:var(--ink);margin-bottom:4px}
+/* stepper (six places) — a progress rail: done steps filled, the current one
+   ringed and breathing, the rest outlined; the AOV chip rides at the right end */
+.stepper{position:absolute;left:50%;top:44px;--tx:-50%;display:flex;align-items:center;padding:14px 22px 14px 30px;border-radius:999px;
+  background:rgba(255,255,255,.94);border:1px solid rgba(30,30,26,.07);box-shadow:0 1px 2px rgba(16,24,40,.04),0 24px 60px -30px rgba(16,24,40,.35);
+  backdrop-filter:blur(10px);z-index:4}
+.stepper .rail{position:relative;display:flex;align-items:flex-start}
+.stepper .rail::before,.stepper .rail::after{content:"";position:absolute;left:93px;right:93px;top:21px;height:3px;border-radius:2px}
+.stepper .rail::before{background:#DCD8CE}
+.stepper .rail::after{background:linear-gradient(90deg,var(--green-ink),var(--green));transform-origin:left;transform:scaleX(var(--p,0));
+  transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.stepper .s{display:flex;flex-direction:column;align-items:center;width:186px;position:relative;z-index:1}
+.stepper .s .dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid #C9C4B8;color:var(--ink2);
+  transition:background .5s,border-color .5s,color .5s,box-shadow .5s}
+.stepper .s .dot svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.stepper .s.done .dot{background:var(--green);border-color:var(--green);color:#fff}
+.stepper .s.on .dot{background:#fff;border-color:var(--green);color:var(--green-ink);box-shadow:0 0 0 6px rgba(0,163,107,.14);animation:breathe 2.2s ease-in-out infinite}
+.stepper .s.lit .dot{background:var(--green-soft);border-color:var(--green);color:var(--green-ink);transform:scale(1.08);transition:all .45s cubic-bezier(.2,.9,.3,1.3)}
+.stepper .s.lit .l{color:var(--ink)}
+@keyframes breathe{0%,100%{box-shadow:0 0 0 6px rgba(0,163,107,.14)}50%{box-shadow:0 0 0 11px rgba(0,163,107,.06)}}
+.stepper .s .l{margin-top:9px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);white-space:nowrap;transition:color .5s}
+.stepper .s.done .l{color:var(--green-ink)}.stepper .s.on .l{color:var(--ink);font-weight:700}
+.aov{display:flex;align-items:center;line-height:1;white-space:nowrap;gap:10px;margin-left:14px;padding:11px 14px 11px 16px;border-radius:999px;background:var(--ink);color:#fff;
+  font-weight:700;font-size:22px;letter-spacing:-.02em;align-self:flex-start;margin-top:-2px;font-variant-numeric:tabular-nums}
+.aov i{width:10px;height:10px;border-radius:50%;background:var(--green-bright);box-shadow:0 0 0 4px rgba(46,229,154,.18)}
+.aov .plus{display:inline-block;line-height:1;align-self:center;font-size:12px;font-family:var(--mono);color:#06140E;background:var(--green-bright);padding:4px 8px;border-radius:999px;margin-left:2px;
+  animation:badgepop .5s cubic-bezier(.2,.9,.3,1.4) .9s both}
+@keyframes badgepop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+/* phone */
+.phone{position:absolute;width:420px;height:860px;border-radius:64px;background:#111;padding:14px;box-shadow:0 60px 120px -40px rgba(16,24,40,.45)}
+.phone .scr{width:100%;height:100%;border-radius:52px;background:#fff;overflow:hidden;position:relative;padding:70px 26px 26px}
+.phone .notch{position:absolute;left:50%;top:18px;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#111}
+.phone .home{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:140px;height:5px;border-radius:3px;background:#bbb}
+.phone .k{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+.btn{display:block;text-align:center;padding:16px;border-radius:12px;background:var(--ink);color:#fff;font-weight:700;font-size:17px}
+/* storefront */
+.shop{position:absolute;left:80px;right:80px;top:150px;bottom:0;background:#fff;border-radius:28px 28px 0 0;border:1px solid var(--line);box-shadow:0 40px 100px -40px rgba(16,24,40,.3);padding:34px 48px;overflow:hidden}
+.shop .nav{display:flex;align-items:center;justify-content:space-between;font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);margin-bottom:26px}
+.shop .nav span{display:flex;gap:28px;font-size:12px;letter-spacing:.14em;color:var(--muted)}
+.shop h3{font-size:30px;font-weight:600;letter-spacing:-.02em}.shop h3 small{font-size:13px;font-weight:400;color:var(--faint);margin-left:14px;letter-spacing:.1em}
+.grid{display:grid;grid-template-columns:repeat(8,1fr);gap:18px;margin-top:22px}
+.p{position:relative;border-radius:14px;overflow:hidden;background:#fff;border:1px solid var(--line)}
+.p .im{aspect-ratio:1;background:var(--tint,#efece6);display:grid;place-items:center}
+.p .im img{width:58%;height:58%;object-fit:contain}
+.p .nm{padding:10px 12px 2px;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p .pr{padding:0 12px 10px;font-size:11.5px;color:var(--muted)}
+.p .no{position:absolute;right:8px;top:8px;width:22px;height:22px;border-radius:50%;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:10px;color:var(--muted)}
+.p .fl{position:absolute;left:8px;top:8px;padding:3px 8px;border-radius:999px;background:var(--green);color:#fff;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase}
+/* generic motion */
+/* --tx/--ty must NOT inherit: a card centred with --tx:-50% would otherwise hand
+   -50% to every child that uses .in, shifting each by half its own width. */
+@property --tx{syntax:'<length-percentage>';inherits:false;initial-value:0px}
+@property --ty{syntax:'<length-percentage>';inherits:false;initial-value:0px}
+/* .in fades/rises an element. Its resting transform comes from --tx/--ty, so an
+   element centred with translateX(-50%) sets `--tx:-50%` and keeps its place —
+   a plain `transform:` on the element would be overwritten by the keyframe. */
+.in{opacity:0;transform:translate(var(--tx,0px),calc(var(--ty,0px) + 16px));animation:in .7s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes in{to{opacity:1;transform:translate(var(--tx,0px),var(--ty,0px))}}
+/* start marker: a red square the renderer uses to find the exact frame the scene
+   clock started on; gone the moment __start() runs */
+#qs-mark{position:absolute;left:0;top:0;width:24px;height:24px;background:#ff0000;z-index:99}
+body.go #qs-mark{display:none}
+.d0{animation-delay:.1s}.d1{animation-delay:.5s}.d2{animation-delay:1s}.d3{animation-delay:1.5s}.d4{animation-delay:2s}.d5{animation-delay:2.6s}.d6{animation-delay:3.2s}.d7{animation-delay:4s}.d8{animation-delay:5s}.d9{animation-delay:6s}.d10{animation-delay:7s}.d11{animation-delay:8s}
+.fade{opacity:1;animation:fade .6s forwards}@keyframes fade{to{opacity:0}}
+/* dark panels */
+.glass{background:rgba(18,40,30,.72);border:1px solid rgba(120,220,170,.18);border-radius:20px;box-shadow:0 30px 80px -30px rgba(0,0,0,.6);backdrop-filter:blur(10px);color:#F4F1EA}
+.glass .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(244,241,234,.5)}
+.row{display:flex;align-items:center;gap:14px;padding:12px 0;border-top:1px solid rgba(255,255,255,.08);font-size:17px}
+.row:first-of-type{border-top:0}
+.tog{margin-left:auto;width:44px;height:24px;border-radius:12px;background:rgba(255,255,255,.12);position:relative;transition:background .4s}
+.tog::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .4s}
+.tog.on{background:var(--green)}.tog.on::after{left:23px}
+.thumb{width:56px;height:56px;border-radius:12px;background:var(--paper2);display:grid;place-items:center;overflow:hidden;flex:none}
+.thumb img{width:70%;height:70%;object-fit:contain}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line2);background:var(--paper2);color:var(--muted)}
+.chip.live{color:var(--green-ink);background:var(--green-soft);border-color:var(--green-line)}
+.chip.test{color:#8a5a00;background:#fbf0d9;border-color:#f0dcae}

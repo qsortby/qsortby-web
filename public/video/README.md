@@ -1,7 +1,7 @@
 # Intro video
 
 The home-page intro video is on **YouTube**, not in this folder:
-https://www.youtube.com/watch?v=Yj5xJKJ2kJM
+https://www.youtube.com/watch?v=Xr7JXxZqbWs
 
 - The video ID lives in `src/consts.ts` → `INTRO_VIDEO_ID`.
 - `src/components/IntroVideo.astro` shows a poster with a play button and only

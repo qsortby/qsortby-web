@@ -67,7 +67,7 @@ const TABS: Tab[] = [
   {
     key: 'upsell',
     label: 'Upsell AI',
-    sub: 'Offers learned from your own orders, placed where a shopper is deciding, re-ranked by why they came.',
+    sub: 'Offers learned from what your shoppers view, add and buy, placed where a shopper is deciding, re-ranked by why they came.',
     // Every row is checkable in the app. Row 2 is the popup's "How products
     // are chosen" sources + the bought-together block (the nightly affinity
     // rebuild, apps/api services/affinity + storefront-data); row 3 is the
@@ -76,7 +76,7 @@ const TABS: Tab[] = [
     // trained model as ranking a storefront — both are in testing.
     rows: [
       { title: 'Add upsell blocks anywhere', desc: 'Cart drawer, free-shipping bar, pop-up, bought-together, checkout and thank-you page. Set the rule each one follows and the conditions it shows under.' },
-      { title: 'Offers learned from your own orders', desc: 'Bought together, added together, viewed together and similar are rebuilt every night from your order lines and sessions — no hand-kept bundle list, and nothing sold out or already in the cart is ever offered.' },
+      { title: 'Offers learned from your own shoppers', desc: 'Bought together, added together, viewed together and similar are rebuilt every night from your orders, cart adds and product views — no hand-kept bundle list, and nothing sold out or already in the cart is ever offered.' },
       { title: 'Re-ranked by why the shopper came', desc: 'Switch on Intent suggest and the cart, pop-up, checkout and thank-you offers re-rank by what this visit came for — a gift buyer and someone replacing a product see different offers from the same cart.' },
     ],
   },
@@ -589,6 +589,66 @@ const TABS: Tab[] = [
     .offer-tabs { width:100%; }
     .offer-tabs button { flex:1; padding:9px 8px; }
   }
+
+  /* ---- motion (2026-11) ---- */
+  /* The upsell card fills the row; the browser body grows with it instead of
+     floating a fixed 280px window in the middle of empty card. */
+  .offer-card.us-stage { justify-content:flex-start; }
+  .us-body { flex:1; height:auto; min-height:300px; }
+
+  /* in the taller card, each scene sits as one cluster in the middle of the
+     browser body instead of pinning the added block to the bottom edge */
+  .us-scene { justify-content:center; gap:14px; }
+  .us-scene .us-block { margin-top:6px; }
+  .us-scene > .us-loc { position:absolute; top:0; left:0; }
+  .us-himg { width:96px; height:96px; border-radius:12px; background:var(--bg-2); border:1px solid var(--line); }
+
+  /* items inside the block that was just "added" arrive one after another */
+  .us-scene.active .us-prow, .us-scene.active .offer-cartrow.up, .us-scene.active .us-bundle > *,
+  .us-scene.active .us-grid2 > *, .us-scene.active .us-block .offer-cartrow {
+    animation:usIn .45s var(--ease) backwards; }
+  .us-scene.active .us-prow:nth-child(2), .us-scene.active .us-bundle > :nth-child(2), .us-scene.active .us-grid2 > :nth-child(2) { animation-delay:.08s; }
+  .us-scene.active .us-bundle > :nth-child(3), .us-scene.active .us-grid2 > :nth-child(3) { animation-delay:.16s; }
+  .us-scene.active .us-bundle > :nth-child(4), .us-scene.active .us-grid2 > :nth-child(4) { animation-delay:.24s; }
+  .us-scene.active .us-bundle > :nth-child(5), .us-scene.active .us-grid2 > :nth-child(5) { animation-delay:.32s; }
+  .us-scene.active .us-bundle > :nth-child(6), .us-scene.active .us-grid2 > :nth-child(6) { animation-delay:.40s; }
+  .us-scene.active .offer-cartrow.up + .offer-cartrow.up { animation-delay:.12s; }
+  .us-scene.active .us-block { animation:usBlock .5s var(--ease) .1s backwards; }
+  .us-scene.active .us-add { animation:usAdd 1.6s var(--ease) .6s 1 backwards; }
+  @keyframes usIn { from { opacity:0; transform:translateY(8px); } }
+  @keyframes usBlock { from { opacity:0; transform:translateY(12px); box-shadow:0 0 0 0 rgba(0,163,107,0); } }
+  @keyframes usAdd { 0% { transform:scale(.85); opacity:0; } 30% { transform:scale(1.08); opacity:1; } 45%,100% { transform:none; } }
+
+  /* merchandising: the strategy fills in, then the shelf re-sorts on a loop */
+  .rv.in .offer-sl i::before { animation:offFill 1s var(--ease) backwards; }
+  .rv.in .offer-sl:nth-child(2) i::before { animation-delay:.1s; }
+  .rv.in .offer-sl:nth-child(3) i::before { animation-delay:.2s; }
+  .rv.in .offer-sl:nth-child(4) i::before { animation-delay:.3s; }
+  @keyframes offFill { from { width:0; } }
+  .offer-thumbs .gthumb { transition:none; }
+  .rv.in .offer-thumbs .gthumb:nth-child(1) { animation:offT1 6s var(--ease) infinite; }
+  .rv.in .offer-thumbs .gthumb:nth-child(2) { animation:offT2 6s var(--ease) infinite; }
+  .rv.in .offer-thumbs .gthumb:nth-child(3) { animation:offT3 6s var(--ease) infinite; }
+  .rv.in .offer-thumbs .gthumb:nth-child(4) { animation:offT4 6s var(--ease) infinite; }
+  @keyframes offT1 { 0%,25% { transform:none; } 40%,85% { transform:translateX(46px); } 100% { transform:none; } }
+  @keyframes offT2 { 0%,25% { transform:none; } 40%,85% { transform:translateX(46px); } 100% { transform:none; } }
+  @keyframes offT3 { 0%,25% { transform:none; } 40%,85% { transform:translateX(46px); } 100% { transform:none; } }
+  @keyframes offT4 { 0%,25% { transform:none; box-shadow:none; } 40%,85% { transform:translateX(-138px); box-shadow:0 0 0 2px var(--green); } 100% { transform:none; box-shadow:none; } }
+  .rv.in .offer-verdict b { animation:offWin 6s var(--ease) infinite; }
+  @keyframes offWin { 0%,30% { opacity:.35; } 42%,88% { opacity:1; } 100% { opacity:.35; } }
+
+  /* personalization: each scene's pieces settle in when it becomes active */
+  .pz-scene.active .pz-type, .pz-scene.active .pz-bar, .pz-scene.active .pz-tile { animation:usIn .45s var(--ease) backwards; }
+  .pz-scene.active .pz-type:nth-child(2), .pz-scene.active .pz-bar:nth-child(2), .pz-scene.active .pz-tile:nth-child(2) { animation-delay:.07s; }
+  .pz-scene.active .pz-type:nth-child(3), .pz-scene.active .pz-bar:nth-child(3), .pz-scene.active .pz-tile:nth-child(3) { animation-delay:.14s; }
+  .pz-scene.active .pz-type:nth-child(4), .pz-scene.active .pz-tile:nth-child(4) { animation-delay:.21s; }
+  .pz-scene.active .pz-bar i b { animation:offFill .8s var(--ease) .2s backwards; }
+  .pz-scene.active .pz-type.on { animation:usIn .45s var(--ease) .1s backwards, pzMatch 1.2s var(--ease) .5s 1; }
+  @keyframes pzMatch { 0%,100% { box-shadow:0 0 0 0 rgba(43,217,150,0); } 40% { box-shadow:0 0 0 4px rgba(43,217,150,.25); } }
+
+  @media (prefers-reduced-motion:reduce){
+    .offer-viz * { animation:none !important; }
+  }
 </style>
 
 <script>
@@ -605,38 +665,62 @@ const TABS: Tab[] = [
   }
 
   // Personalization: each claim row shows its own scene.
-  const pzRows = Array.from(document.querySelectorAll('.pz-row'));
+  const pzRows = Array.from(document.querySelectorAll('.pz-row')) as HTMLElement[];
   const pzScenes = Array.from(document.querySelectorAll('.pz-scene')) as HTMLElement[];
-  pzRows.forEach((row) => {
-    row.addEventListener('click', () => {
-      const key = row.getAttribute('data-pz');
-      pzRows.forEach((r) => r.setAttribute('aria-selected', String(r === row)));
-      pzScenes.forEach((s) => {
-        const on = s.dataset.pzScene === key;
-        s.classList.toggle('active', on);
-        s.setAttribute('aria-hidden', String(!on));
-      });
-      const stageEl = document.querySelector('.pz-stage') as HTMLElement | null;
-      if (stageEl && key) stageEl.dataset.at = key;
-      document.querySelectorAll('.pz-steps li').forEach((li) => li.classList.toggle('on', li.getAttribute('data-step') === key));
-      // Below 900px the picture sits under the rows; bring it into view so
-      // the click visibly does something.
-      const stage = document.querySelector('.pz-stage');
-      if (stage && window.matchMedia('(max-width: 899px)').matches) {
-        const r = stage.getBoundingClientRect();
-        if (r.top > window.innerHeight * 0.6 || r.bottom < 0) stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+  function showPz(row: HTMLElement, scroll: boolean) {
+    const key = row.getAttribute('data-pz');
+    pzRows.forEach((r) => r.setAttribute('aria-selected', String(r === row)));
+    pzScenes.forEach((s) => {
+      const on = s.dataset.pzScene === key;
+      s.classList.toggle('active', on);
+      s.setAttribute('aria-hidden', String(!on));
     });
-  });
+    const stageEl = document.querySelector('.pz-stage') as HTMLElement | null;
+    if (stageEl && key) stageEl.dataset.at = key;
+    document.querySelectorAll('.pz-steps li').forEach((li) => li.classList.toggle('on', li.getAttribute('data-step') === key));
+    // Below 900px the picture sits under the rows; bring it into view so
+    // the click visibly does something.
+    if (scroll && stageEl && window.matchMedia('(max-width: 899px)').matches) {
+      const r = stageEl.getBoundingClientRect();
+      if (r.top > window.innerHeight * 0.6 || r.bottom < 0) stageEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+  pzRows.forEach((row) => row.addEventListener('click', () => { pause(); showPz(row, true); }));
 
-  const tpChips = Array.from(document.querySelectorAll('.us-chip'));
+  const tpChips = Array.from(document.querySelectorAll('.us-chip')) as HTMLElement[];
   const scenes = Array.from(document.querySelectorAll('.us-scene')) as HTMLElement[];
   const urlEl = document.getElementById('us-url');
-  tpChips.forEach((chip) => {
-    chip.addEventListener('click', () => {
-      tpChips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
-      scenes.forEach((s) => s.classList.toggle('active', s.dataset.scene === chip.getAttribute('data-tp')));
-      if (urlEl) urlEl.textContent = 'your-store.com' + chip.getAttribute('data-path');
-    });
-  });
+  function showTp(chip: HTMLElement) {
+    tpChips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+    scenes.forEach((s) => s.classList.toggle('active', s.dataset.scene === chip.getAttribute('data-tp')));
+    if (urlEl) urlEl.textContent = 'your-store.com' + chip.getAttribute('data-path');
+  }
+  tpChips.forEach((chip) => chip.addEventListener('click', () => { pause(); showTp(chip); }));
+
+  // Autoplay: while the section is on screen, the visible tab walks through
+  // its own steps (Upsell: the touchpoints; Personalization: match → rank →
+  // show). Any click hands control to the visitor for a while. Off entirely
+  // for reduced motion.
+  const offer = document.querySelector('.offer') as HTMLElement | null;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let pausedUntil = 0;
+  let inView = false;
+  function pause() { pausedUntil = Date.now() + 15000; }
+  tabsEl?.addEventListener('click', pause);
+  function step() {
+    if (!inView || Date.now() < pausedUntil || document.hidden) return;
+    const panel = document.querySelector('.offer-panel:not([hidden])') as HTMLElement | null;
+    const key = panel?.dataset.panel;
+    if (key === 'upsell' && tpChips.length) {
+      const i = tpChips.findIndex((c) => c.getAttribute('aria-pressed') === 'true');
+      showTp(tpChips[(i + 1) % tpChips.length]);
+    } else if (key === 'personalize' && pzRows.length) {
+      const i = pzRows.findIndex((r) => r.getAttribute('aria-selected') === 'true');
+      showPz(pzRows[(i + 1) % pzRows.length], false);
+    }
+  }
+  if (offer && !reduced && 'IntersectionObserver' in window) {
+    new IntersectionObserver((es) => { inView = es.some((e) => e.isIntersecting); }, { threshold: 0.35 }).observe(offer);
+    setInterval(step, 3400);
+  }
 </script>

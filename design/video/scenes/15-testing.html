@@ -1,0 +1,30 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="_dark.css"><script src="base.js"></script>
+<style>
+.row3{position:absolute;left:50%;top:50%;transform:translate(-50%,-62%);/* not .in */display:grid;grid-template-columns:420px 70px 520px 70px 420px;align-items:center}
+.box{padding:26px 28px}
+.box b{display:block;font-size:22px;font-weight:700;margin-top:8px;line-height:1.3}
+.mini{display:flex;gap:8px;margin-top:14px}.mini .thumb{background:rgba(255,255,255,.08)}
+.arr{height:2px;background:linear-gradient(90deg,transparent,var(--green-bright));position:relative;opacity:0;animation:in .5s forwards}
+.arr::after{content:"";position:absolute;right:-2px;top:-5px;width:10px;height:10px;border-right:2px solid var(--green-bright);border-top:2px solid var(--green-bright);transform:rotate(45deg)}
+.gate{padding:26px 28px;background:rgba(0,0,0,.35)}
+.gate ul{list-style:none;margin-top:12px;display:grid;gap:8px}
+.gate li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(120,220,170,.2);font-size:15px;font-weight:600;opacity:0;animation:in .4s forwards}
+.gate li i{width:20px;height:20px;border-radius:50%;background:var(--green-bright);color:#06140E;display:grid;place-items:center;font-size:11px;font-style:normal;font-weight:800}
+.end .chip{margin-top:12px}
+.cap{position:absolute;left:0;right:0;top:160px;text-align:center;font-family:var(--mono);font-size:14px;letter-spacing:.3em;text-transform:uppercase;color:rgba(244,241,234,.5)}
+</style>
+<body class="dark">
+<div class="stage" style="transform:scale(1.18);transform-origin:50% 42%">
+  <div class="cap in d0">What it learns has to earn its place</div>
+  <div class="row3">
+    <div class="glass box in d1"><span class="k">Learned picks · per intent</span><b>What gift buyers on your store go on to buy</b>
+      <div class="mini"><span class="thumb"><img src="../assets/products/perfume-rose.svg"></span><span class="thumb"><img src="../assets/products/candle-amber.svg"></span><span class="thumb"><img src="../assets/products/box.svg"></span></div></div>
+    <div class="arr" style="animation-delay:1.6s"></div>
+    <div class="glass gate in d3"><span class="k">The bar · on visits it never learned from</span>
+      <ul><li style="animation-delay:2.4s"><i>✓</i>30+ buying visits</li><li style="animation-delay:2.9s"><i>✓</i>Four weeks of data</li><li style="animation-delay:3.4s"><i>✓</i>Beats your best sellers, clearly</li><li style="animation-delay:3.9s"><i>✓</i>Three nights in a row</li></ul></div>
+    <div class="arr" style="animation-delay:4.6s"></div>
+    <div class="glass box end in d7"><span class="k">Intent tab</span><b>“Ready” — shown to you, not used to rank</b><span class="chip test">Testing</span></div>
+  </div>
+</div>
+<script src="_dark.js"></script><script>watermark()</script>
+</body>

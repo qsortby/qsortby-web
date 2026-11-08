@@ -1,0 +1,53 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+.stage{display:grid;grid-template-columns:520px 1fr;gap:50px;align-items:center;padding-top:0;height:1000px}
+.right{position:relative;width:1070px;height:820px}
+.lists{position:absolute;left:0;top:40px;width:580px;padding:34px 36px}
+.lists .pr{display:flex;align-items:center;gap:16px;margin:14px 0 22px}.lists .pr b{font-size:24px}
+.l{padding:14px 0;border-top:1px solid var(--line)}
+.l .k{color:var(--green-ink);display:block;margin-bottom:8px}
+.l .items{display:flex;gap:10px;flex-wrap:wrap}
+.l .it{padding:8px 14px;border-radius:10px;background:var(--paper);border:1px solid var(--line);font-size:20px;font-weight:600;opacity:0;transform:translateY(8px);animation:in .4s forwards}
+.stamp{position:absolute;right:-30px;top:-24px;transform:rotate(6deg);padding:10px 18px;border-radius:12px;background:var(--ink);color:var(--green-bright);font-size:16px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:0;animation:in .5s 4.2s forwards}
+.cart{position:absolute;right:0;top:120px;width:470px;padding:30px 32px;opacity:0;transform:translateX(40px);animation:cart .8s cubic-bezier(.2,.7,.2,1) 6.2s forwards}
+@keyframes cart{to{opacity:1;transform:none}}
+.ci{display:flex;align-items:center;gap:14px;padding:12px 0;border-top:1px solid var(--line);font-size:21px;font-weight:600}.ci:first-of-type{border-top:0}
+.ci .p{margin-left:auto;color:var(--muted);font-weight:500}
+.rec{margin-top:16px;padding:16px;border-radius:16px;background:var(--green-soft);border:1px solid var(--green-line);opacity:0;animation:in .5s 7.6s forwards}
+.rec .k{color:var(--green-ink)}
+.rec .ci{border:0;padding:10px 0 0}
+.add{margin-left:auto;padding:8px 14px;border-radius:10px;background:var(--ink);color:#fff;font-size:16px;font-weight:700}
+.ship{margin-top:16px;opacity:0;animation:in .5s 8.6s forwards}
+.ship .t{font-size:18px;font-weight:600;margin-bottom:8px}
+.ship .b{height:12px;border-radius:6px;background:var(--paper2);overflow:hidden}.ship .b i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--green-bright));animation:fill 1.2s 9s forwards}
+@keyframes fill{to{width:100%}}
+.skip{position:absolute;left:0;top:640px;width:580px;display:flex;gap:12px;opacity:0;animation:in .5s 10.5s forwards}
+.skip .chip{padding:10px 16px;border-radius:12px;background:var(--paper2);border:1px solid var(--line2);color:var(--muted);font-size:19px;font-weight:600;text-decoration:line-through}
+</style>
+<div class="stage">
+  <div class="copy">
+    <span class="eyebrow in d1"><i></i>Upsell AI</span>
+    <h2 class="in d2">Learned from your orders.</h2>
+    <p class="lead in d3">Bought, added and viewed together — rebuilt every night from your own order lines, then placed where a shopper is deciding.</p>
+  </div>
+  <div class="right">
+    <div class="card lists in d2">
+      <span class="k">Related lists</span>
+      <div class="pr"><span class="thumb"><img src="../assets/products/sneaker.svg"></span><b>Trail Runner</b></div>
+      <div class="l"><span class="k">Bought together</span><div class="items"><span class="it" style="animation-delay:1.4s">Steel Bottle</span><span class="it" style="animation-delay:1.6s">Trail Socks</span><span class="it" style="animation-delay:1.8s">Running Cap</span></div></div>
+      <div class="l"><span class="k">Added together</span><div class="items"><span class="it" style="animation-delay:2.3s">Trail Socks</span><span class="it" style="animation-delay:2.5s">Everyday Tee</span></div></div>
+      <div class="l"><span class="k">Viewed together</span><div class="items"><span class="it" style="animation-delay:3s">Field Watch</span><span class="it" style="animation-delay:3.2s">Studio Headphones</span></div></div>
+      <div class="l"><span class="k">Similar</span><div class="items"><span class="it" style="animation-delay:3.6s">Road Runner</span><span class="it" style="animation-delay:3.8s">Trail Runner GTX</span></div></div>
+      <span class="stamp">Rebuilt nightly</span>
+    </div>
+    <div class="card cart">
+      <span class="k">Your cart</span>
+      <div class="ci" style="margin-top:14px"><span class="thumb"><img src="../assets/products/sneaker.svg"></span>Trail Runner<span class="p">$120</span></div>
+      <div class="rec"><span class="k">Goes well with</span>
+        <div class="ci"><span class="thumb"><img src="../assets/products/bottle.svg"></span>Steel Bottle<span class="add">Add · $18</span></div></div>
+      <div class="ship"><div class="t">$18 away from free shipping</div><div class="b"><i></i></div></div>
+    </div>
+    <div class="skip"><span class="chip">Trail Runner · in cart</span><span class="chip">Studio Headphones · sold out</span></div>
+  </div>
+  <div class="sub"><span>Offers learned from your own orders, rebuilt every night. Never sold out, never already in the cart.</span></div>
+</div>

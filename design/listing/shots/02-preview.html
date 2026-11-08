@@ -1,0 +1,41 @@
+<!doctype html><meta charset="utf-8"><base href="../../video/scenes/"><link rel="stylesheet" href="base.css"><link rel="stylesheet" href="../../listing/shots/_shot.css"><script src="data.js"></script>
+<style>
+.cols{position:absolute;left:72px;top:262px;display:flex;gap:28px}
+.col{width:470px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px 22px;box-shadow:0 30px 70px -40px rgba(16,24,40,.3)}
+.col h4{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.r{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:14px;font-weight:600}
+.r:first-of-type{border-top:0}
+.r .n{width:22px;font-family:var(--mono);font-size:11px;color:var(--faint)}
+.r .thumb{width:38px;height:38px;border-radius:9px}
+.r .tag{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border-radius:999px}
+.tag.up{background:var(--green-soft);color:var(--green-ink)}.tag.dn{background:#f6e4e2;color:var(--down)}.tag.new{background:var(--paper2);color:var(--muted)}
+.why{left:1070px;top:262px;width:458px}
+.why h5{font-size:15px;font-weight:600;margin:4px 0 14px;display:flex;align-items:center;gap:10px}
+.why h5 .thumb{width:36px;height:36px;border-radius:9px}
+.bar{display:grid;grid-template-columns:150px 1fr 44px;align-items:center;gap:12px;font-size:13px;color:var(--muted);padding:7px 0}
+.bar i{display:block;height:8px;border-radius:4px;background:var(--line)}.bar i b{display:block;height:100%;border-radius:4px;background:var(--green)}
+.bar .v{font-family:var(--mono);font-size:11px;text-align:right;color:var(--ink)}
+.pub{position:absolute;left:1070px;top:664px;width:458px;display:flex;gap:12px}
+.pub .btn{flex:1;font-size:15px;padding:14px}.pub .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line2)}
+</style>
+<div class="cap"><h1>A rule you can read behind <span class="g">every position</span></h1>
+<p>Preview the new order before it goes live — what moved, what entered, what dropped — and open the <b>“why this product”</b> breakdown behind any slot.</p></div>
+<div class="brand"><img src="../assets/logo.svg"><span>Shopify app</span></div>
+<div class="cols">
+ <div class="col"><h4>Current order <span class="pill">Manual</span></h4><div id="a"></div></div>
+ <div class="col"><h4>Preview · Best selling 7 days <span class="pill live"><i></i>Not published</span></h4><div id="b"></div></div>
+</div>
+<div class="card why"><span class="k">Why this product · position 1</span>
+ <h5><span class="thumb"><img src="../assets/products/tee.svg"></span>Ridge Wool Sweater</h5>
+ <div class="bar">Sales velocity<i><b style="width:92%"></b></i><span class="v">0.92</span></div>
+ <div class="bar">Revenue share<i><b style="width:74%"></b></i><span class="v">0.74</span></div>
+ <div class="bar">Conversion<i><b style="width:61%"></b></i><span class="v">0.61</span></div>
+ <div class="bar">New-arrival boost<i><b style="width:30%"></b></i><span class="v">0.30</span></div>
+ <div class="bar">In stock<i><b style="width:100%"></b></i><span class="v">yes</span></div></div>
+<div class="pub"><span class="btn ghost">Keep current</span><span class="btn">Publish order</span></div>
+<script>
+const row=(p,i,tag)=>'<div class="r"><span class="n">'+(i+1)+'</span><span class="thumb"><img src="../assets/products/'+p[2]+'.svg"></span>'+p[0]+(tag||'')+'</div>';
+const A=[0,1,2,3,4,5,6,7].map(i=>AURORA[i]); const B=[13,14,2,0,6,1,7,3];
+document.getElementById('a').innerHTML=A.map((p,i)=>row(p,i)).join('');
+document.getElementById('b').innerHTML=B.map((i,k)=>{const p=AURORA[i];const t=i===13?'<span class="tag up">↑ entered</span>':i===14?'<span class="tag up">↑ entered</span>':i===2?'<span class="tag new">same</span>':i===4?'':'<span class="tag '+(A.indexOf(p)>k?'up':'dn')+'">'+(A.indexOf(p)>k?'↑ '+(A.indexOf(p)-k):'↓ '+(k-A.indexOf(p)))+'</span>';return row(p,k,t)}).join('');
+</script>
