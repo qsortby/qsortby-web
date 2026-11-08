@@ -1,5 +1,13 @@
 {
   "voice_id": "SSfU0eLfP3qeuR4j2bwD",
+  "pad_seconds": 0.3,
+  "speed": 1.6,
+  "say_as": [
+    [
+      "Cue sort by",
+      "QSortby"
+    ]
+  ],
   "model_id": "eleven_multilingual_v2",
   "voice_settings": {
     "stability": 0.5,
@@ -7,7 +15,6 @@
     "style": 0.2,
     "use_speaker_boost": true
   },
-  "pad_seconds": 0.3,
   "scenes": [
     {
       "id": "01-open",
@@ -106,6 +113,5 @@
       "vo": "Cue sort by. Sort smarter. Sell more with AI. Free to install on the Shopify App Store.",
       "speed": 1.8
     }
-  ],
-  "speed": 1.6
+  ]
 }

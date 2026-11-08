@@ -86,7 +86,7 @@ export const CF_ANALYTICS_TOKEN = "030c6ca788604ff09ba075e968f569d4";
 // Home-page intro video on YouTube (components/IntroVideo.astro). Just the ID —
 // the part after `watch?v=`. Changing the video? Also re-download its poster;
 // the command is in the component's header comment.
-export const INTRO_VIDEO_ID = "Xr7JXxZqbWs";
+export const INTRO_VIDEO_ID = "9XvEiozgzcY";
 
 // Google Analytics 4 — property "QSortby", web stream qsortby.com.
 // Loaded only in production builds (Base.astro), with Consent Mode v2:

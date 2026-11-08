@@ -32,9 +32,26 @@ function markerLead(vpath) {
 // Word timings: from tts.mjs when present, else spread evenly over the audio.
 function wordsFor(s, dur) {
   const meta = join(here, 'audio', `${s.id}.json`);
-  if (existsSync(meta)) { const m = JSON.parse(readFileSync(meta, 'utf8')); if (m.text === s.vo) return m.words; }
+  if (existsSync(meta)) { const m = JSON.parse(readFileSync(meta, 'utf8')); if (m.text === s.vo) return sayAs(m.words); }
   const ws = s.vo.split(/\s+/); const step = (dur - 0.8) / ws.length;
-  return ws.map((w, i) => ({ w, t: 0.3 + i * step }));
+  return sayAs(ws.map((w, i) => ({ w, t: 0.3 + i * step })));
+}
+
+// script.say_as: [[spoken, shown]]. The voice reads the brand as "Cue sort by"
+// (spelled out so ElevenLabs says it right); the subtitle must show "QSortby".
+// Consecutive words matching `spoken` collapse into one word timed at the first,
+// trailing punctuation kept ("by." -> "QSortby.").
+function sayAs(words) {
+  for (const [spoken, shown] of script.say_as ?? []) {
+    const parts = spoken.toLowerCase().split(/\s+/);
+    const bare = (w) => w.toLowerCase().replace(/[.,!?;:]+$/, '');
+    for (let i = 0; i + parts.length <= words.length; i++) {
+      if (!parts.every((p, k) => bare(words[i + k].w) === p)) continue;
+      const tail = words[i + parts.length - 1].w.match(/[.,!?;:]+$/)?.[0] ?? '';
+      words.splice(i, parts.length, { ...words[i], w: shown + tail });
+    }
+  }
+  return words;
 }
 
 const browser = mixOnly ? null : await chromium.launch();
@@ -93,24 +110,35 @@ if (parts.length === 1) {
     fc += `${a}[${i}:a]acrossfade=d=${X}:c1=tri:c2=tri[a${i}];`;
     v = `[v${i}]`; a = `[a${i}]`;
   }
-  // Voice first: the TTS takes land around -30 LUFS, so they are normalised to
-  // -16 before anything is mixed under them (otherwise any bed drowns them).
+  // Voice first: the TTS takes land around -30 LUFS, so they are brought to -16
+  // before anything is mixed under them (otherwise any bed drowns them). Measured
+  // in a first pass, applied as a plain gain: loudnorm's dynamic mode holds back
+  // ~3 s, and sidechaincompress then ended the mix 3 s early — the closing line
+  // was lost (2026-11-08). A fixed gain has no lookahead; alimiter keeps peaks.
   // Music bed: design/video/music.m4a (made by music.py, mastered near -12 LUFS;
   // a licensed music.mp3/.wav wins if present). MUSIC_DB -8 puts it ~-20 LUFS in
   // the gaps — present, part of the piece — and a light duck (2:1) brings it to
   // ~-23 LUFS under the voice: 7 dB below the speech, audible the whole way. A
   // -4 dB dip across 1–4 kHz keeps consonants clear; 2 s fade at the end.
   // (Measured 2026-11-08: -15 dB with a 4:1 duck left it at -35 LUFS — inaudible.)
+  const voiceLufs = (() => {
+    const afc = fc.replace(/\[[^\]]*\]xfade=[^;]*;/g, '') + `${a}ebur128=framelog=quiet[m]`;
+    const r = spawnSync('ffmpeg', ['-hide_banner', '-nostats', ...inputs, '-filter_complex', afc, '-map', '[m]', '-f', 'null', '-'], { encoding: 'utf8' });
+    const all = [...(r.stderr ?? '').matchAll(/I:\s+(-?[\d.]+) LUFS/g)];
+    return all.length ? parseFloat(all.at(-1)[1]) : -30;
+  })();
+  const voiceGain = -16 - voiceLufs;
+  console.log(`voice ${voiceLufs.toFixed(1)} LUFS -> +${voiceGain.toFixed(1)} dB`);
   const MUSIC_DB = -8;
   const total = durs.reduce((x, y) => x + y, 0) - X * (parts.length - 1);
   const music = ['music.mp3', 'music.wav', 'music.m4a'].map((f) => join(here, f)).find(existsSync);
   if (music) {
     inputs.push('-stream_loop', '-1', '-i', music);
     const mi = parts.length;
-    fc += `${a}loudnorm=I=-16:TP=-2:LRA=9,asplit=2[vo][sc];[${mi}:a]atrim=0:${total.toFixed(3)},volume=${MUSIC_DB}dB,equalizer=f=2200:t=q:w=1.4:g=-4,lowpass=f=12000,afade=t=out:st=${(total - 2).toFixed(3)}:d=2[m];` +
-          `[m][sc]sidechaincompress=threshold=0.08:ratio=2:attack=40:release=500:makeup=1[md];[vo][md]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.89:level=0[aout]`;
+    fc += `${a}volume=${voiceGain.toFixed(2)}dB,asplit=2[vo][sc];[${mi}:a]atrim=0:${total.toFixed(3)},volume=${MUSIC_DB}dB,equalizer=f=2200:t=q:w=1.4:g=-4,lowpass=f=12000,afade=t=out:st=${(total - 2).toFixed(3)}:d=2[m];` +
+          `[m][sc]sidechaincompress=threshold=0.08:ratio=2:attack=40:release=500:makeup=1[md];[vo][md]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.79:level=0[aout]`;
   } else {
-    fc += `${a}loudnorm=I=-16:TP=-1.5:LRA=11[aout]`;
+    fc += `${a}volume=${voiceGain.toFixed(2)}dB,alimiter=limit=0.79:level=0[aout]`;
   }
   execFileSync('ffmpeg', ['-y', ...inputs, '-filter_complex', fc, '-map', v, '-map', '[aout]',
     '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', '-r', '30',
