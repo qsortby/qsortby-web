@@ -13,7 +13,7 @@ const SEGMENTS = [
   { label: 'Returning VIP', accent: true, products: ['Trail Runner', 'Classic Cap', 'Steel Bottle'] },
 ];
 
-const APPLY_TO = ['Collection ranking', 'Storefront block', 'Upsell offer'];
+const APPLY_TO = ['Personalized collection', 'For You block, any page'];
 ---
 <div class="split-list">
   <!-- 1 — group shoppers, give each group its own ranking -->
@@ -41,7 +41,7 @@ const APPLY_TO = ['Collection ranking', 'Storefront block', 'Upsell offer'];
   <div class="split split-rev rv">
     <div>
       <h2>One rule, applied anywhere it matters</h2>
-      <p class="lead">A segment rule isn't tied to one feed. Apply it to a collection's ranking, a storefront block, or an upsell offer, wherever you want the order to change per shopper instead of staying fixed.</p>
+      <p class="lead">A segment rule isn't tied to one page. Apply it to a personalized collection, and add the For You block wherever you want that order to change per shopper instead of staying fixed.</p>
     </div>
     <div class="pf-viz">
       <div class="pf-panel">
@@ -61,15 +61,15 @@ const APPLY_TO = ['Collection ranking', 'Storefront block', 'Upsell offer'];
   <div class="split rv">
     <div>
       <h2>Drop it wherever you place it</h2>
-      <p class="lead">Wherever a segment rule is applied, the result renders per-visitor, with its own cache, so personalization doesn't slow the page down.</p>
+      <p class="lead">Each visitor's order is cached for the refresh interval you set, and the block never leaves a gap: if the personalized feed is slow, it shows your best sellers instead of an empty space.</p>
     </div>
     <div class="pf-viz">
       <div class="pf-panel dark">
         <div class="pf-perf">
-          <div class="pf-pstat"><span class="pf-pstat-n">41<small>ms</small></span><span class="pf-pstat-l">Per-visitor render</span></div>
-          <div class="pf-pstat"><span class="pf-pstat-n">96<small>%</small></span><span class="pf-pstat-l">Cache hit rate</span></div>
+          <div class="pf-pstat"><span class="pf-pstat-n">1&ndash;24<small>h</small></span><span class="pf-pstat-l">Refresh interval you set</span></div>
+          <div class="pf-pstat"><span class="pf-pstat-n">4<small>s</small></span><span class="pf-pstat-l">Longest wait, then best sellers</span></div>
         </div>
-        <p class="pf-perf-cap">Personalized, cached, and still fast &mdash; on every page it touches.</p>
+        <p class="pf-perf-cap">Personalized and cached &mdash; and never a blank block.</p>
       </div>
     </div>
   </div>

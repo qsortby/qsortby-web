@@ -43,7 +43,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: 'How long does setup take?',
-        a: 'Two steps: switch the QSortby app embed on in your theme editor, then sort one collection from a starter recipe — Best selling, Trending now or New & selling. The in-app guide has 33 short walkthrough videos, one per screen, and setup help is free on every plan.',
+        a: 'Two steps: switch the QSortby app embed on in your theme editor, then sort one collection from a starter recipe — Best selling, Trending now or New & selling. The in-app guide has short walkthrough videos for each screen, and setup help is free on every plan.',
       },
     ],
   },
@@ -73,11 +73,11 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: 'What does per-shopper personalization mean?',
-        a: 'Different visitors can see a different product order in the same collection, based on their browsing/purchase behavior — instead of one fixed order for everyone.',
+        a: 'Different visitors see a different product order, based on what they browse, add and buy — instead of one fixed order for everyone. It runs in the For You block, which you can add to any page, including a personalized collection page. A collection on its own keeps one order for everyone, because Shopify stores one order per collection.',
       },
       {
         q: 'How does QSortby handle sold-out products?',
-        a: "It automatically pushes sold-out or out-of-stock variants down so they don't occupy prime real estate shoppers can't actually buy.",
+        a: "It moves sold-out products to the end of the collection so they don't take the spots shoppers look at first, and brings them back up when they're restocked. You choose per collection: move them last, keep the order as it is, or — on collections QSortby builds itself — leave them out.",
       },
       {
         q: 'Can I keep related products grouped together?',
@@ -115,7 +115,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
       },
       {
         q: 'Can I change or cancel my plan anytime?',
-        a: 'Billing is handled through Shopify — you can upgrade, downgrade, or cancel from your Shopify admin.',
+        a: 'Yes, from the Billing page inside the app. Billing is handled through Shopify: a plan change takes effect as soon as you approve it, and cancelling moves you back to the Free plan without uninstalling.',
       },
     ],
   },
