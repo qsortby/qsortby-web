@@ -49,7 +49,7 @@ const TABS: Tab[] = [
     label: 'Merchandising',
     sub: 'Automated collection sorting for Shopify — data-driven, not manual.',
     rows: [
-      { title: 'Live sorting, tested and attributed', desc: 'Collections re-rank continuously on live signals like sales, margin, conversion and stock, then run as A/B tests against the current order, with attributed revenue behind every result.' },
+      { title: 'Live sorting, previewed and attributed', desc: 'Each collection re-ranks continuously on the live signal you pick for it — sales, margin, conversion, stock and more. Preview a new order in test mode, restore any earlier one, and see what each version earned in influenced revenue.' },
       { title: 'Grouping by your own rules', desc: 'Products follow the grouping rules you define, by vendor, product type or tag, staying together in the order you set within each group as the collection re-sorts.' },
       { title: 'Decisions backed by real behavior', desc: 'Every sort is evaluated against real shopper behavior, including clicks, add-to-carts and purchases, grounding each merchandising decision in data rather than guesswork.' },
     ],
@@ -76,7 +76,7 @@ const TABS: Tab[] = [
     // trained model as ranking a storefront — both are in testing.
     rows: [
       { title: 'Add upsell blocks anywhere', desc: 'Cart drawer, free-shipping bar, pop-up, bought-together, checkout and thank-you page. Set the rule each one follows and the conditions it shows under.' },
-      { title: 'Offers learned from your own shoppers', desc: 'Bought together, added together, viewed together and similar are rebuilt every night from your orders, cart adds and product views — no hand-kept bundle list, and nothing sold out or already in the cart is ever offered.' },
+      { title: 'Offers learned from your own shoppers', desc: 'Bought together, added together, viewed together and similar are rebuilt every night from your orders, cart adds and product views. The bought-together block and the pop-up offer from them — no hand-kept bundle list, and nothing sold out or already in the cart is ever offered.' },
       { title: 'Re-ranked by why the shopper came', desc: 'Switch on Intent suggest and the cart, pop-up, checkout and thank-you offers re-rank by what this visit came for — a gift buyer and someone replacing a product see different offers from the same cart.' },
     ],
   },
@@ -136,14 +136,14 @@ const TABS: Tab[] = [
             <div class="offer-viz">
               {t.key === 'merch' && (
                 <div class="offer-card">
-                  <span class="offer-ck">Sorting strategy &middot; live</span>
+                  <span class="offer-ck">What each sort earned &middot; Summer Essentials</span>
                   <div class="offer-sliders">
-                    <div class="offer-sl"><span>Sales</span><i style="--w:75%"></i><b>75</b></div>
-                    <div class="offer-sl"><span>Margin</span><i style="--w:40%"></i><b>40</b></div>
-                    <div class="offer-sl"><span>Conversion</span><i style="--w:60%"></i><b>60</b></div>
-                    <div class="offer-sl"><span>Stock</span><i style="--w:90%"></i><b>90</b></div>
+                    <div class="offer-sl"><span>Manual</span><i style="--w:40%"></i><b>$1.9k</b></div>
+                    <div class="offer-sl"><span>Best selling</span><i style="--w:75%"></i><b>$3.6k</b></div>
+                    <div class="offer-sl"><span>Trending</span><i style="--w:60%"></i><b>$2.9k</b></div>
+                    <div class="offer-sl"><span>Selling fast</span><i style="--w:90%"></i><b>$4.3k</b></div>
                   </div>
-                  <div class="offer-verdict">96% significant &mdash; <b>B wins</b><span class="offer-vtag">Attributed revenue</span></div>
+                  <div class="offer-verdict">Each published order kept as a version &mdash; <b>restore any</b><span class="offer-vtag">Influenced revenue</span></div>
 
                   <span class="offer-ck" style="margin-top:22px">Grouped &middot; Outerwear</span>
                   <div class="offer-thumbs">
@@ -378,7 +378,7 @@ const TABS: Tab[] = [
     background:var(--green-soft); border-radius:999px; padding:3px 9px; }
 
   .offer-sliders { display:grid; gap:12px; }
-  .offer-sl { display:grid; grid-template-columns:82px 1fr 28px; align-items:center; gap:10px; }
+  .offer-sl { display:grid; grid-template-columns:82px 1fr 44px; align-items:center; gap:10px; }
   .offer-sl span { font-size:.82rem; color:var(--ink-2); }
   .offer-sl i { display:block; height:7px; border-radius:4px; background:var(--line); position:relative; overflow:hidden; }
   .offer-sl i::before { content:""; position:absolute; inset:0; width:var(--w); border-radius:4px;
